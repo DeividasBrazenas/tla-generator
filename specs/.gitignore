@@ -1,0 +1,12 @@
+**/*.toolbox/*_SnapShot_*.launch
+**/*.toolbox/*_SnapShot_*/
+**/*.toolbox/*.pdf
+**/*.toolbox/*.tex
+**.toolbox/*/??-??-??-??-??-??/
+*.tlaps/
+*.out
+*.log
+*.swp
+*.bak
+*.aux
+*.pdf
