@@ -1,5 +1,5 @@
 -------------------------------- MODULE Max --------------------------------
-EXTENDS Naturals
+EXTENDS Naturals, TLAPS
 
 (*
 Assume this spec is writted by a user.
@@ -34,8 +34,8 @@ THEOREM MaxProps(OtherMax2)
 -----------------------------------------------------------------------------
 OtherMax3(a, b) ==
   CHOOSE x \in Nat :
-    \/  (a > b) /\ x = a
-    \/ ~(a > b) /\ x = b
+    \/ (a >  b) /\ x = a
+    \/ (a <= b) /\ x = b
 THEOREM \A a, b \in Nat : OtherMax3(a, b) = Max(a, b)
   BY DEF Max, OtherMax3
 THEOREM MaxProps(OtherMax3)
@@ -58,14 +58,41 @@ Spec == Init /\ [][Next]_x /\ Live
 ===========================================
 CONSTANTS otherMax4A, otherMax4B
 VARIABLE otherMax4X
-ASSUME otherMax4A \in Nat /\ otherMax4B \in Nat
+ASSUME otherMax4Assms == otherMax4A \in Nat /\ otherMax4B \in Nat
 otherMax4 == INSTANCE OtherMax4 WITH
   a <- otherMax4A,
   b <- otherMax4B,
   x <- otherMax4X
 
 otherMax4IsMax == otherMax4X = Max(otherMax4A, otherMax4B)
+
+THEOREM otherMax4!Spec => [](otherMax4X # otherMax4!Null => otherMax4IsMax)
+  <1>1. otherMax4!Init => (otherMax4X # otherMax4!Null => otherMax4IsMax)
+        BY DEF otherMax4IsMax, otherMax4!Init
+  <1>2. /\ (otherMax4X # otherMax4!Null => otherMax4IsMax)
+        /\ [otherMax4!Next]_otherMax4X
+        => (otherMax4X # otherMax4!Null => otherMax4IsMax)'
+    <2> SUFFICES ASSUME (otherMax4X # otherMax4!Null => otherMax4IsMax),
+                        otherMax4!Next
+                 PROVE (otherMax4X # otherMax4!Null => otherMax4IsMax)'
+        BY DEF otherMax4IsMax
+    <2> SUFFICES ASSUME otherMax4X' # otherMax4!Null PROVE otherMax4IsMax'
+        BY DEF otherMax4IsMax
+    <2>1. CASE otherMax4X = otherMax4!Null
+      <3>1. CASE otherMax4A > otherMax4B
+            BY <2>1, <3>1, otherMax4Assms
+            DEF otherMax4!Next, otherMax4IsMax, Max
+      <3>2. CASE otherMax4A =< otherMax4B
+            BY <2>1, <3>2, otherMax4Assms
+            DEF otherMax4!Next, otherMax4IsMax, Max
+      <3>q. QED BY <2>1, <3>1, <3>2, otherMax4Assms
+    <2>2. CASE otherMax4X # otherMax4!Null
+          BY <2>2 DEF otherMax4!Next
+    <2>q. QED BY <2>1, <2>2
+
+  <1> QED BY <1>1, <1>2, PTL DEF otherMax4!Spec
+
 THEOREM otherMax4!Spec => <>[]otherMax4IsMax
-  BY DEF otherMax4!Spec, otherMax4!Next, otherMax4!Init, Max
+  BY DEF otherMax4IsMax, otherMax4!Spec, otherMax4!Next, otherMax4!Init, Max
   
 =============================================================================
