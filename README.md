@@ -19,3 +19,8 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/tla_generator](https://hexdocs.pm/tla_generator).
 
+## Notes
+
+  * Consider various approaches to the use of Refinement proofs in the proof of the main algorithm.
+    The latter will use the functions as atomic? Or will consider the Done flags or <>[] operators?
+
