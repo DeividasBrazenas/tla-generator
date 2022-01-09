@@ -10,6 +10,7 @@ Max(a, b) ==
 MaxProps(M(_, _)) == \A a, b \in Nat:
     /\ M(a, b) >= a
     /\ M(a, b) >= b
+    /\ M(a, b) \in Nat
 THEOREM MaxIsGEQ == MaxProps(Max)
   BY DEF MaxProps, Max
 
@@ -109,7 +110,7 @@ LEMMA otherMax4SpecTypeOK == otherMax4!Spec => []otherMax4!TypeOK
   <1>q. QED BY <1>1, <1>2, PTL DEF otherMax4!Spec
 
 (*
-Invariant otherMax4IsMax is stable.
+Invariant: otherMax4IsMax is stable.
 *)
 LEMMA otherMax4SpecStableMax == otherMax4!Spec => [](otherMax4IsMax => []otherMax4IsMax)
   <1>1. otherMax4!Init /\ otherMax4IsMax => otherMax4IsMax
@@ -119,93 +120,115 @@ LEMMA otherMax4SpecStableMax == otherMax4!Spec => [](otherMax4IsMax => []otherMa
   <1>q. QED BY <1>1, <1>2, PTL DEF otherMax4!Spec
 
 (*
+Invariant: Either X = Null XOR X = Max(A, B)
+*)
+otherMax4XInv ==
+  /\ (otherMax4X = otherMax4!Null) # otherMax4IsMax
+  /\ (otherMax4X = otherMax4!Null) \in BOOLEAN
+  /\ otherMax4IsMax \in BOOLEAN
+LEMMA otherMax4SpecXInv == otherMax4!Spec => []otherMax4XInv
+  <1>0. (otherMax4X # otherMax4!Null) \in BOOLEAN OBVIOUS
+  <1>x. otherMax4IsMax \in BOOLEAN BY DEF otherMax4IsMax
+  <1>1. otherMax4!Init => otherMax4XInv
+        <2>0. SUFFICES ASSUME otherMax4!Init PROVE otherMax4XInv OBVIOUS
+        <2>1. otherMax4X = otherMax4!Null BY <2>0 DEF otherMax4!Init
+        <2>2. ~otherMax4IsMax
+              BY <2>1, otherMax4!Assms, NoSetContainsEverything, MaxIsGEQ
+              DEF otherMax4IsMax, MaxProps, otherMax4!Null  
+        <2>q. QED BY <2>1, <2>2, <1>0, <1>x DEF otherMax4XInv
+  <1>2. otherMax4XInv /\ [otherMax4!Next]_otherMax4X => otherMax4XInv'
+        <2>1. SUFFICES ASSUME otherMax4XInv, otherMax4!Next PROVE otherMax4XInv'
+              BY DEF otherMax4!Next, otherMax4XInv, otherMax4IsMax, Max
+        <2>2. CASE otherMax4X = otherMax4!Null /\ ~otherMax4IsMax 
+              BY <2>1, <2>2, otherMax4!Assms
+              DEF otherMax4IsMax, Max, otherMax4!Next, otherMax4XInv
+        <2>3. CASE otherMax4X # otherMax4!Null /\ otherMax4IsMax
+              BY <2>1, <2>3, otherMax4!Assms
+              DEF otherMax4IsMax, Max, otherMax4!Next, otherMax4XInv
+        <2>4. QED BY <2>1, <2>2, <2>3, <1>0, <1>x, otherMax4!Assms DEF otherMax4XInv
+  <1>q. QED BY <1>1, <1>2, PTL DEF otherMax4!Spec
+
+(*
 Prove the Max function refinement using a temporal (eventual) formulation.
 In such case we would be not required to rely on some "DONE" flags.
+
+NOTE: This proof might require TLAPS from the updated_enabled_cdot branch (if not merged yet).
+      That's because we use ExpandENABLED proof rule.
 *)
 LEMMA otherMax4SpecEventuallyMax == otherMax4!Spec => <>otherMax4IsMax
-  <1>1. SUFFICES ASSUME TRUE
-                 PROVE (otherMax4!Spec /\ <>(otherMax4X = otherMax4!Null)) => <>otherMax4IsMax
-        BY PTL DEF otherMax4!Spec, otherMax4!Init
-
-  <1>x. ASSUME otherMax4!TypeOK, otherMax4!Spec
-        PROVE ENABLED <<otherMax4!Next>>_otherMax4X
-        <2> \E otherMax4X_1 : (/\ otherMax4X = otherMax4!Null
-                               /\ \/ otherMax4A > otherMax4B /\ otherMax4X_1 = otherMax4A
-                                  \/ otherMax4A =< otherMax4B /\ otherMax4X_1 = otherMax4B)
-                               /\ ~otherMax4X_1 = otherMax4X
-            <3>x. otherMax4X = otherMax4!Null
-                  BY <1>x DEF otherMax4!Spec, otherMax4!Init
-            <3>a. otherMax4A # otherMax4X
-                  BY <3>x, NoSetContainsEverything, otherMax4!Assms DEF otherMax4!Null
-            <3>b. otherMax4B # otherMax4X
-                  BY <3>x, NoSetContainsEverything, otherMax4!Assms DEF otherMax4!Null
-            <3>1. CASE otherMax4A > otherMax4B
-                  <4> WITNESS otherMax4A
-                  <4> QED BY <3>x, <3>a, <3>1, <1>x
-            <3>2. CASE otherMax4A <= otherMax4B
-                  <4> WITNESS otherMax4B
-                  <4> QED BY <3>x, <3>b, <3>2, <1>x
-            <3> QED BY <3>1, <3>2, otherMax4!Assms
-        <2>q. QED BY ExpandENABLED DEF otherMax4!Next
-  <1>y. ASSUME otherMax4!TypeOK, otherMax4!Spec
-        PROVE <><<otherMax4!Next>>_otherMax4X
-        <2>1. ENABLED <<otherMax4!Next>>_otherMax4X
-              BY <1>x, <1>y
-        <2>2. WF_otherMax4X(otherMax4!Next)
-              BY <1>y DEF otherMax4!Spec, otherMax4!Live
-        <2>3. WF_otherMax4X(otherMax4!Next) =>
-                \/ []<>(~ENABLED <<otherMax4!Next>>_otherMax4X)
-                \/ []<><<otherMax4!Next>>_otherMax4X
-              BY PTL
-        <2>4. WF_otherMax4X(otherMax4!Next) => []([](ENABLED <<otherMax4!Next>>_otherMax4X) => <><<otherMax4!Next>>_otherMax4X)
-              BY PTL
-        <2>q. QED BY <1>y, <2>1, <2>2, <2>3, PTL
-
-  <1>2. otherMax4!Spec => [] \/ [](otherMax4X = otherMax4!Null)
-                             \/ <>(otherMax4IsMax)
-        OMITTED
-    (*
-    <2> DEFINE P == \/ [](otherMax4X = otherMax4!Null)
-                    \/ <>(otherMax4IsMax)
-    <2> HIDE DEF P
-    <2>1. otherMax4!Init => P
-    <2>2. P /\ [otherMax4!Next]_otherMax4X => P'
-    <2>q. QED BY <2>1, <2>2, PTL DEF otherMax4!Spec
-    *)
-        (*
-        <3>0. ASSUME otherMax4!TypeOK /\ [otherMax4!Next]_otherMax4X
-              PROVE \/ (otherMax4X = otherMax4!Null)'
-                    \/ otherMax4IsMax'
-              <4> SUFFICES ASSUME otherMax4!TypeOK /\ otherMax4!Next
-                           PROVE \/ otherMax4X' = otherMax4!Null
-                                 \/ otherMax4IsMax'
-                  BY <3>0 DEF otherMax4!Next
-              <4>1. CASE otherMax4X = otherMax4!Null
-                     BY <3>0, <4>1 DEF otherMax4!Next, otherMax4!TypeOK, otherMax4IsMax, Max
-              <4>2. CASE otherMax4X # otherMax4!Null
-                     BY <3>0, <4>2 DEF otherMax4!Next, otherMax4!TypeOK, otherMax4IsMax, Max
-              <4>3. QED BY <4>1, <4>2
-        *)
-        (* 
-        <3>1. SUFFICES ASSUME otherMax4!TypeOK /\ [otherMax4!Next]_otherMax4X
-                       PROVE otherMax4X' = otherMax4!Null \/ (otherMax4IsMax')
-              BY <3>1, otherMax4SpecTypeOK, PTL
-              DEF otherMax4!Spec, otherMax4!Init, otherMax4!Next, otherMax4IsMax,
-                  otherMax4!TypeOK
-        *)
-        (*
-        <3>q. QED BY otherMax4SpecTypeOK, <3>0, PTL DEF otherMax4!Spec*)
-        (*BY DEF otherMax4!Spec, otherMax4!Init, otherMax4!Next, otherMax4IsMax, Max*)
-  <1>3. otherMax4!Spec => <><<otherMax4!Next>>_otherMax4X
-        BY DEF otherMax4!Spec, otherMax4!Live, otherMax4!Init, otherMax4!Next
-  <1>4. ASSUME otherMax4!TypeOK /\ (otherMax4X = otherMax4!Null) /\ <<otherMax4!Next>>_otherMax4X
-        PROVE ~(otherMax4X = otherMax4!Null)'
-        BY <1>4 DEF otherMax4!TypeOK, otherMax4!Next
-  <1>q. QED BY otherMax4SpecTypeOK, <1>1, <1>2, <1>3, <1>4, PTL
+  <1>1. otherMax4!Spec => [](<>otherMax4IsMax \/ <><<otherMax4!Next>>_otherMax4X)
+        <2> DEFINE P == otherMax4IsMax \/ ENABLED <<otherMax4!Next>>_otherMax4X
+        <2> HIDE DEF P
+        <2>1. otherMax4!Spec => []P
+              <3>1. otherMax4!Init => P
+                    <4>1. SUFFICES ASSUME otherMax4!Init PROVE P OBVIOUS
+                    <4>2. SUFFICES ASSUME ~otherMax4IsMax PROVE ENABLED <<otherMax4!Next>>_otherMax4X
+                          BY DEF P
+                    <4>3. otherMax4X = otherMax4!Null BY <4>1 DEF otherMax4!Init
+                    <4>4. otherMax4A \in Nat /\ otherMax4B \in Nat /\ otherMax4!Null \notin Nat
+                          BY otherMax4!Assms, NoSetContainsEverything DEF otherMax4!Null
+                    <4>5. SUFFICES ASSUME TRUE PROVE \E otherMax4X_1 : (
+                            /\ otherMax4X = otherMax4!Null
+                            /\ \/ otherMax4A >  otherMax4B /\ otherMax4X_1 = otherMax4A
+                               \/ otherMax4A =< otherMax4B /\ otherMax4X_1 = otherMax4B
+                          ) /\ ~otherMax4X_1 = otherMax4X
+                          BY ExpandENABLED DEF otherMax4!Next
+                    <4>6. CASE otherMax4A > otherMax4B
+                          <5>1. WITNESS otherMax4A
+                          <5>2. QED BY <5>1, <4>3, <4>4, <4>6
+                    <4>7. CASE otherMax4A <= otherMax4B
+                          <5>1. WITNESS otherMax4B
+                          <5>2. QED BY <5>1, <4>3, <4>4, <4>7
+                    <4>8. QED BY <4>6, <4>7, otherMax4!Assms
+              <3>2. otherMax4!TypeOK /\ otherMax4XInv /\ P /\ [otherMax4!Next]_otherMax4X /\ otherMax4XInv' => P'
+                    <4>1. SUFFICES ASSUME otherMax4!TypeOK,
+                                          otherMax4XInv,
+                                          P,
+                                          otherMax4X = otherMax4X' \/ otherMax4!Next,
+                                          otherMax4XInv'
+                                   PROVE P'
+                          OBVIOUS
+                    <4>2. CASE otherMax4X = otherMax4!Null
+                          <5>2. CASE otherMax4X = otherMax4X'
+                                <6>0. otherMax4X' = otherMax4!Null BY <4>2, <5>2
+                                <6>1. SUFFICES ASSUME TRUE PROVE (ENABLED <<otherMax4!Next>>_otherMax4X)'
+                                      BY DEF P
+                                <6>2. SUFFICES ASSUME TRUE PROVE \E otherMax4X_1 : (
+                                        /\ otherMax4X' = otherMax4!Null
+                                        /\ \/ otherMax4A > otherMax4B /\ otherMax4X_1 = otherMax4A
+                                           \/ otherMax4A =< otherMax4B /\ otherMax4X_1 = otherMax4B
+                                        ) /\ ~otherMax4X_1 = otherMax4X'
+                                      BY <6>2, ExpandENABLED DEF otherMax4!Next
+                                <6>3. otherMax4A' \in Nat /\ otherMax4B \in Nat /\ otherMax4!Null \notin Nat
+                                      BY otherMax4!Assms, NoSetContainsEverything DEF otherMax4!Null
+                                <6>a. CASE otherMax4A > otherMax4B
+                                      <7>1. WITNESS otherMax4A
+                                      <7>2. QED BY <7>1, <6>0, <6>a, <6>3
+                                <6>b. CASE otherMax4A <= otherMax4B
+                                      <7>1. WITNESS otherMax4B
+                                      <7>2. QED BY <7>1, <6>0, <6>b, <6>3
+                                <6>q. QED  BY <6>a, <6>b, otherMax4!Assms
+                          <5>3. CASE otherMax4X # otherMax4X'
+                                <6>1. otherMax4X' # otherMax4!Null BY <4>2, <5>3
+                                <6>2. QED BY <6>1, <4>1, <4>2 DEF P, otherMax4IsMax, otherMax4XInv
+                          <5>q. QED BY <5>2, <5>3
+                    <4>3. CASE otherMax4IsMax
+                          <5>1. otherMax4X # otherMax4!Null BY <4>1, <4>3 DEF otherMax4XInv
+                          <5>2. ~otherMax4!Next BY <5>1 DEF otherMax4!Next 
+                          <5>3. otherMax4X = otherMax4X' BY <5>2, <4>1
+                          <5>4. otherMax4IsMax' BY <5>3, <4>3 DEF otherMax4IsMax 
+                          <5>q. QED BY <5>4 DEF P
+                    <4>q. QED BY <4>1, <4>2, <4>3 DEF otherMax4XInv
+              <3>q. QED BY <3>1, <3>2, PTL, otherMax4SpecXInv, otherMax4SpecTypeOK DEF otherMax4!Spec
+        <2>2. otherMax4!Spec => [](WF_otherMax4X(otherMax4!Next) => (<>otherMax4IsMax \/ <><<otherMax4!Next>>_otherMax4X))
+              BY <2>1, PTL, otherMax4SpecTypeOK DEF P, otherMax4!Spec, otherMax4!Live
+        <2>3. QED BY <2>1, <2>2, PTL DEF otherMax4!Spec, otherMax4!Live
+  <1>2. ASSUME otherMax4!TypeOK, ~otherMax4IsMax, <<otherMax4!Next>>_otherMax4X PROVE otherMax4IsMax'
+        BY <1>2, otherMax4!Assms
+        DEF  otherMax4IsMax, Max, otherMax4!Next, otherMax4!TypeOK, otherMax4!Null
+  <1>3. QED BY <1>1, <1>2, PTL, otherMax4SpecTypeOK
 
 THEOREM otherMax4SpecIsMaxAsProp == otherMax4!Spec => <>[]otherMax4IsMax
   BY otherMax4SpecEventuallyMax, otherMax4SpecStableMax, PTL
-
-
   
 =============================================================================
