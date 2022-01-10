@@ -8,9 +8,10 @@ Max(a, b) ==
   IF a > b THEN a ELSE b 
 
 MaxProps(M(_, _)) == \A a, b \in Nat:
-    /\ M(a, b) >= a
-    /\ M(a, b) >= b
-    /\ M(a, b) \in Nat
+                       /\ M(a, b) >= a
+                       /\ M(a, b) >= b
+                       /\ M(a, b) \in Nat
+                       /\ M(a, b) \in {a, b}
 THEOREM MaxIsGEQ == MaxProps(Max)
   BY DEF MaxProps, Max
 
