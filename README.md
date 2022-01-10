@@ -24,3 +24,20 @@ be found at [https://hexdocs.pm/tla_generator](https://hexdocs.pm/tla_generator)
   * Consider various approaches to the use of Refinement proofs in the proof of the main algorithm.
     The latter will use the functions as atomic? Or will consider the Done flags or <>[] operators?
 
+  * We have to have a way to abstract some functions (by specifying their properties only, instead
+    of their implementations). This probably should be done during the spec extraction. Or maybe
+    just references have to be generated? For example to replace Logger calls by TRUE, Kernel
+    functions by their properties, etc.
+
+      - Skip them from the spec?
+
+      - Only generate references?
+
+      - Generate properties based on info in code or supplementary tla module?
+
+  * Maybe an example for a refinement with the intermediate <>Spec (with actions instead of
+    operators) is a calculation of sum over a set. It can use the Max function generated as
+    an FSM.
+
+  * See <NOTES.pdf> for an idea of how a refinements could be organized in the case of a
+    function translated to an FSM.
