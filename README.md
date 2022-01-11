@@ -39,5 +39,14 @@ be found at [https://hexdocs.pm/tla_generator](https://hexdocs.pm/tla_generator)
     operators) is a calculation of sum over a set. It can use the Max function generated as
     an FSM.
 
+  * A Rabia, Raft or Paxos implementation can be used as a more elaborated example.
+
   * See <NOTES.pdf> for an idea of how a refinements could be organized in the case of a
     function translated to an FSM.
+
+  * Consider model checker for verifying the refinements.
+
+  * Non-deterministic functions should be supported as well. Maybe by `\E ...`.
+
+  * Function clause ordering could be modelled by adding inverted conditions
+    for all the subsequent clauses.
