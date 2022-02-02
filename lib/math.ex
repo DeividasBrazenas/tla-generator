@@ -1,17 +1,12 @@
 defmodule Math do
-  def max(a, b) do
-    if a > b do
-      a
-    else
-      b
-    end
-  end
+  #use ExTla
+  #@tla_defs :operation
 
-  def min(a, b) do
-    if a < b do
-      a
-    else
-      b
-    end
-  end
+  @spec min(integer, integer) :: integer
+  def min(a, b) when a > b, do: b
+  def min(a, _), do: a
+
+  @spec max(integer, integer) :: integer
+  def max(a, b) when a < b, do: b
+  def max(a, _), do: a
 end

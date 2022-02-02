@@ -1,4 +1,4 @@
-defmodule TlaGenerator do
+defmodule TlaGeneratorObsolete do
   # Object for holding definition of one function
   @type func_definition :: %{
           name: String,
@@ -50,7 +50,6 @@ defmodule TlaGenerator do
 
     {node, acc ++ [func_definition]}
   end
-
   defp getDefinitions(node, acc), do: {node, acc}
 
   defp getArguments(

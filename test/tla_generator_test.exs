@@ -3,9 +3,15 @@ defmodule TlaGeneratorTest do
   doctest TlaGenerator
 
   test "debug" do
-    TlaGenerator.generate(
-      "C:\\University\\Master's Thesis\\tla-generator\\lib\\math.ex",
-      "C:\\University\\Master's Thesis\\tla-generator\\tla\\Math.tla"
-    )
+    result =
+      TlaGenerator.generate("Max", "c:/University/Master's Thesis/tla-generator/lib/max.ex")
+      IO.puts(result)
   end
+
+  # test "debug" do
+  #   TlaGenerator.generate(
+  #     "C:\\University\\Master's Thesis\\tla-generator\\lib\\max.ex",
+  #     "C:\\University\\Master's Thesis\\tla-generator\\generated\\max.tla"
+  #   )
+  # end
 end
