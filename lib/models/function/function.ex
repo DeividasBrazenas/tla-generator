@@ -1,13 +1,13 @@
-defmodule FunctionModel do
+defmodule Function.Function do
   defstruct [:spec, :arguments, :cases]
 
-  @spec getFunctions(List[FunctionSpecModel], List[FunctionBodyModel]) :: List[FunctionModel]
+  @spec getFunctions(List[Function.Spec], List[Function.Body]) :: List[Function]
   def getFunctions(specs, functionBodies) do
     functions =
       Enum.map(specs, fn spec ->
         filteredFunctions = Enum.filter(functionBodies, fn body -> body.name === spec.name end)
 
-        %FunctionModel{
+        %Function.Function{
           spec: spec,
           arguments: getArguments(Enum.map(filteredFunctions, fn func -> func.arguments end)),
           cases:
@@ -61,7 +61,7 @@ defmodule FunctionModel do
         :!== -> :===
       end
 
-    oppositeCondition = %FunctionConditionModel{
+    oppositeCondition = %Function.Condition{
       left_operand: condition.left_operand,
       operator: oppositeOperator,
       right_operand: condition.right_operand

@@ -11,7 +11,7 @@ defmodule TlaBodyGenerator do
   end
 
   defp generateBodyByOperations(ast) do
-    specs = FunctionSpecExtractor.extractSpecs(ast)
+    specs = Function.Spec.extract(ast)
     functions = FunctionOperationBodyExtractor.extractFunctions(specs, ast)
     body = getTlaExtensions(specs) ++ getTlaFunctions(functions)
     body
@@ -23,7 +23,7 @@ defmodule TlaBodyGenerator do
 
   defp getGenerationType(node, acc), do: {node, acc}
 
-  @spec getTlaExtensions(List[FunctionSpecModel]) :: List[String]
+  @spec getTlaExtensions(List[Function.Spec]) :: List[String]
   defp getTlaExtensions(functionSpecs) do
     extensions =
       Enum.map(functionSpecs, fn spec ->
@@ -40,14 +40,17 @@ defmodule TlaBodyGenerator do
     end
   end
 
-  @spec getTlaFunctions(List[FunctionModel]) :: List[String]
+  @spec getTlaFunctions(List[Function]) :: List[String]
   defp getTlaFunctions(functions) do
-    tlaFunctions = Enum.reduce(functions, [], fn function, acc -> acc ++ getTlaFunction(function) end)
+    tlaFunctions =
+      Enum.reduce(functions, [], fn function, acc -> acc ++ getTlaFunction(function) end)
 
     tlaFunctions
   end
 
-  defp getTlaFunction(%FunctionModel{spec: spec, arguments: arguments, cases: cases} = function) do
+  defp getTlaFunction(
+         %Function.Function{spec: spec, arguments: arguments, cases: cases} = function
+       ) do
     functionDefinition = ["#{spec.name}(#{Enum.join(arguments, ", ")}) =="]
 
     functionBody =
