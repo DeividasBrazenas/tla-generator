@@ -1,8 +1,8 @@
 defmodule FunctionOperationBodyExtractor do
-  def extractFunctions(ast) do
-    {_, functions} = Macro.postwalk(ast, [], &getFunction/2)
-    functionGroups = FunctionGroupModel.getFunctionGroups(functions)
-    functionGroups
+  def extractFunctions(specs, ast) do
+    {_, functionBodies} = Macro.postwalk(ast, [], &getFunction/2)
+    functions = FunctionModel.getFunctions(specs, functionBodies)
+    functions
   end
 
   defp getFunction({:def, _, func} = node, acc) do
@@ -34,7 +34,7 @@ defmodule FunctionOperationBodyExtractor do
   end
 
   defp getBody2({name, _, args}) do
-    body = %FunctionModel{
+    body = %FunctionBodyModel{
       name: name,
       arguments: Enum.map(args, fn {arg, _, _} -> arg end)
     }

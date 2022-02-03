@@ -12,8 +12,8 @@ defmodule TlaBodyGenerator do
 
   defp generateBodyByOperations(ast) do
     specs = FunctionSpecExtractor.extractSpecs(ast)
-    functions = FunctionOperationBodyExtractor.extractFunctions(ast)
-    body = getTlaExtensions(specs) ++ getTlaFunctions(functions, specs)
+    functions = FunctionOperationBodyExtractor.extractFunctions(specs, ast)
+    body = getTlaExtensions(specs) ++ getTlaFunctions(functions)
     body
   end
 
@@ -40,25 +40,21 @@ defmodule TlaBodyGenerator do
     end
   end
 
-  @spec getTlaFunctions(List[FunctionGroupModel], List[FunctionSpecModel]) :: List[String]
-  defp getTlaFunctions(functions, specs) do
-    tlaFunctions =
-      Enum.reduce(functions, [], fn function, acc -> acc ++ getTlaFunction(function, specs) end)
+  @spec getTlaFunctions(List[FunctionModel]) :: List[String]
+  defp getTlaFunctions(functions) do
+    tlaFunctions = Enum.reduce(functions, [], fn function, acc -> acc ++ getTlaFunction(function) end)
 
     tlaFunctions
   end
 
-  @spec getTlaFunction(FunctionGroupModel, List[FunctionSpecModel]) :: List[String]
-  defp getTlaFunction(function, specs) do
-    # TODO: spec should be inside a function
-    spec = Enum.find(specs, fn spec -> function.name === spec.name end)
-    functionDefinition = ["#{function.name}(#{Enum.join(function.arguments, ", ")}) =="]
+  defp getTlaFunction(%FunctionModel{spec: spec, arguments: arguments, cases: cases} = function) do
+    functionDefinition = ["#{spec.name}(#{Enum.join(arguments, ", ")}) =="]
 
     functionBody =
       case function.cases > 1 do
         true ->
           ["  CHOOSE x #{getTlaVariableConstraints(spec.returnType)} :"] ++
-            Enum.map(function.cases, fn {condition, return} ->
+            Enum.map(cases, fn {condition, return} ->
               "    \\/ (#{condition.left_operand} #{condition.operator} #{condition.right_operand}) /\\ x = #{return}"
             end)
       end

@@ -1,19 +1,21 @@
-defmodule FunctionGroupModel do
-  defstruct [:name, :arguments, :cases]
+defmodule FunctionModel do
+  defstruct [:spec, :arguments, :cases]
 
-  @spec getFunctionGroups(List[FunctionModel]) :: List[FunctionGroupModel]
-  def getFunctionGroups(functions) do
-    grouped =
-      Enum.group_by(functions, fn func -> func.name end, fn func -> func end)
-      |> Enum.map(fn {name, funcs} ->
-        %FunctionGroupModel{
-          name: name,
-          arguments: getArguments(Enum.map(funcs, fn func -> func.arguments end)),
-          cases: getCases(Enum.map(funcs, fn func -> {func.condition, func.return} end))
+  @spec getFunctions(List[FunctionSpecModel], List[FunctionBodyModel]) :: List[FunctionModel]
+  def getFunctions(specs, functionBodies) do
+    functions =
+      Enum.map(specs, fn spec ->
+        filteredFunctions = Enum.filter(functionBodies, fn body -> body.name === spec.name end)
+
+        %FunctionModel{
+          spec: spec,
+          arguments: getArguments(Enum.map(filteredFunctions, fn func -> func.arguments end)),
+          cases:
+            getCases(Enum.map(filteredFunctions, fn func -> {func.condition, func.return} end))
         }
       end)
 
-    grouped
+    functions
   end
 
   @spec getArguments(List[List[atom()]]) :: List[atom()]
