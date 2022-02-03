@@ -1,17 +1,14 @@
-defmodule TlaGeneratorTest do
+defmodule TLA.GeneratorTest do
   use ExUnit.Case
-  doctest TlaGenerator
+  doctest TLA.Generator
 
   test "debug" do
     result =
-      TlaGenerator.generate("Max", "c:/University/Master's Thesis/tla-generator/lib/max.ex")
-      IO.puts(result)
-  end
+      TLA.Generator.generate(
+        "Math",
+        "c:/University/Master's Thesis/tla-generator/elixir_sources/math.ex"
+      )
 
-  # test "debug" do
-  #   TlaGenerator.generate(
-  #     "C:\\University\\Master's Thesis\\tla-generator\\lib\\max.ex",
-  #     "C:\\University\\Master's Thesis\\tla-generator\\generated\\max.tla"
-  #   )
-  # end
+    IO.puts(result)
+  end
 end

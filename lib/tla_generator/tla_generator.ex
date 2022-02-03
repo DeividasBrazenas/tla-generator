@@ -1,4 +1,4 @@
-defmodule TlaGenerator do
+defmodule TLA.Generator do
   def generate(moduleName, inputFilePath) do
     {_, ast} =
       inputFilePath
@@ -6,9 +6,9 @@ defmodule TlaGenerator do
       |> Code.string_to_quoted()
 
     tla =
-      [TlaHeaderGenerator.getHeader(moduleName)] ++
-        TlaBodyGenerator.getBody(ast) ++
-        [TlaFooterGenerator.getFooter(moduleName)]
+      [TLA.Generator.Header.getHeader(moduleName)] ++
+        TLA.Generator.Body.getBody(ast) ++
+        [TLA.Generator.Footer.getFooter(moduleName)]
 
     Enum.join(tla, "\n")
   end

@@ -1,18 +1,9 @@
-defmodule TlaBodyGenerator do
+defmodule TLA.Generator.Body do
   def getBody(ast) do
-    {_, generationType} = Macro.postwalk(ast, :not_specified, &getGenerationType/2)
+    {_, _generationType} = Macro.postwalk(ast, :not_specified, &getGenerationType/2)
 
-    body =
-      case generationType do
-        :operation -> generateBodyByOperations(ast)
-      end
-
-    body
-  end
-
-  defp generateBodyByOperations(ast) do
     specs = Function.Spec.extract(ast)
-    functions = FunctionOperationBodyExtractor.extractFunctions(specs, ast)
+    functions = Function.Function.getFunctions(specs, ast)
     body = getTlaExtensions(specs) ++ getTlaFunctions(functions)
     body
   end
@@ -62,7 +53,7 @@ defmodule TlaBodyGenerator do
             end)
       end
 
-    functionDefinition ++ functionBody
+    functionDefinition ++ functionBody ++ ["\n"]
   end
 
   @spec getTlaVariableConstraints(atom()) :: String
