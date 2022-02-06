@@ -56,6 +56,6 @@ defmodule Tla.Extractor do
     filePath = String.replace(inspect(dbgi_map[:file]), "\"", "")
 
     result = Tla.Generator.generate(moduleName, filePath)
-    # IO.puts(result)
+    IO.puts(result)
   end
 end

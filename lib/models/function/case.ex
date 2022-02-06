@@ -21,7 +21,6 @@ defmodule Function.Case do
           opposite_condition = Function.Condition.get_opposite_condition(previous_conditions)
 
           new_case = %Function.Case{condition: opposite_condition, return: fn_case.return}
-          IO.inspect(new_case)
           acc ++ [new_case]
         end
       end)

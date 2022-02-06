@@ -5,7 +5,6 @@ defmodule Tla.Generator.Body do
 
     specs = Function.Spec.get(ast)
     functions = Function.Function.get(specs, ast)
-    IO.inspect(functions)
     body = get_tla_extensions(specs) ++ get_tla_functions(functions)
     body
   end
