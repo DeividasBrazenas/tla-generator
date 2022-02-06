@@ -1,25 +1,28 @@
-defmodule TLA.Generator.Body do
-  def getBody(ast) do
-    {_, _generationType} = Macro.postwalk(ast, :not_specified, &getGenerationType/2)
+defmodule Tla.Generator.Body do
+  @spec get(any) :: List[String.t()]
+  def get(ast) do
+    {_, _generation_type} = Macro.postwalk(ast, :not_specified, &get_generation_type/2)
 
-    specs = Function.Spec.extract(ast)
-    functions = Function.Function.getFunctions(specs, ast)
-    body = getTlaExtensions(specs) ++ getTlaFunctions(functions)
+    specs = Function.Spec.get(ast)
+    functions = Function.Function.get(specs, ast)
+    IO.inspect(functions)
+    body = get_tla_extensions(specs) ++ get_tla_functions(functions)
     body
   end
 
-  defp getGenerationType({:tla_defs, _, [type]} = node, _) do
+  @spec(get_generation_type(any, atom()) :: any, atom())
+  defp get_generation_type({:tla_defs, _, [type]} = node, _) do
     {node, type}
   end
 
-  defp getGenerationType(node, acc), do: {node, acc}
+  defp get_generation_type(node, acc), do: {node, acc}
 
-  @spec getTlaExtensions(List[Function.Spec]) :: List[String]
-  defp getTlaExtensions(functionSpecs) do
+  @spec get_tla_extensions(List[Function.Spec.t()]) :: List[String.t()]
+  defp get_tla_extensions(specs) do
     extensions =
-      Enum.map(functionSpecs, fn spec ->
+      Enum.map(specs, fn spec ->
         cond do
-          spec.returnType === :integer -> "EXTENDS Naturals"
+          spec.return_type === :integer -> "EXTENDS Naturals"
         end
       end)
       |> Enum.uniq()
@@ -31,33 +34,34 @@ defmodule TLA.Generator.Body do
     end
   end
 
-  @spec getTlaFunctions(List[Function]) :: List[String]
-  defp getTlaFunctions(functions) do
-    tlaFunctions =
-      Enum.reduce(functions, [], fn function, acc -> acc ++ getTlaFunction(function) end)
+  @spec get_tla_functions(List[Function.Function.t()]) :: List[String.t()]
+  defp get_tla_functions(functions) do
+    tla_functions =
+      Enum.reduce(functions, [], fn function, acc -> acc ++ get_tla_function(function) end)
 
-    tlaFunctions
+    tla_functions
   end
 
-  defp getTlaFunction(
+  @spec get_tla_function(Function.Function.t()) :: List[String.t()]
+  defp get_tla_function(
          %Function.Function{spec: spec, arguments: arguments, cases: cases} = function
        ) do
-    functionDefinition = ["#{spec.name}(#{Enum.join(arguments, ", ")}) =="]
+    definition = ["#{spec.name}(#{Enum.join(arguments, ", ")}) =="]
 
-    functionBody =
+    body =
       case function.cases > 1 do
         true ->
-          ["  CHOOSE x #{getTlaVariableConstraints(spec.returnType)} :"] ++
-            Enum.map(cases, fn {condition, return} ->
-              "    \\/ (#{condition.left_operand} #{condition.operator} #{condition.right_operand}) /\\ x = #{return}"
+          ["  CHOOSE x #{get_tla_variable_constraints(spec.return_type)} :"] ++
+            Enum.map(cases, fn fn_case ->
+              "    \\/ (#{fn_case.condition.left_operand} #{fn_case.condition.operator} #{fn_case.condition.right_operand}) /\\ x = #{fn_case.return}"
             end)
       end
 
-    functionDefinition ++ functionBody ++ ["\n"]
+    definition ++ body ++ ["\n"]
   end
 
-  @spec getTlaVariableConstraints(atom()) :: String
-  defp getTlaVariableConstraints(type) do
+  @spec get_tla_variable_constraints(atom()) :: String.t()
+  defp get_tla_variable_constraints(type) do
     case type do
       :integer -> "\\in Nat"
     end

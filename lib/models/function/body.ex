@@ -1,40 +1,53 @@
 defmodule Function.Body do
-  defstruct [:name, :arguments, :condition, :return]
+  use TypedStruct
 
-  def getFunctionBodies(ast) do
-    {_, functionBodies} = Macro.postwalk(ast, [], &getFunction/2)
-    functionBodies
+  typedstruct do
+    @typedoc "Type for a function body"
+
+    field(:name, atom(), default: nil, enforce: true)
+    field(:arguments, List[atom()], default: [])
+    field(:condition, Function.Condition.t(), default: nil)
+    field(:return, atom(), default: nil)
   end
 
-  defp getFunction({:def, _, func} = node, acc) do
-    body = getBody1(func)
+  @spec get(any) :: List[Function.Body.t()]
+  def get(ast) do
+    {_, bodies} = Macro.postwalk(ast, [], &get_body/2)
+    bodies
+  end
+
+  @spec get_body(any, List[Function.Body.t()]) :: {any, List[Function.Body.t()]}
+  defp get_body({:def, _, func} = node, acc) do
+    body = get_body_with_return(func)
     {node, acc ++ [body]}
   end
 
-  defp getFunction(node, acc), do: {node, acc}
+  defp get_body(node, acc), do: {node, acc}
 
-  defp getBody1([{:when, _, func}, [do: {return, _, _}]]) do
-    body = getBody2(func)
+  @spec get_body_with_return(any) :: List[Function.Body.t()]
+  defp get_body_with_return([{:when, _, func}, [do: {return, _, _}]]) do
+    body = get_inner_body(func)
     body = %{body | return: return}
     body
   end
 
-  defp getBody1([func, [do: {return, _, _}]]) do
-    body = getBody2(func)
+  defp get_body_with_return([func, [do: {return, _, _}]]) do
+    body = get_inner_body(func)
     body = %{body | return: return}
     body
   end
 
-  defp getBody1(node), do: {node}
+  defp get_body_with_return(node), do: {node}
 
-  defp getBody2([func, cond]) do
-    body = getBody2(func)
-    condition = getCondition(cond)
+  @spec get_inner_body(any) :: List[Function.Body.t()]
+  defp get_inner_body([func, cond]) do
+    body = get_inner_body(func)
+    condition = Function.Condition.get(cond)
     body = %{body | condition: condition}
     body
   end
 
-  defp getBody2({name, _, args}) do
+  defp get_inner_body({name, _, args}) do
     body = %Function.Body{
       name: name,
       arguments: Enum.map(args, fn {arg, _, _} -> arg end)
@@ -43,15 +56,5 @@ defmodule Function.Body do
     body
   end
 
-  defp getBody2(node), do: {node}
-
-  defp getCondition({operator, _, [{left, _, _}, {right, _, _}]}) do
-    condition = %Function.Condition{
-      operator: operator,
-      left_operand: left,
-      right_operand: right
-    }
-
-    condition
-  end
+  defp get_inner_body(node), do: {node}
 end

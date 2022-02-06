@@ -1,10 +1,10 @@
-defmodule TLA.GeneratorTest do
+defmodule Tla.GeneratorTest do
   use ExUnit.Case
-  doctest TLA.Generator
+  doctest Tla.Generator
 
   test "debug" do
     result =
-      TLA.Generator.generate(
+      Tla.Generator.generate(
         "Math",
         "c:/University/Master's Thesis/tla-generator/elixir_sources/math.ex"
       )

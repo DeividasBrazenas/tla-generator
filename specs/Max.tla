@@ -1,5 +1,5 @@
 -------------------------------- MODULE Max --------------------------------
-EXTENDS Naturals, TLAPS
+EXTENDS Naturals, TlaPS
 
 (*
 Assume this spec is writted by a user.
@@ -153,7 +153,7 @@ LEMMA otherMax4SpecXInv == otherMax4!Spec => []otherMax4XInv
 Prove the Max function refinement using a temporal (eventual) formulation.
 In such case we would be not required to rely on some "DONE" flags.
 
-NOTE: This proof might require TLAPS from the updated_enabled_cdot branch (if not merged yet).
+NOTE: This proof might require TlaPS from the updated_enabled_cdot branch (if not merged yet).
       That's because we use ExpandENABLED proof rule.
 *)
 LEMMA otherMax4SpecEventuallyMax == otherMax4!Spec => <>otherMax4IsMax

@@ -1,5 +1,5 @@
 defmodule Math do
-  #use Extractors.TLA
+  #use Tla.Extractor
   #@tla_defs :operation
 
   @spec min(integer, integer) :: integer

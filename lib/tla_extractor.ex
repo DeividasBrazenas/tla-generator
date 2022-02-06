@@ -1,19 +1,19 @@
 # See example: https://elixirforum.com/t/order-of-execution-of-on-definition-before-compile-and-after-compile/38465
-defmodule Extractors.TLA do
+defmodule Tla.Extractor do
   defmacro __using__(_opts) do
-    # IO.puts("Extractors.TLA __using__")
+    # IO.puts("Tla.Extractor __using__")
 
     quote do
       Module.register_attribute(__MODULE__, :tla_defs, accumulate: true, persist: true)
-      # @on_definition Extractors.TLA
-      # @before_compile Extractors.TLA
-      @after_compile Extractors.TLA
+      # @on_definition Tla.Extractor
+      # @before_compile Tla.Extractor
+      @after_compile Tla.Extractor
     end
   end
 
   # def __on_definition__(env, kind, name, args, guards, body) do
   #   IO.puts(
-  #     "Extractors.TLA __on_definition__ #{kind}: #{name}(#{inspect(args)}) with #{inspect(guards)} = #{inspect(body)}"
+  #     "Tla.Extractor __on_definition__ #{kind}: #{name}(#{inspect(args)}) with #{inspect(guards)} = #{inspect(body)}"
   #   )
 
   #   tla_defs = Module.get_attribute(env.module, :tla_defs, [])
@@ -23,7 +23,7 @@ defmodule Extractors.TLA do
   # def __before_compile__(env) do
   #   Enum.each(Map.keys(env), fn k ->
   #     IO.puts(
-  #       "Extractors.TLA __before_compile__, env.#{inspect(k)}=#{inspect(Map.get(env, k), pretty: true, limit: :infinity, printable_limit: :infinity)}"
+  #       "Tla.Extractor __before_compile__, env.#{inspect(k)}=#{inspect(Map.get(env, k), pretty: true, limit: :infinity, printable_limit: :infinity)}"
   #     )
   #   end)
   # end
@@ -50,12 +50,12 @@ defmodule Extractors.TLA do
           throw("Error: #{inspect(x)}")
       end
 
-    # IO.puts("Extractors.TLA __after_compile__, #{inspect(dbgi_map[:attributes], pretty: true)}")
+    # IO.puts("Tla.Extractor __after_compile__, #{inspect(dbgi_map[:attributes], pretty: true)}")
 
     moduleName = inspect(dbgi_map[:module])
     filePath = String.replace(inspect(dbgi_map[:file]), "\"", "")
 
-    result = TLA.Generator.generate(moduleName, filePath)
+    result = Tla.Generator.generate(moduleName, filePath)
     # IO.puts(result)
   end
 end

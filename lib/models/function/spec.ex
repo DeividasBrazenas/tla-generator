@@ -1,24 +1,33 @@
 defmodule Function.Spec do
-  defstruct [:name, :argumentTypes, :returnType]
+  use TypedStruct
 
-  @spec extract(any) :: List[Function.Spec]
-  def extract(ast) do
-    {_, specs} = Macro.postwalk(ast, [], &getSpec/2)
+  typedstruct do
+    @typedoc "Type for a function spec"
+
+    field(:name, atom(), default: nil, enforce: true)
+    field(:argument_types, List[atom()], default: [])
+    field(:return_type, atom(), default: nil)
+  end
+
+  @spec get(any) :: List[Function.Spec.t()]
+  def get(ast) do
+    {_, specs} = Macro.postwalk(ast, [], &get_spec/2)
     specs
   end
 
-  defp getSpec(
-         {:spec, _, [{:"::", _, [{method, _, argumentsList}, {returnType, _, _}]}]} = node,
+  @spec get_spec(any, List[Function.Spec.t()]) :: {any, List[Function.Spec.t()]}
+  defp get_spec(
+         {:spec, _, [{:"::", _, [{method, _, arguments}, {return_type, _, _}]}]} = node,
          acc
        ) do
-        functionSpec = %Function.Spec{
+    spec = %Function.Spec{
       name: method,
-      argumentTypes: Enum.map(argumentsList, fn {argumentType, _, _} -> argumentType end),
-      returnType: returnType
+      argument_types: Enum.map(arguments, fn {argument_type, _, _} -> argument_type end),
+      return_type: return_type
     }
 
-    {node, acc ++ [functionSpec]}
+    {node, acc ++ [spec]}
   end
 
-  defp getSpec(node, acc), do: {node, acc}
+  defp get_spec(node, acc), do: {node, acc}
 end

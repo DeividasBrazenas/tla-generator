@@ -1,19 +1,30 @@
 defmodule Function.Function do
-  defstruct [:spec, :arguments, :cases]
+  use TypedStruct
 
-  def getFunctions(specs, ast) do
-    functionBodies = Function.Body.getFunctionBodies(ast)
+  typedstruct do
+    @typedoc "Type for a function body"
+
+    field(:spec, Function.Spec.t(), default: nil, enforce: true)
+    field(:arguments, List[atom()], default: [])
+    field(:cases, List[Function.Case.t()], default: nil)
+  end
+
+  @spec get(List[Funcion.Spec.t()], any) :: List[Function.Function.t()]
+  def get(specs, ast) do
+    bodies = Function.Body.get(ast)
 
     functions =
       Enum.map(specs, fn spec ->
-        filteredFunctions = Enum.filter(functionBodies, fn body -> body.name === spec.name end)
+        filtered_functions = Enum.filter(bodies, fn body -> body.name === spec.name end)
 
         %Function.Function{
           spec: spec,
-          arguments: getArguments(Enum.map(filteredFunctions, fn func -> func.arguments end)),
+          arguments: get_arguments(Enum.map(filtered_functions, fn func -> func.arguments end)),
           cases:
-            Function.Case.getCases(
-              Enum.map(filteredFunctions, fn func -> {func.condition, func.return} end)
+            Function.Case.get(
+              Enum.map(filtered_functions, fn func ->
+                %Function.Case{condition: func.condition, return: func.return}
+              end)
             )
         }
       end)
@@ -21,10 +32,10 @@ defmodule Function.Function do
     functions
   end
 
-  @spec getArguments(List[List[atom()]]) :: List[atom()]
-  defp getArguments(argsList) do
+  @spec get_arguments(List[List[atom()]]) :: List[atom()]
+  defp get_arguments(args_list) do
     arguments =
-      Enum.filter(argsList, fn args -> !Enum.any?(args, fn arg -> arg === :_ end) end)
+      Enum.filter(args_list, fn args -> !Enum.any?(args, fn arg -> arg === :_ end) end)
       |> Enum.at(0)
 
     arguments

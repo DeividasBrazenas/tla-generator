@@ -1,21 +1,31 @@
 defmodule Function.Case do
-  defstruct [:condition, :return]
+  use TypedStruct
 
-  def getCases(cases) do
-    orderedCases =
-      Enum.sort_by(cases, fn {condition, _} -> condition end)
+  typedstruct do
+    @typedoc "Type for a function case"
+
+    field(:condition, Function.Condition.t(), default: nil, enforce: true)
+    field(:return, atom(), default: nil, enforce: true)
+  end
+
+  @spec get(List[Function.Case.t()]) :: List[Function.Case.t()]
+  def get(cases) do
+    ordered_cases =
+      Enum.sort_by(cases, fn fn_case -> fn_case.condition end)
       |> Enum.reverse()
-      |> Enum.reduce([], fn {condition, return}, acc ->
-        if condition != nil do
-          acc ++ [{condition, return}]
+      |> Enum.reduce([], fn fn_case, acc ->
+        if fn_case.condition != nil do
+          acc ++ [fn_case]
         else
-          previousConditions = Enum.map(acc, fn {condition, _} -> condition end)
-          oppositeCondition = Function.Condition.getOppositeCondition(previousConditions)
+          previous_conditions = Enum.map(acc, fn fn_case -> fn_case.condition end)
+          opposite_condition = Function.Condition.get_opposite_condition(previous_conditions)
 
-          acc ++ [{oppositeCondition, return}]
+          new_case = %Function.Case{condition: opposite_condition, return: fn_case.return}
+          IO.inspect(new_case)
+          acc ++ [new_case]
         end
       end)
 
-    orderedCases
+    ordered_cases
   end
 end

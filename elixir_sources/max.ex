@@ -1,5 +1,5 @@
 defmodule Max do
-  use Extractors.TLA
+  use Tla.Extractor
 
   @tla_defs :operation
 

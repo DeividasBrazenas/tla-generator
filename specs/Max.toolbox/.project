@@ -6,13 +6,13 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
-			<name>toolbox.builder.TLAParserBuilder</name>
+			<name>toolbox.builder.TlaParserBuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>toolbox.natures.TLANature</nature>
+		<nature>toolbox.natures.TlaNature</nature>
 	</natures>
 	<linkedResources>
 		<link>
