@@ -52,7 +52,13 @@ defmodule Tla.Generator.Body do
         true ->
           ["  CHOOSE x #{get_tla_variable_constraints(spec.return_type)} :"] ++
             Enum.map(cases, fn fn_case ->
-              "    \\/ (#{fn_case.condition.left_operand} #{fn_case.condition.operator} #{fn_case.condition.right_operand}) /\\ x = #{fn_case.return}"
+              tla_case =
+                "(#{fn_case.condition.left_operand} #{fn_case.condition.operator} #{fn_case.condition.right_operand}) /\\ x = #{fn_case.return}"
+
+              "    \\/ " <>
+                if fn_case.condition.is_negated,
+                  do: "~#{tla_case}",
+                  else: tla_case
             end)
       end
 
