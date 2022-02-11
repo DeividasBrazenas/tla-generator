@@ -45,7 +45,11 @@ defmodule Tla.Generator.Body do
   defp get_tla_function(
          %Function.Function{spec: spec, arguments: arguments, cases: cases} = function
        ) do
-    definition = ["#{spec.name}(#{Enum.join(arguments, ", ")}) =="]
+    definition =
+      case arguments do
+        [] -> ["#{spec.name} =="]
+        [_ | _] -> ["#{spec.name}(#{Enum.join(arguments, ", ")}) =="]
+      end
 
     body =
       case function.cases > 1 do
