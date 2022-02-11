@@ -3,11 +3,12 @@ defmodule Tla.GeneratorTest do
   doctest Tla.Generator
 
   test "debug" do
-    result =
-      Tla.Generator.generate(
-        "Math",
-        "c:/University/Master's Thesis/tla-generator/elixir_sources/math.ex"
-      )
+    module_name = "Math"
+    file_name = "math.ex"
+
+    source = File.cwd!() |> Path.join("elixir_sources") |> Path.join(file_name)
+
+    result = Tla.Generator.generate(module_name, source)
 
     IO.puts(result)
   end

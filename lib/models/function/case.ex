@@ -1,14 +1,14 @@
-defmodule Function.Case do
+defmodule Tla.Generator.Models.Function.Case do
   use TypedStruct
 
   typedstruct do
     @typedoc "Type for a function case"
 
-    field(:condition, Function.Condition.t(), default: nil, enforce: true)
+    field(:condition, Tla.Generator.Models.Function.Condition.t(), default: nil, enforce: true)
     field(:return, atom(), default: nil, enforce: true)
   end
 
-  @spec get(List[Function.Case.t()]) :: List[Function.Case.t()]
+  @spec get(List[Tla.Generator.Models.Function.Case.t()]) :: List[Tla.Generator.Models.Function.Case.t()]
   def get(cases) do
     ordered_cases =
       Enum.sort_by(cases, fn fn_case -> fn_case.condition end)
@@ -18,9 +18,9 @@ defmodule Function.Case do
           acc ++ [fn_case]
         else
           previous_conditions = Enum.map(acc, fn fn_case -> fn_case.condition end)
-          opposite_condition = Function.Condition.get_opposite_condition(previous_conditions)
+          opposite_condition = Tla.Generator.Models.Function.Condition.get_opposite_condition(previous_conditions)
 
-          new_case = %Function.Case{condition: opposite_condition, return: fn_case.return}
+          new_case = %Tla.Generator.Models.Function.Case{condition: opposite_condition, return: fn_case.return}
           acc ++ [new_case]
         end
       end)

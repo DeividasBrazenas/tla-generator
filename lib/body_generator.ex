@@ -3,7 +3,7 @@ defmodule Tla.Generator.Body do
   def get(ast) do
     {_, _generation_type} = Macro.postwalk(ast, :not_specified, &get_generation_type/2)
 
-    specs = Function.Spec.get(ast)
+    specs = Tla.Generator.Models.Function.Spec.get(ast)
     functions = Function.Function.get(specs, ast)
     body = get_tla_extensions(specs) ++ get_tla_functions(functions)
     body
@@ -16,7 +16,7 @@ defmodule Tla.Generator.Body do
 
   defp get_generation_type(node, acc), do: {node, acc}
 
-  @spec get_tla_extensions(List[Function.Spec.t()]) :: List[String.t()]
+  @spec get_tla_extensions(List[Tla.Generator.Models.Function.Spec.t()]) :: List[String.t()]
   defp get_tla_extensions(specs) do
     extensions =
       Enum.map(specs, fn spec ->
@@ -52,7 +52,13 @@ defmodule Tla.Generator.Body do
         true ->
           ["  CHOOSE x #{get_tla_variable_constraints(spec.return_type)} :"] ++
             Enum.map(cases, fn fn_case ->
-              "    \\/ (#{fn_case.condition.left_operand} #{fn_case.condition.operator} #{fn_case.condition.right_operand}) /\\ x = #{fn_case.return}"
+              tla_case =
+                "(#{fn_case.condition.left_operand} #{fn_case.condition.operator} #{fn_case.condition.right_operand}) /\\ x = #{fn_case.return}"
+
+              "    \\/ " <>
+                if fn_case.condition.is_negated,
+                  do: "~#{tla_case}",
+                  else: tla_case
             end)
       end
 
