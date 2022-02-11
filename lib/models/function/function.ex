@@ -23,7 +23,10 @@ defmodule Function.Function do
           cases:
             Tla.Generator.Models.Function.Case.get(
               Enum.map(filtered_functions, fn func ->
-                %Tla.Generator.Models.Function.Case{condition: func.condition, return: func.return}
+                %Tla.Generator.Models.Function.Case{
+                  condition: func.condition,
+                  return: func.return
+                }
               end)
             )
         }
