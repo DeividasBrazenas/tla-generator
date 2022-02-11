@@ -1,4 +1,4 @@
-defmodule TlaGenerator.MixProject do
+defmodule Tla.Generator.MixProject do
   use Mix.Project
 
   def project do
