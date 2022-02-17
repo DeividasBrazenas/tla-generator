@@ -15,7 +15,8 @@ defmodule Tla.Generator.Models.Function.Spec do
     specs
   end
 
-  @spec get_spec(any, List[Tla.Generator.Models.Function.Spec.t()]) :: {any, List[Tla.Generator.Models.Function.Spec.t()]}
+  @spec get_spec(any, List[Tla.Generator.Models.Function.Spec.t()]) ::
+          {any, List[Tla.Generator.Models.Function.Spec.t()]}
   defp get_spec(
          {:spec, _, [{:"::", _, [{method, _, arguments}, {return_type, _, _}]}]} = node,
          acc

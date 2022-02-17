@@ -16,7 +16,8 @@ defmodule Tla.Generator.Models.Function.Body do
     bodies
   end
 
-  @spec get_body(any, List[Tla.Generator.Models.Function.Body.t()]) :: {any, List[Tla.Generator.Models.Function.Body.t()]}
+  @spec get_body(any, List[Tla.Generator.Models.Function.Body.t()]) ::
+          {any, List[Tla.Generator.Models.Function.Body.t()]}
   defp get_body({:def, _, func} = node, acc) do
     body = get_body_with_return(func)
     {node, acc ++ [body]}
