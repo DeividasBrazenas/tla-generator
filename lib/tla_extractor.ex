@@ -52,10 +52,22 @@ defmodule Tla.Extractor do
 
     # IO.puts("Tla.Extractor __after_compile__, #{inspect(dbgi_map[:attributes], pretty: true)}")
 
-    moduleName = inspect(dbgi_map[:module])
-    filePath = String.replace(inspect(dbgi_map[:file]), "\"", "")
+    module_name = inspect(dbgi_map[:module])
+    file_path = String.replace(inspect(dbgi_map[:file]), "\"", "")
 
-    result = Tla.Generator.generate(moduleName, filePath)
+    result = Tla.Generator.generate(module_name, file_path)
+
+    result_path =
+      String.replace(
+        String.replace(inspect(dbgi_map[:file]), "\"", ""),
+        String.replace(inspect(dbgi_map[:relative_file]), "\"", ""),
+        ""
+      )
+      |> Path.join("priv")
+      |> Path.join("#{module_name}.tla")
+
+    File.mkdir_p!(Path.dirname(result_path))
+    File.write!(result_path, result)
     IO.puts(result)
   end
 end
