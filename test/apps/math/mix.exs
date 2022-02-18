@@ -21,7 +21,7 @@ defmodule Math.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:tla_generator, path: "..\\..\\.."}
+      {:tla_generator, path: "../../.."}
     ]
   end
 end
