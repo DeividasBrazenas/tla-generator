@@ -10,7 +10,7 @@ defmodule Tla.Generator.Models.Function.Condition do
     field(:is_negated, atom(), default: false)
   end
 
-  @spec get(any) :: Tla.Generator.Models.Function.Condition.t()
+  @spec get(any()) :: Tla.Generator.Models.Function.Condition.t()
   def get({operator, _, [{left, _, _}, {right, _, _}]}) do
     condition = %Tla.Generator.Models.Function.Condition{
       operator: operator,

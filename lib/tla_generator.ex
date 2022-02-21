@@ -1,5 +1,6 @@
 defmodule Tla.Generator do
-  def generate(module_name, input_file_path) do
+  @spec generate(String.t(), String.t(), atom(), List[atom()]) :: List[String.t()]
+  def generate(module_name, input_file_path, generation_type, generation_defs) do
     {_, ast} =
       input_file_path
       |> File.read!()
@@ -7,7 +8,7 @@ defmodule Tla.Generator do
 
     tla =
       [getHeader(module_name)] ++
-        Tla.Generator.Body.get(ast) ++
+        Tla.Generator.Body.get(generation_type, generation_defs, ast) ++
         [getFooter(module_name)]
 
     Enum.join(tla, "\n")

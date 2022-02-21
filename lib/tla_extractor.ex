@@ -4,7 +4,8 @@ defmodule Tla.Extractor do
     # IO.puts("Tla.Extractor __using__")
 
     quote do
-      Module.register_attribute(__MODULE__, :tla_defs, accumulate: true, persist: true)
+      Module.register_attribute(__MODULE__, :tla_generation_type, accumulate: true, persist: true)
+      Module.register_attribute(__MODULE__, :tla_generation_defs, accumulate: true, persist: true)
       # @on_definition Tla.Extractor
       # @before_compile Tla.Extractor
       @after_compile Tla.Extractor
@@ -16,8 +17,8 @@ defmodule Tla.Extractor do
   #     "Tla.Extractor __on_definition__ #{kind}: #{name}(#{inspect(args)}) with #{inspect(guards)} = #{inspect(body)}"
   #   )
 
-  #   tla_defs = Module.get_attribute(env.module, :tla_defs, [])
-  #   Module.put_attribute(env.module, :tla_defs, [{name, args, guards, body} | tla_defs])
+  #   tla_generation_type = Module.get_attribute(env.module, :tla_generation_type, [])
+  #   Module.put_attribute(env.module, :tla_generation_type, [{name, args, guards, body} | tla_generation_type])
   # end
 
   # def __before_compile__(env) do
@@ -55,19 +56,30 @@ defmodule Tla.Extractor do
     module_name = inspect(dbgi_map[:module])
     file_path = String.replace(inspect(dbgi_map[:file]), "\"", "")
 
-    result = Tla.Generator.generate(module_name, file_path)
+    attributes = dbgi_map[:attributes]
 
-    result_path =
-      String.replace(
-        String.replace(inspect(dbgi_map[:file]), "\"", ""),
-        String.replace(inspect(dbgi_map[:relative_file]), "\"", ""),
-        ""
-      )
-      |> Path.join("priv")
-      |> Path.join("#{module_name}.tla")
+    # Only first generation type from module will be used
+    is_generation_type_defined = Keyword.has_key?(attributes, :tla_generation_type)
+    tla_generation_defs = Keyword.get_values(attributes, :tla_generation_defs)
 
-    File.mkdir_p!(Path.dirname(result_path))
-    File.write!(result_path, result)
-    IO.puts(result)
+    # For TLA to be generated, generation type and defs to generate should be defined
+    if is_generation_type_defined and Enum.any?(tla_generation_defs) do
+      tla_generation_type = Keyword.fetch!(attributes, :tla_generation_type)
+
+      result = Tla.Generator.generate(module_name, file_path, tla_generation_type, tla_generation_defs)
+
+      result_path =
+        String.replace(
+          String.replace(inspect(dbgi_map[:file]), "\"", ""),
+          String.replace(inspect(dbgi_map[:relative_file]), "\"", ""),
+          ""
+        )
+        |> Path.join("priv")
+        |> Path.join("#{module_name}.tla")
+
+      File.mkdir_p!(Path.dirname(result_path))
+      File.write!(result_path, result)
+      IO.puts(result)
+    end
   end
 end

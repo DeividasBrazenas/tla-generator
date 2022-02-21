@@ -1,4 +1,4 @@
-defmodule Function.Function do
+defmodule Tla.Generator.Models.Function do
   use TypedStruct
 
   typedstruct do
@@ -9,20 +9,21 @@ defmodule Function.Function do
     field(:cases, List[Tla.Generator.Models.Function.Case.t()], default: nil)
   end
 
-  @spec get(List[Funcion.Spec.t()], any) :: List[Function.Function.t()]
+  @spec get(List[Tla.Generator.Models.Function.Spec.t()], any()) ::
+          List[Tla.Generator.Models.Function.t()]
   def get(specs, ast) do
     bodies = Tla.Generator.Models.Function.Body.get(ast)
 
     functions =
       Enum.map(specs, fn spec ->
-        filtered_functions = Enum.filter(bodies, fn body -> body.name === spec.name end)
+        filtered_bodies = Enum.filter(bodies, fn body -> body.name === spec.name end)
 
-        %Function.Function{
+        %Tla.Generator.Models.Function{
           spec: spec,
-          arguments: get_arguments(Enum.map(filtered_functions, fn func -> func.arguments end)),
+          arguments: get_arguments(Enum.map(filtered_bodies, fn func -> func.arguments end)),
           cases:
             Tla.Generator.Models.Function.Case.get(
-              Enum.map(filtered_functions, fn func ->
+              Enum.map(filtered_bodies, fn func ->
                 %Tla.Generator.Models.Function.Case{
                   condition: func.condition,
                   return: func.return

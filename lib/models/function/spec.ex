@@ -9,14 +9,14 @@ defmodule Tla.Generator.Models.Function.Spec do
     field(:return_type, atom(), default: nil)
   end
 
-  @spec get(any) :: List[Tla.Generator.Models.Function.Spec.t()]
+  @spec get(any()) :: List[Tla.Generator.Models.Function.Spec.t()]
   def get(ast) do
     {_, specs} = Macro.postwalk(ast, [], &get_spec/2)
     specs
   end
 
-  @spec get_spec(any, List[Tla.Generator.Models.Function.Spec.t()]) ::
-          {any, List[Tla.Generator.Models.Function.Spec.t()]}
+  @spec get_spec(any(), List[Tla.Generator.Models.Function.Spec.t()]) ::
+          {any(), List[Tla.Generator.Models.Function.Spec.t()]}
   defp get_spec(
          {:spec, _, [{:"::", _, [{method, _, arguments}, {return_type, _, _}]}]} = node,
          acc
