@@ -1,9 +1,9 @@
 ## 2022-05-13
-- [ ] Pavadinima patikslin i Elixir
+- [X] ~~Pavadinima patikslin i Elixir~~
 - [ ] Pagerint paveiksleliu raiska
-- [ ] Kai kurie citavimo ar paveiksleliu referencai neegzistuoja
-- [ ] Fig. -> Figure
-- [ ] Paveiksleliu citavimas toje pacioje, o ne naujoje eiluteje
+- [X] ~~Kai kurie citavimo ar paveiksleliu referencai neegzistuoja~~
+- [X] ~~Fig. -> Figure~~
+- [X] ~~Paveiksleliu citavimas toje pacioje, o ne naujoje eiluteje~~
 - [ ] TLA Transmutation
   - [ ] Aprasyt prie toolsu
   - [ ] Istring "Next State Action Transformation Rule" tuscia skyriu
