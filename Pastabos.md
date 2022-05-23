@@ -1,0 +1,24 @@
+## 2022-05-13
+- [ ] Pavadinima patikslin i Elixir
+- [ ] Pagerint paveiksleliu raiska
+- [ ] Kai kurie citavimo ar paveiksleliu referencai neegzistuoja
+- [ ] Fig. -> Figure
+- [ ] Paveiksleliu citavimas toje pacioje, o ne naujoje eiluteje
+- [ ] TLA Transmutation
+  - [ ] Aprasyt prie toolsu
+  - [ ] Istring "Next State Action Transformation Rule" tuscia skyriu
+  - [ ] Taisykles perkelt i 4 skyriu
+  - [ ] Detaliau isnagrinet taisykles
+  - [ ] Koda perrasyt Latexe
+- [ ] Elixir
+  - [ ] Daugiau pradzioj parasyt (Why functional, why actor model, why distributed computing, why not erlang, etc.)
+  - [ ] Elixir panaudot distributed kodo konstruktus (pvz. sito algoritmo https://github.com/kape1395/wasper)
+  - [ ] AST sutrumpint gerokai
+- [ ] TLA
+  - [ ] Overview zodi pavadinime pakeist
+  - [ ] defined by: ir where: istrint dvitaski (turi skaitytis kaip sakinys)
+  - [ ] "and the Fairness constraints" istrint
+  - [ ] Panagrinet "Round" specifikacija is paskaitu
+- [ ] Conclusions
+  - [ ] "is pretty straightforward"
+- [ ] Paklaust V. Pozdniakov del sugeneruoto modelio pilnumo irodymo
