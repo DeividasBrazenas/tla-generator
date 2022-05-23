@@ -5,7 +5,6 @@
 - [X] ~~Fig. -> Figure~~
 - [X] ~~Paveiksleliu citavimas toje pacioje, o ne naujoje eiluteje~~
 - [ ] TLA Transmutation
-  - [ ] Aprasyt prie toolsu
   - [X] ~~Istring "Next State Action Transformation Rule" tuscia skyriu~~
   - [X] ~~Taisykles perkelt i nauja skyriu~~
   - [ ] Detaliau isnagrinet taisykles
