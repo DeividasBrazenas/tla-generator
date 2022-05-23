@@ -6,8 +6,8 @@
 - [X] ~~Paveiksleliu citavimas toje pacioje, o ne naujoje eiluteje~~
 - [ ] TLA Transmutation
   - [ ] Aprasyt prie toolsu
-  - [ ] Istring "Next State Action Transformation Rule" tuscia skyriu
-  - [ ] Taisykles perkelt i 4 skyriu
+  - [X] ~~Istring "Next State Action Transformation Rule" tuscia skyriu~~
+  - [X] ~~Taisykles perkelt i nauja skyriu~~
   - [ ] Detaliau isnagrinet taisykles
   - [ ] Koda perrasyt Latexe
 - [ ] Elixir
