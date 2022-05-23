@@ -21,4 +21,4 @@
   - [ ] Panagrinet "Round" specifikacija is paskaitu
 - [ ] Conclusions
   - [ ] "is pretty straightforward"
-- [ ] Paklaust V. Pozdniakov del sugeneruoto modelio pilnumo irodymo
+- [X] ~~Paklaust V. Pozdniakov del sugeneruoto modelio pilnumo irodymo~~
