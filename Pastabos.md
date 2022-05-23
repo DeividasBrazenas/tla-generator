@@ -7,8 +7,9 @@
 - [ ] TLA Transmutation
   - [X] ~~Istring "Next State Action Transformation Rule" tuscia skyriu~~
   - [X] ~~Taisykles perkelt i nauja skyriu~~
-  - [ ] Detaliau isnagrinet taisykles
+  - [X] ~~Detaliau isnagrinet taisykles~~
   - [ ] Koda perrasyt Latexe
+    - O gal nereikia kodo pavyzdziu? Abstraktus kodo pavyzdziai taisyklese yra.  
 - [ ] Elixir
   - [ ] Daugiau pradzioj parasyt (Why functional, why actor model, why distributed computing, why not erlang, etc.)
   - [ ] Elixir panaudot distributed kodo konstruktus (pvz. sito algoritmo https://github.com/kape1395/wasper)
@@ -21,3 +22,4 @@
 - [ ] Conclusions
   - [ ] "is pretty straightforward"
 - [X] ~~Paklaust V. Pozdniakov del sugeneruoto modelio pilnumo irodymo~~
+- [ ] Panagrinet V. Pozdniakov atsiusta straipsni
