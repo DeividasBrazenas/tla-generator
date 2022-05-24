@@ -11,7 +11,7 @@
   - [ ] Koda perrasyt Latexe
     - O gal nereikia kodo pavyzdziu? Abstraktus kodo pavyzdziai taisyklese yra.  
 - [ ] Elixir
-  - [ ] Daugiau pradzioj parasyt (Why functional, why actor model, why distributed computing, why not erlang, etc.)
+  - [X] Daugiau pradzioj parasyt (Why functional, why actor model, why distributed computing, why not erlang, etc.)
   - [ ] Elixir panaudot distributed kodo konstruktus (pvz. sito algoritmo https://github.com/kape1395/wasper)
   - [ ] AST sutrumpint gerokai
 - [ ] TLA
