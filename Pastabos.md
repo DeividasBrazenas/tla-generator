@@ -17,8 +17,8 @@
   - [ ] Pagrazint syntax highlightinima Elixir'o
 - [ ] TLA
   - [ ] Overview zodi pavadinime pakeist
-  - [ ] defined by: ir where: istrint dvitaski (turi skaitytis kaip sakinys)
-  - [ ] "and the Fairness constraints" istrint
+  - [X] ~~defined by: ir where: istrint dvitaski (turi skaitytis kaip sakinys)~~
+  - [X] ~~"and the Fairness constraints" istrint~~
   - [ ] Panagrinet "Round" specifikacija is paskaitu
 - [ ] Conclusions
   - [ ] "is pretty straightforward"
