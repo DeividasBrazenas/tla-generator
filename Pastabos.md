@@ -15,12 +15,12 @@
   - [X] ~~Elixir panaudot distributed kodo konstruktus (pvz. sito algoritmo https://github.com/kape1395/wasper)~~
   - [X] ~~AST sutrumpint gerokai~~
   - [ ] Pagrazint syntax highlightinima Elixir'o
-- [ ] TLA
-  - [ ] Overview zodi pavadinime pakeist
+- [X] ~~TLA~~
+  - [X] ~~Overview zodi pavadinime pakeist~~
   - [X] ~~defined by: ir where: istrint dvitaski (turi skaitytis kaip sakinys)~~
   - [X] ~~"and the Fairness constraints" istrint~~
-  - [ ] Panagrinet "Round" specifikacija is paskaitu
-- [ ] Conclusions
-  - [ ] "is pretty straightforward"
+  - [X] ~~Panagrinet "Round" specifikacija is paskaitu~~
+- [X] ~~Conclusions~~
+  - [X] ~~"is pretty straightforward"~~
 - [X] ~~Paklaust V. Pozdniakov del sugeneruoto modelio pilnumo irodymo~~
 - [ ] Panagrinet V. Pozdniakov atsiusta straipsni
