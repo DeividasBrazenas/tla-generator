@@ -22,5 +22,4 @@
   - [X] ~~Panagrinet "Round" specifikacija is paskaitu~~
 - [X] ~~Conclusions~~
   - [X] ~~"is pretty straightforward"~~
-- [X] ~~Paklaust V. Pozdniakov del sugeneruoto modelio pilnumo irodymo~~
-- [ ] Panagrinet V. Pozdniakov atsiusta straipsni
+- [X] ~~Pasidomet apie sugeneruoto modelio teisingumo tikrinima~~
