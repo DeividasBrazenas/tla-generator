@@ -1,6 +1,6 @@
 ## 2022-05-13
 - [X] ~~Pavadinima patikslin i Elixir~~
-- [ ] Pagerint paveiksleliu raiska
+- [X] ~~Pagerint paveiksleliu raiska~~
 - [X] ~~Kai kurie citavimo ar paveiksleliu referencai neegzistuoja~~
 - [X] ~~Fig. -> Figure~~
 - [X] ~~Paveiksleliu citavimas toje pacioje, o ne naujoje eiluteje~~
