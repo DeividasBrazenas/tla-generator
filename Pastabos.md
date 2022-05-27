@@ -14,7 +14,6 @@
   - [X] ~~Daugiau pradzioj parasyt (Why functional, why actor model, why distributed computing, why not erlang, etc.)~~
   - [X] ~~Elixir panaudot distributed kodo konstruktus (pvz. sito algoritmo https://github.com/kape1395/wasper)~~
   - [X] ~~AST sutrumpint gerokai~~
-  - [ ] Pagrazint syntax highlightinima Elixir'o
 - [X] ~~TLA~~
   - [X] ~~Overview zodi pavadinime pakeist~~
   - [X] ~~defined by: ir where: istrint dvitaski (turi skaitytis kaip sakinys)~~
