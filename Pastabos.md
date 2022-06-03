@@ -22,3 +22,15 @@
 - [X] ~~Conclusions~~
   - [X] ~~"is pretty straightforward"~~
 - [X] ~~Pasidomet apie sugeneruoto modelio teisingumo tikrinima~~
+
+## 2022-05-31
+- [ ] LT pavadinimas
+- [ ] Pirmam psl. ner lietuvisku raidziu
+- [ ] Po paveiksleliu pavadinimu det "."
+- [ ] Parasyt apie dingstancia informacija decodinimo ir slicinimo metu (komentarai, etc.)
+- [ ] Source kodo ir sugeneruoto kodo ekvivalentumo irodymas (e.g. Galois Connections, adjuncts)
+- [ ] Necituot Wasper
+- [ ] Patvarkyt kodo wrappinima
+- [ ] Parasyt, kad repo nera public at the time of writing
+- [ ] Conclusione 3 punktas nerimtas
+- [ ] Conclusione `will try` -> `plan`
