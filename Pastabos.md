@@ -22,13 +22,13 @@
 - [X] ~~Pasidomet apie sugeneruoto modelio teisingumo tikrinima~~
 
 ## 2022-05-31
-- [ ] LT pavadinimas
-- [ ] Pirmam psl. ner lietuvisku raidziu
-- [ ] Po paveiksleliu pavadinimu det "."
-- [ ] Parasyt apie dingstancia informacija decodinimo ir slicinimo metu (komentarai, etc.)
+- [X] ~~LT pavadinimas~~
+- [X] ~~Pirmam psl. ner lietuvisku raidziu~~
+- [X] ~~Po paveiksleliu pavadinimu det "."~~
+- [X] ~~Parasyt apie dingstancia informacija decodinimo ir slicinimo metu (komentarai, etc.)~~
 - [ ] Source kodo ir sugeneruoto kodo ekvivalentumo irodymas (e.g. Galois Connections, adjuncts)
-- [ ] Necituot Wasper
-- [ ] Patvarkyt kodo wrappinima
-- [ ] Parasyt, kad repo nera public at the time of writing
-- [ ] Conclusione 3 punktas nerimtas
-- [ ] Conclusione `will try` -> `plan`
+- [X] ~~Parasyt, kad repo nera public at the time of writing~~
+- [X] ~~Necituot Wasper~~
+- [X] ~~Patvarkyt kodo wrappinima~~
+- [X] ~~Conclusione 3 punktas nerimtas~~
+- [X] ~~Conclusione `will try` -> `plan`~~
