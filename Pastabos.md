@@ -26,7 +26,7 @@
 - [X] ~~Pirmam psl. ner lietuvisku raidziu~~
 - [X] ~~Po paveiksleliu pavadinimu det "."~~
 - [X] ~~Parasyt apie dingstancia informacija decodinimo ir slicinimo metu (komentarai, etc.)~~
-- [ ] Source kodo ir sugeneruoto kodo ekvivalentumo irodymas (e.g. Galois Connections, adjuncts)
+- [X] ~~Source kodo ir sugeneruoto kodo ekvivalentumo irodymas (e.g. Galois Connections, adjuncts)~~
 - [X] ~~Parasyt, kad repo nera public at the time of writing~~
 - [X] ~~Necituot Wasper~~
 - [X] ~~Patvarkyt kodo wrappinima~~
