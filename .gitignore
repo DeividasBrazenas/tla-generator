@@ -30,3 +30,6 @@ tla_generator-*.tar
 
 # Private files of applications
 **/priv
+
+# TLA+ toolbox files
+**/*.toolbox/*
