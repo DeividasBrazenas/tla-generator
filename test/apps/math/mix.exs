@@ -1,9 +1,9 @@
-defmodule Tla.Generator.MixProject do
+defmodule Math.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :tla_generator,
+      app: :math,
       version: "0.1.0",
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
@@ -21,10 +21,7 @@ defmodule Tla.Generator.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
-      {:typed_struct, "~> 0.2.1"}
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+      {:tla_generator, path: "../../.."}
     ]
   end
 end

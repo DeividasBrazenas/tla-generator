@@ -50,3 +50,6 @@ be found at [https://hexdocs.pm/tla_generator](https://hexdocs.pm/tla_generator)
 
   * Function clause ordering could be modelled by adding inverted conditions
     for all the subsequent clauses.
+    
+  * Make an GCD example.
+

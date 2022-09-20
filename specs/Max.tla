@@ -1,5 +1,5 @@
 -------------------------------- MODULE Max --------------------------------
-EXTENDS Naturals, TLAPS
+EXTENDS Naturals, TlaPS
 
 (*
 Assume this spec is writted by a user.
