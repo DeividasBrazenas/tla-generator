@@ -1,4 +1,4 @@
-defmodule Tla.PlusCalGenerator do
+defmodule PlusCal.Generator do
   @spec generate(String.t(), String.t(), List[atom()]) :: List[String.t()]
   def generate(module_name, input_file_path, generation_defs) do
     {_, ast} =
@@ -8,7 +8,7 @@ defmodule Tla.PlusCalGenerator do
 
     tla =
       [getHeader(module_name)] ++
-        Tla.Generator.PlusCalBody.get(module_name, generation_defs, ast) ++
+        PlusCal.Generator.Body.get(module_name, generation_defs, ast) ++
         [getFooter(module_name)]
 
     Enum.join(tla, "\n")

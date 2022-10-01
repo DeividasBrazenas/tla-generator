@@ -1,4 +1,4 @@
-defmodule Tla.Generator.PlusCalBody do
+defmodule PlusCal.Generator.Body do
   @spec get(String.t(), List[atom()], any()) :: List[String.t()]
   def get(module_name, generation_defs, ast) do
     specs =
@@ -7,6 +7,7 @@ defmodule Tla.Generator.PlusCalBody do
 
     functions = Tla.Generator.Models.Function.get(specs, ast)
     IO.inspect(functions)
+
     body =
       [get_extensions(specs)] ++
         [get_constants(functions)] ++
@@ -89,13 +90,13 @@ defmodule Tla.Generator.PlusCalBody do
     procedures =
       funcs
       |> Enum.flat_map(fn func -> get_algorithm_procedure(func) ++ [""] end)
-
+    IO.inspect(procedures)
     procedures
   end
 
   @spec get_algorithm_procedure(Tla.Generator.Models.Function.t()) :: List[String.t()]
   defp get_algorithm_procedure(
-         %Tla.Generator.Models.Function{spec: spec, arguments: arguments, cases: cases} = func
+         %Tla.Generator.Models.Function{spec: spec, arguments: arguments, cases: cases}
        ) do
 
     procedure =
