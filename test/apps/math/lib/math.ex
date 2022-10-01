@@ -1,6 +1,5 @@
 defmodule Math do
-  use Tla.Extractor
-  @tla_generation_type :operation
+  use PlusCal.Extractor
 
   @tla_generation_defs :min
   @spec min(integer(), integer()) :: integer()

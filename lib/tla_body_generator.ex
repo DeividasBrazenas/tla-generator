@@ -6,6 +6,7 @@ defmodule Tla.Generator.Body do
       |> Enum.filter(fn spec -> Enum.member?(generation_defs, spec.name) end)
 
     functions = Tla.Generator.Models.Function.get(specs, ast)
+    IO.inspect(functions)
     body = get_tla_extensions(specs) ++ get_tla_functions(functions)
     body
   end

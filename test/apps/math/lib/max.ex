@@ -1,6 +1,5 @@
 defmodule Max do
-  use Tla.Extractor
-  @tla_generation_type :operation
+  use PlusCal.Extractor
 
   @tla_generation_defs :max
   @spec max(integer(), integer()) :: integer()
