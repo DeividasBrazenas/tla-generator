@@ -78,8 +78,20 @@ defmodule Generators.PlusCal.Algorithm.Procedure do
       ["#{Indent.build(indent_level)}#{condition_keyword}"]
     else
       [
-        "#{Indent.build(indent_level)}#{condition_keyword} #{condition.left_operand} #{condition.operator} #{condition.right_operand} then"
+        "#{Indent.build(indent_level)}#{condition_keyword} #{condition.left_operand} #{get_pluscal_operator(condition.operator)} #{condition.right_operand} then"
       ]
+    end
+  end
+
+  @spec get_pluscal_operator(atom()) :: String.t()
+  defp get_pluscal_operator(operator) do
+    case operator do
+      :== -> "="
+      :!= -> "#"
+      :< -> "<"
+      :> -> ">"
+      :<= -> "<="
+      :>= -> ">="
     end
   end
 
