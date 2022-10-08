@@ -14,9 +14,11 @@ defmodule Models.Action.Return.Function do
   @impl Models.Action
   # Should be Models.Action.If.t()
   @spec parse_action(Models.Function.Case.Metadata.t(), any()) :: any()
-  def parse_action(_, do: {_function_name, _, _arguments} = function_call_ast) do
+  def parse_action(_, return_ast) do
+    function_call = Macro.to_string(return_ast)
+
     action = %Models.Action.Return.Function{
-      function_call: Macro.to_string(function_call_ast)
+      function_call: function_call
     }
 
     action

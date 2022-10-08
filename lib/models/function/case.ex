@@ -10,7 +10,6 @@ defmodule Models.Function.Case do
   end
 
   def parse_case(metadata, body_ast) do
-    IO.inspect(body_ast)
     fn_case = %Models.Function.Case{
       metadata: metadata,
       actions: Models.Action.parse_actions(metadata, body_ast)

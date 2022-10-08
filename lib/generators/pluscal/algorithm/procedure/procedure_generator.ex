@@ -29,11 +29,13 @@ defmodule Generators.PlusCal.Algorithm.Procedure do
 
   @spec generate_body(List[Models.Function.Case.t()], Integer.t()) :: List[String.t()]
   defp generate_body(cases, indent_level) do
-    if length(cases) > 1 do
+    cases_count = length(cases)
+
+    if cases_count > 1 do
       {generated_cases, _} =
         cases
         |> Enum.flat_map_reduce(1, fn fn_case, fn_case_number ->
-          generated_case = generate_case(fn_case, fn_case_number, indent_level)
+          generated_case = generate_case(fn_case, fn_case_number, cases_count, indent_level)
           {generated_case, fn_case_number + 1}
         end)
 
@@ -43,18 +45,31 @@ defmodule Generators.PlusCal.Algorithm.Procedure do
 
       body
     else
-      generate_case(List.first(cases), 1, indent_level)
+      generate_case(List.first(cases), 1, cases_count, indent_level)
     end
   end
 
-  @spec generate_case(Models.Function.Case.t(), Integer.t(), Integer.t()) ::
+  @spec generate_case(Models.Function.Case.t(), Integer.t(), Integer.t(), Integer.t()) ::
           List[String.t()]
-  defp generate_case(fn_case, case_number, indent_level) do
+  defp generate_case(fn_case, case_number, cases_count, indent_level) do
+    generated_condition =
+      case cases_count do
+        #
+        1 -> [] # Only one case in function, so no need to generate condition
+        _ -> generate_condition(fn_case.metadata.condition, case_number, indent_level)
+      end
+
+    new_indent_level =
+      case generated_condition do
+        [] -> indent_level # There's no condition label, so no need to increase indent
+        _ -> indent_level + 1
+      end
+
     generated_case =
-      generate_condition(fn_case.metadata.condition, case_number, indent_level) ++
+      generated_condition ++
         Generators.PlusCal.Algorithm.Procedure.Action.generate_actions(
           fn_case.actions,
-          indent_level + 1
+          new_indent_level
         )
 
     generated_case
@@ -78,27 +93,15 @@ defmodule Generators.PlusCal.Algorithm.Procedure do
       ["#{Indent.build(indent_level)}#{condition_keyword}"]
     else
       [
-        "#{Indent.build(indent_level)}#{condition_keyword} #{condition.left_operand} #{get_pluscal_operator(condition.operator)} #{condition.right_operand} then"
+        "#{Indent.build(indent_level)}#{condition_keyword} #{Generators.Common.Condition.generate_condition(condition)} then"
       ]
-    end
-  end
-
-  @spec get_pluscal_operator(atom()) :: String.t()
-  defp get_pluscal_operator(operator) do
-    case operator do
-      :== -> "="
-      :!= -> "#"
-      :< -> "<"
-      :> -> ">"
-      :<= -> "<="
-      :>= -> ">="
     end
   end
 
   @spec generate_header(Models.Function.Spec.t(), List[Models.Function.Case.t()], Integer.t()) ::
           List[String.t()]
   defp generate_header(spec, cases, indent_level) do
-    arguments = Commons.ArgumentHelpers.get_arguments(cases)
+    arguments = Generators.Common.Argument.get_arguments(cases)
 
     header =
       [

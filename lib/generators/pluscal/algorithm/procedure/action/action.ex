@@ -7,6 +7,7 @@ defmodule Generators.PlusCal.Algorithm.Procedure.Action do
       action_models
       |> Enum.flat_map(fn action ->
         case action do
+          %Models.Action.If{} -> Generators.PlusCal.Algorithm.Procedure.Action.If.generate_action(action, indent_level)
           %Models.Action.Return.Value{} -> Generators.PlusCal.Algorithm.Procedure.Action.Return.Value.generate_action(action, indent_level)
           %Models.Action.Return.Function{} -> Generators.PlusCal.Algorithm.Procedure.Action.Return.Function.generate_action(action, indent_level)
         end

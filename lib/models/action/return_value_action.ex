@@ -12,9 +12,8 @@ defmodule Models.Action.Return.Value do
   end
 
   @impl Models.Action
-  # Should be Models.Action.If.t()
   @spec parse_action(Models.Function.Case.Metadata.t(), any()) :: any()
-  def parse_action(metadata, do: {value, _, nil}) do
+  def parse_action(metadata, {value, _, nil}) do
     action = %Models.Action.Return.Value{
       value: value,
       function_name: metadata.name

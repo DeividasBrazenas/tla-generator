@@ -15,6 +15,7 @@ defmodule Models.Function do
     {_, all_definitions} = Macro.postwalk(ast, [], &get_function_definitions/2)
 
     IO.inspect(all_definitions)
+
     functions =
       specs
       |> Enum.map(fn spec ->

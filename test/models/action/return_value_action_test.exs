@@ -5,7 +5,7 @@ defmodule Models.Action.Return.Value.Test do
   describe "return value action" do
     test "is parsed" do
       # Arrange
-      ast_token = [do: {:b, [line: 6], nil}]
+      ast_token = {:b, [line: 6], nil}
       metadata = %Models.Function.Case.Metadata{
         name: :max
       }

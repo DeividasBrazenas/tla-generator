@@ -6,9 +6,13 @@ defmodule Max do
   def max(a, b) when a < b, do: b
   def max(a, _), do: a
 
-  @spec foo(integer(), integer()) :: integer()
-  def foo(a, b) when a < b, do: b
-
-  @spec bar(integer(), integer()) :: integer()
-  def bar(a, b) when a < b, do: b
+  @tla_generation_defs :max_v2
+  @spec max_v2(integer(), integer()) :: integer()
+  def max_v2(a, b) do
+    if a > b do
+      a
+    else
+      b
+    end
+  end
 end

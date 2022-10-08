@@ -1,4 +1,4 @@
-defmodule Commons.ArgumentHelpers do
+defmodule Generators.Common.Argument do
   # Returns arguments from a case that has all arguments
   @spec get_arguments(List[Models.Function.Case.t()]) :: List[atom()]
   def get_arguments(cases) do
