@@ -8,9 +8,9 @@ CONSTANTS in_a, in_b
 procedure gcd(a, b)
 begin
   gcd:
-    if (a < b) then
+    if a < b then
       call gcd(a, b - a)
-    elsif (a > b) then
+    elsif a > b then
       call gcd(a - b, b)
     else
       result := a;
@@ -24,7 +24,7 @@ begin
             call gcd(in_a, in_b)
         end if;
 end algorithm;*)
-\* BEGIN TRANSLATION (chksum(pcal) = "e1d79777" /\ chksum(tla) = "ce0b4c10")
+\* BEGIN TRANSLATION (chksum(pcal) = "cf1fdc83" /\ chksum(tla) = "7b8fd0e5")
 \* Label gcd of procedure gcd at line 11 col 5 changed to gcd_
 \* Label gcd at line 23 col 9 changed to gcd_1
 CONSTANT defaultInitValue
@@ -41,7 +41,7 @@ Init == (* Global variables *)
         /\ pc = "gcd_1"
 
 gcd_ == /\ pc = "gcd_"
-        /\ IF (a < b)
+        /\ IF a < b
               THEN /\ /\ a' = a
                       /\ b' = b - a
                       /\ stack' = << [ procedure |->  "gcd",
@@ -51,7 +51,7 @@ gcd_ == /\ pc = "gcd_"
                                    \o stack
                    /\ pc' = "gcd_"
                    /\ UNCHANGED result
-              ELSE /\ IF (a > b)
+              ELSE /\ IF a > b
                          THEN /\ /\ a' = a - b
                                  /\ b' = b
                                  /\ stack' = << [ procedure |->  "gcd",

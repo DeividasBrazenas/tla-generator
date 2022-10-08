@@ -1,5 +1,5 @@
 defmodule Min do
-  use PlusCal.Extractor
+  use Extractors.PlusCal
 
   @tla_generation_defs :min
   @spec min(integer(), integer()) :: integer()

@@ -1,11 +1,11 @@
 # See example: https://elixirforum.com/t/order-of-execution-of-on-definition-before-compile-and-after-compile/38465
-defmodule PlusCal.Extractor do
+defmodule Extractors.PlusCal do
   @tla2tools_path "C:/TLA+/toolbox/tla2tools.jar"
 
   defmacro __using__(_opts) do
     quote do
       Module.register_attribute(__MODULE__, :tla_generation_defs, accumulate: true, persist: true)
-      @after_compile PlusCal.Extractor
+      @after_compile Extractors.PlusCal
     end
   end
 
@@ -40,7 +40,7 @@ defmodule PlusCal.Extractor do
     tla_generation_defs = Keyword.get_values(attributes, :tla_generation_defs)
     IO.inspect(tla_generation_defs)
     # For TLA to be generated, generation type and defs to generate should be defined
-    result = PlusCal.Generator.generate(module_name, file_path, tla_generation_defs)
+    result = Generators.PlusCal.generate_module(module_name, file_path, tla_generation_defs)
 
     file_name = "#{module_name}.tla"
     result_folder =

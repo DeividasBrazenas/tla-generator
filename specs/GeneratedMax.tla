@@ -1,30 +1,30 @@
----------------------------- MODULE GeneratedMax ----------------------------
+------------------------------ MODULE GeneratedMax ------------------------------
 EXTENDS Naturals, Sequences
 CONSTANTS in_a, in_b
 
 (*--algorithm Max
+  variables result_max
 
-variable result
+  procedure generated_max(a, b)
+  begin
+    generated_max:
+      if a < b do
+        result_max := b;
+        return;
+      else
+        result_max := a;
+        return;
+      end if;
+  end procedure
 
-procedure GeneratedMax(a, b)
-begin
-  GeneratedMax:
-    if a > b then 
-      result := a;
-    else
-      result := b;
-    end if;
-    return;
-end procedure
-
-begin
-    Max:
-        if result = defaultInitValue then
-            call GeneratedMax(in_a, in_b)
-        end if;
+  begin
+    max:
+      if result_max = defaultInitValue then
+        call generated_max(a, b)
+      end if;
 end algorithm; *)
-
-\* BEGIN TRANSLATION (chksum(pcal) = "b268d7d4" /\ chksum(tla) = "3d07c98c")
+========================================================================
+\* BEGIN TRANSLATION (chksum(pcal) = "e1fa09e1" /\ chksum(tla) = "c0d55f01")
 \* Label GeneratedMax of procedure GeneratedMax at line 12 col 5 changed to GeneratedMax_
 CONSTANT defaultInitValue
 VARIABLES result, pc, stack, a, b
@@ -42,11 +42,15 @@ Init == (* Global variables *)
 GeneratedMax_ == /\ pc = "GeneratedMax_"
                  /\ IF a > b
                        THEN /\ result' = a
+                            /\ pc' = Head(stack).pc
+                            /\ a' = Head(stack).a
+                            /\ b' = Head(stack).b
+                            /\ stack' = Tail(stack)
                        ELSE /\ result' = b
-                 /\ pc' = Head(stack).pc
-                 /\ a' = Head(stack).a
-                 /\ b' = Head(stack).b
-                 /\ stack' = Tail(stack)
+                            /\ pc' = Head(stack).pc
+                            /\ a' = Head(stack).a
+                            /\ b' = Head(stack).b
+                            /\ stack' = Tail(stack)
 
 GeneratedMax == GeneratedMax_
 

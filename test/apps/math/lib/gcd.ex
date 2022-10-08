@@ -1,5 +1,5 @@
 defmodule Gcd do
-  use PlusCal.Extractor
+  use Extractors.PlusCal
 
   @tla_generation_defs :gcd
   @spec gcd(integer(), integer()) :: integer()
