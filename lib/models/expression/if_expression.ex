@@ -13,7 +13,7 @@ defmodule Models.Expression.If do
   end
 
   @impl Models.Expression
-  @spec parse_expression(Models.Function.Case.Metadata.t(), any()) :: any()
+  @spec parse_expression(Models.Function.Clause.Metadata.t(), any()) :: any()
   def parse_expression(metadata, {:if, _, [condition, expressions_ast]}) do
     {do_expressions, else_expressions} = get_inner_expressions(metadata, expressions_ast)
 
@@ -26,7 +26,7 @@ defmodule Models.Expression.If do
     expression
   end
 
-  @spec get_inner_expressions(Models.Function.Case.Metadata.t(), any()) ::
+  @spec get_inner_expressions(Models.Function.Clause.Metadata.t(), any()) ::
           {List[Models.Expression.t()], List[Models.Expression.t()]}
   defp get_inner_expressions(metadata, [do_ast, else_ast]) do
     do_expressions = Models.Expression.parse_expressions(metadata, [do_ast])

@@ -6,7 +6,7 @@ defmodule Models.Expression.Test do
     test "are parsed" do
       # Arrange
       ast_token = [do: {:b, [line: 6], nil}]
-      metadata = %Models.Function.Case.Metadata{
+      metadata = %Models.Function.Clause.Metadata{
         name: :max
       }
       # Act

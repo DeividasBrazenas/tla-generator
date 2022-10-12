@@ -6,7 +6,7 @@ defmodule Models.Function do
 
   typedstruct do
     field(:spec, Models.Function.Spec.t(), default: nil)
-    field(:cases, List[Models.Function.Case.t()], default: [])
+    field(:clauses, List[Models.Function.Clause.t()], default: [])
   end
 
   @doc "Parses all functions of the AST"
@@ -25,15 +25,15 @@ defmodule Models.Function do
             metadata.name === spec.name
           end)
 
-        cases =
+        clauses =
           function_definitions
           |> Enum.map(fn {metadata, body_ast} ->
-            Models.Function.Case.parse_case(metadata, body_ast)
+            Models.Function.Clause.parse_clause(metadata, body_ast)
           end)
 
         function = %Models.Function{
           spec: spec,
-          cases: cases
+          clauses: clauses
         }
 
         function
@@ -45,7 +45,7 @@ defmodule Models.Function do
   # "Returns all defined functions"
   @spec get_function_definitions(any(), List[any()]) :: {any(), List[any()]}
   defp get_function_definitions({:def, _, [metadata_ast, body_ast]} = node, acc) do
-    metadata = Models.Function.Case.Metadata.parse_metadata(metadata_ast)
+    metadata = Models.Function.Clause.Metadata.parse_metadata(metadata_ast)
     {node, acc ++ [{metadata, body_ast}]}
   end
 

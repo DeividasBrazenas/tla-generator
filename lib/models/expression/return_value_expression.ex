@@ -12,7 +12,7 @@ defmodule Models.Expression.Return.Value do
   end
 
   @impl Models.Expression
-  @spec parse_expression(Models.Function.Case.Metadata.t(), any()) :: any()
+  @spec parse_expression(Models.Function.Clause.Metadata.t(), any()) :: any()
   def parse_expression(metadata, {value, _, nil}) do
     expression = %Models.Expression.Return.Value{
       value: value,

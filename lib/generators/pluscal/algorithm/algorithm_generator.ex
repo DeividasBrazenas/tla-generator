@@ -29,7 +29,7 @@ defmodule Generators.PlusCal.Algorithm do
 
   @spec generate_main_body_for_function(Models.Function.t(), Integer.t()) :: List[String.t()]
   defp generate_main_body_for_function(function, indent_level) do
-    arguments = Generators.Common.Argument.get_arguments(function.cases)
+    arguments = Generators.Common.Argument.get_arguments(function.clauses)
 
     function_body =
       ["#{Indent.build(indent_level + 1)}#{function.spec.name}:"] ++

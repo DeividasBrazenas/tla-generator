@@ -13,7 +13,7 @@ defmodule Models.Expression.Return.Function do
 
   @impl Models.Expression
   # Should be Models.Expression.If.t()
-  @spec parse_expression(Models.Function.Case.Metadata.t(), any()) :: any()
+  @spec parse_expression(Models.Function.Clause.Metadata.t(), any()) :: any()
   def parse_expression(_, return_ast) do
     function_call = Macro.to_string(return_ast)
 

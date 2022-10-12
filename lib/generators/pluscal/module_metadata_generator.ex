@@ -29,7 +29,7 @@ defmodule Generators.PlusCal.Module.Metadata do
     arguments =
       functions
       |> Enum.flat_map(fn func ->
-        Enum.flat_map(func.cases, fn c -> c.metadata.arguments end)
+        Enum.flat_map(func.clauses, fn c -> c.metadata.arguments end)
       end)
       |> Enum.filter(fn arg -> !String.starts_with?(Atom.to_string(arg), "_") end)
       |> Enum.uniq()

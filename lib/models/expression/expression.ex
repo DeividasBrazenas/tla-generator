@@ -10,10 +10,10 @@ defmodule Models.Expression do
   end
 
   # Should be Models.Expression.t()
-  @callback parse_expression(Models.Function.Case.Metadata.t(), any()) :: any()
+  @callback parse_expression(Models.Function.Clause.Metadata.t(), any()) :: any()
 
   # Should be List[Models.Expression.t()]
-  @spec parse_expressions(Models.Function.Case.Metadata.t(), any()) :: List[any()]
+  @spec parse_expressions(Models.Function.Clause.Metadata.t(), any()) :: List[any()]
   def parse_expressions(metadata, body_ast) do
     IO.inspect(metadata)
 

@@ -1,4 +1,4 @@
-defmodule Models.Function.Case.Metadata do
+defmodule Models.Function.Clause.Metadata do
   @moduledoc """
   Module defining the function's metadata
   """
@@ -11,11 +11,11 @@ defmodule Models.Function.Case.Metadata do
   end
 
   @doc """
-  Parses the metadata of function's case
+  Parses the metadata of function's clause
   """
-  @spec parse_metadata(any()) :: Models.Function.Case.Metadata.t()
+  @spec parse_metadata(any()) :: Models.Function.Clause.Metadata.t()
   def parse_metadata({:when, _, [{name, _, arguments}, condition_ast]}) do
-    metadata = %Models.Function.Case.Metadata{
+    metadata = %Models.Function.Clause.Metadata{
       name: name,
       arguments: Enum.map(arguments, fn {argument, _, _} -> argument end),
       condition: Models.Common.Condition.parse_condition(condition_ast)
@@ -25,7 +25,7 @@ defmodule Models.Function.Case.Metadata do
   end
 
   def parse_metadata({name, _, arguments}) do
-    metadata = %Models.Function.Case.Metadata{
+    metadata = %Models.Function.Clause.Metadata{
       name: name,
       arguments: Enum.map(arguments, fn {argument, _, _} -> argument end),
       condition: nil

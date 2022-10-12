@@ -1,6 +1,6 @@
-defmodule Models.Function.Case.Metadata.Tests do
+defmodule Models.Function.Clause.Metadata.Tests do
   use ExUnit.Case
-  doctest Models.Function.Case.Metadata
+  doctest Models.Function.Clause.Metadata
 
   describe "metadata" do
     test "is parsed with condition" do
@@ -8,7 +8,7 @@ defmodule Models.Function.Case.Metadata.Tests do
       ast_token = {:when, [line: 6], [{:max, [line: 6], [{:a, [line: 6], nil}, {:b, [line: 6], nil}]}, {:<, [line: 6], [{:a, [line: 6], nil}, {:b, [line: 6], nil}]}]}
 
       # Act
-      metadata = Models.Function.Case.Metadata.parse_metadata(ast_token)
+      metadata = Models.Function.Clause.Metadata.parse_metadata(ast_token)
 
       # Assert
       assert metadata.name == :max
@@ -23,7 +23,7 @@ defmodule Models.Function.Case.Metadata.Tests do
       ast_token = {:max, [line: 7], [{:a, [line: 7], nil}, {:b, [line: 7], nil}]}
 
       # Act
-      metadata = Models.Function.Case.Metadata.parse_metadata(ast_token)
+      metadata = Models.Function.Clause.Metadata.parse_metadata(ast_token)
 
       # Assert
       assert metadata.name == :max
