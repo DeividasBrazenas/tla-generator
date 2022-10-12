@@ -1,6 +1,6 @@
 defmodule Models.Common.Condition do
   @moduledoc """
-  Module defining a condition for action
+  Module defining a condition for expression
   """
   use TypedStruct
 

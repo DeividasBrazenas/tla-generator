@@ -6,13 +6,13 @@ defmodule Models.Function.Case do
 
   typedstruct do
     field(:metadata, Models.Function.Case.Metadata, default: nil)
-    field(:actions, List[Models.Action.t()], default: [])
+    field(:expressions, List[Models.Expression.t()], default: [])
   end
 
   def parse_case(metadata, body_ast) do
     fn_case = %Models.Function.Case{
       metadata: metadata,
-      actions: Models.Action.parse_actions(metadata, body_ast)
+      expressions: Models.Expression.parse_expressions(metadata, body_ast)
     }
 
     fn_case

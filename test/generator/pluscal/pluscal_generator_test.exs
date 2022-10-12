@@ -3,25 +3,35 @@ defmodule Generators.PlusCal.Test do
   doctest Generators.PlusCal
 
   describe "generator" do
+    # test "generates min" do
+    #   module_name = "Min"
+    #   file_name = "min.ex"
+    #   generation_defs = [:min]
+
+    #   source_path = File.cwd!() |> Path.join("test/apps/math/lib") |> Path.join(file_name)
+
+    #   result = Generators.PlusCal.generate_module(module_name, source_path, generation_defs)
+    # end
+
     test "generates max" do
       module_name = "Max"
       file_name = "max.ex"
-      generation_defs = [:max]
+      generation_defs = [:max_v2]
 
       source_path = File.cwd!() |> Path.join("test/apps/math/lib") |> Path.join(file_name)
 
       result = Generators.PlusCal.generate_module(module_name, source_path, generation_defs)
     end
 
-    test "generates gcd" do
-      module_name = "Gcd"
-      file_name = "gcd.ex"
-      generation_defs = [:gcd]
+    # test "generates gcd" do
+    #   module_name = "Gcd"
+    #   file_name = "gcd.ex"
+    #   generation_defs = [:gcd]
 
-      source_path = File.cwd!() |> Path.join("test/apps/math/lib") |> Path.join(file_name)
+    #   source_path = File.cwd!() |> Path.join("test/apps/math/lib") |> Path.join(file_name)
 
-      result = Generators.PlusCal.generate_module(module_name, source_path, generation_defs)
-    end
+    #   result = Generators.PlusCal.generate_module(module_name, source_path, generation_defs)
+    # end
 
     # test "apps/math" do
     #   File.rm_rf!("test/apps/math/priv")

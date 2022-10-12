@@ -67,8 +67,8 @@ defmodule Generators.PlusCal.Algorithm.Procedure do
 
     generated_case =
       generated_condition ++
-        Generators.PlusCal.Algorithm.Procedure.Action.generate_actions(
-          fn_case.actions,
+        Generators.PlusCal.Algorithm.Procedure.Expression.generate_expressions(
+          fn_case.expressions,
           new_indent_level
         )
 

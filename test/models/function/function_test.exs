@@ -27,11 +27,11 @@ defmodule Models.Function.Tests do
       assert length(function.cases) == 2
       fn_case_1 =  Enum.at(function.cases, 0)
       assert fn_case_1.metadata != nil
-      assert fn_case_1.actions != nil
+      assert fn_case_1.expressions != nil
 
       fn_case_2 =  Enum.at(function.cases, 1)
       assert fn_case_2.metadata != nil
-      assert fn_case_2.actions != nil
+      assert fn_case_2.expressions != nil
     end
   end
 end
