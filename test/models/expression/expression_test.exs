@@ -10,7 +10,7 @@ defmodule Models.Expression.Test do
         name: :max
       }
       # Act
-      expressions = Models.Expression.parse_expressions(metadata, ast_token)
+      expressions = Models.Expression.parse_expressions(ast_token, metadata)
 
       # Assert
       assert length(expressions) == 1

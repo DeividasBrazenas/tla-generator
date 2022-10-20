@@ -13,9 +13,9 @@ defmodule Models.Expression.If do
   end
 
   @impl Models.Expression
-  @spec parse_expression(Models.Function.Clause.Metadata.t(), any()) :: any()
-  def parse_expression(metadata, {:if, _, [condition, expressions_ast]}) do
-    {do_expressions, else_expressions} = get_inner_expressions(metadata, expressions_ast)
+  @spec parse_expression(any(), Models.Function.Clause.Metadata.t()) :: Models.Expression.If.t()
+  def parse_expression({:if, _, [condition, expressions_ast]}, metadata) do
+    {do_expressions, else_expressions} = get_inner_expressions(expressions_ast, metadata)
 
     expression = %Models.Expression.If{
       condition: Models.Common.Condition.parse_condition(condition),
@@ -26,16 +26,16 @@ defmodule Models.Expression.If do
     expression
   end
 
-  @spec get_inner_expressions(Models.Function.Clause.Metadata.t(), any()) ::
+  @spec get_inner_expressions(any(), Models.Function.Clause.Metadata.t()) ::
           {List[Models.Expression.t()], List[Models.Expression.t()]}
-  defp get_inner_expressions(metadata, [do_ast, else_ast]) do
-    do_expressions = Models.Expression.parse_expressions(metadata, [do_ast])
-    else_expressions = Models.Expression.parse_expressions(metadata, [else_ast])
+  defp get_inner_expressions([do_ast, else_ast], metadata) do
+    do_expressions = Models.Expression.parse_expressions([do_ast], metadata)
+    else_expressions = Models.Expression.parse_expressions([else_ast], metadata)
     {do_expressions, else_expressions}
   end
 
-  defp get_inner_expressions(metadata, [do_ast]) do
-    do_expressions = Models.Expression.parse_expressions(metadata, [do_ast])
+  defp get_inner_expressions([do_ast], metadata) do
+    do_expressions = Models.Expression.parse_expressions([do_ast], metadata)
     {do_expressions, []}
   end
 end

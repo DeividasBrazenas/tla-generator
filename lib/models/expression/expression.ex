@@ -5,39 +5,37 @@ defmodule Models.Expression do
 
   use TypedStruct
 
-  typedstruct do
-    @typedoc "Type for a expression"
-  end
+  @type t() ::
+          Models.Expression.If.t()
+          | Models.Expression.Return.Function.t()
+          | Models.Expression.Return.Value.t()
 
-  # Should be Models.Expression.t()
-  @callback parse_expression(Models.Function.Clause.Metadata.t(), any()) :: any()
+  @callback parse_expression(any(), Models.Function.Clause.Metadata.t()) :: Models.Expression.t()
 
-  # Should be List[Models.Expression.t()]
-  @spec parse_expressions(Models.Function.Clause.Metadata.t(), any()) :: List[any()]
-  def parse_expressions(metadata, body_ast) do
-    IO.inspect(metadata)
-
+  @spec parse_expressions(any(), Models.Function.Clause.Metadata.t()) ::
+          List[Models.Expression.t()]
+  def parse_expressions(body_ast, metadata) do
     {_, expressions} =
       Macro.postwalk(body_ast, [], fn node, acc ->
         expression =
           case node do
             # Parse `if` expression
             {:if, _, _} = if_ast ->
-              Models.Expression.If.parse_expression(metadata, if_ast)
+              Models.Expression.If.parse_expression(if_ast, metadata)
 
             # Parse `return value` expression
             [do: {_value, _, nil} = return_value_ast] ->
-              Models.Expression.Return.Value.parse_expression(metadata, return_value_ast)
+              Models.Expression.Return.Value.parse_expression(return_value_ast, metadata)
 
             [else: {_value, _, nil} = return_value_ast] ->
-              Models.Expression.Return.Value.parse_expression(metadata, return_value_ast)
+              Models.Expression.Return.Value.parse_expression(return_value_ast, metadata)
 
             # Parse `return function` expression
             [do: {_function, _, [_, _]} = return_function_ast] ->
-              Models.Expression.Return.Function.parse_expression(metadata, return_function_ast)
+              Models.Expression.Return.Function.parse_expression(return_function_ast, metadata)
 
             [else: {_function, _, [_, _]} = return_function_ast] ->
-              Models.Expression.Return.Function.parse_expression(metadata, return_function_ast)
+              Models.Expression.Return.Function.parse_expression(return_function_ast, metadata)
 
             # None of expressions are matched
             _ ->

@@ -12,8 +12,8 @@ defmodule Models.Expression.Return.Value do
   end
 
   @impl Models.Expression
-  @spec parse_expression(Models.Function.Clause.Metadata.t(), any()) :: any()
-  def parse_expression(metadata, {value, _, nil}) do
+  @spec parse_expression(any(), Models.Function.Clause.Metadata.t()) :: Models.Expression.Return.Value.t()
+  def parse_expression({value, _, nil}, metadata) do
     expression = %Models.Expression.Return.Value{
       value: value,
       function_name: metadata.name
