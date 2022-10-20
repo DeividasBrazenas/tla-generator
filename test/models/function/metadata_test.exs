@@ -12,7 +12,7 @@ defmodule Models.Function.Clause.Metadata.Tests do
 
       # Assert
       assert metadata.name == :max
-      assert metadata.arguments == [:a, :b]
+      assert metadata.arguments == [%Models.Argument.Variable{name: :a}, %Models.Argument.Variable{name: :b}]
       assert metadata.condition.operator == :<
       assert metadata.condition.left_operand == :a
       assert metadata.condition.right_operand == :b
@@ -27,7 +27,7 @@ defmodule Models.Function.Clause.Metadata.Tests do
 
       # Assert
       assert metadata.name == :max
-      assert metadata.arguments == [:a, :b]
+      assert metadata.arguments == [%Models.Argument.Variable{name: :a}, %Models.Argument.Variable{name: :b}]
       assert metadata.condition == nil
     end
   end

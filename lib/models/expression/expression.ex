@@ -6,7 +6,7 @@ defmodule Models.Expression do
   use TypedStruct
 
   typedstruct do
-    @typedoc "Type for a condition"
+    @typedoc "Type for a expression"
   end
 
   # Should be Models.Expression.t()
