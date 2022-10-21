@@ -3,10 +3,12 @@ defmodule Generators.PlusCal.Algorithm.Procedure do
 
   @spec generate_procedures(List[Models.Function.t()], Integer.t()) :: List[String.t()]
   def generate_procedures(functions, indent_level) do
+    IO.inspect(functions)
+
     procedures =
       functions
       |> Enum.flat_map(fn function ->
-        procedure = generate_procedure(function.spec, function.clauses, indent_level)
+        procedure = generate_procedure(function, indent_level)
         procedure ++ [""]
       end)
 
@@ -14,13 +16,12 @@ defmodule Generators.PlusCal.Algorithm.Procedure do
     procedures
   end
 
-  @spec generate_procedure(Models.Function.Spec.t(), List[Models.Function.Clause.t()], Integer.t()) ::
-          List[String.t()]
-  defp generate_procedure(spec, clauses, indent_level) do
+  @spec generate_procedure(Models.Function.t(), Integer.t()) :: List[String.t()]
+  defp generate_procedure(function, indent_level) do
     procedure =
-      generate_header(spec, clauses, indent_level) ++
-        [generate_label(spec, indent_level + 1)] ++
-        generate_body(clauses, indent_level + 2) ++
+      generate_header(function, indent_level) ++
+        [generate_label(function.spec, indent_level + 1)] ++
+        generate_body(function.clauses, indent_level + 2) ++
         [generate_footer(indent_level)]
 
     IO.inspect(procedure)
@@ -35,7 +36,9 @@ defmodule Generators.PlusCal.Algorithm.Procedure do
       {generated_clauses, _} =
         clauses
         |> Enum.flat_map_reduce(1, fn fn_clause, fn_clause_number ->
-          generated_clause = generate_clause(fn_clause, fn_clause_number, clauses_count, indent_level)
+          generated_clause =
+            generate_clause(fn_clause, fn_clause_number, clauses_count, indent_level)
+
           {generated_clause, fn_clause_number + 1}
         end)
 
@@ -55,13 +58,15 @@ defmodule Generators.PlusCal.Algorithm.Procedure do
     generated_condition =
       case clauses_count do
         #
-        1 -> [] # Only one clause in function, so no need to generate condition
+        # Only one clause in function, so no need to generate condition
+        1 -> []
         _ -> generate_condition(fn_clause.metadata.condition, clause_number, indent_level)
       end
 
     new_indent_level =
       case generated_condition do
-        [] -> indent_level # There's no condition label, so no need to increase indent
+        # There's no condition label, so no need to increase indent
+        [] -> indent_level
         _ -> indent_level + 1
       end
 
@@ -98,14 +103,14 @@ defmodule Generators.PlusCal.Algorithm.Procedure do
     end
   end
 
-  @spec generate_header(Models.Function.Spec.t(), List[Models.Function.Clause.t()], Integer.t()) ::
-          List[String.t()]
-  defp generate_header(spec, clauses, indent_level) do
-    arguments = Generators.Common.Argument.get_arguments(clauses)
+  @spec generate_header(Models.Function.t(), Integer.t()) :: List[String.t()]
+  defp generate_header(function, indent_level) do
+    argument_names = Generators.Common.Argument.get_argument_names(function, "")
+    IO.inspect(argument_names)
 
     header =
       [
-        "#{Indent.build(indent_level)}procedure #{spec.name}(#{Enum.join(arguments, ", ")})"
+        "#{Indent.build(indent_level)}procedure #{function.spec.name}(#{Enum.join(argument_names, ", ")})"
       ] ++
         ["#{Indent.build(indent_level)}begin"]
 

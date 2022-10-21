@@ -29,7 +29,7 @@ defmodule Generators.PlusCal.Algorithm do
 
   @spec generate_main_body_for_function(Models.Function.t(), Integer.t()) :: List[String.t()]
   defp generate_main_body_for_function(function, indent_level) do
-    arguments = Generators.Common.Argument.get_arguments(function.clauses)
+    argument_names = Generators.Common.Argument.get_argument_names(function, "in_")
 
     function_body =
       ["#{Indent.build(indent_level + 1)}#{function.spec.name}:"] ++
@@ -37,7 +37,7 @@ defmodule Generators.PlusCal.Algorithm do
           "#{Indent.build(indent_level + 2)}if result_#{function.spec.name} = #{@tla_default_value_var} then"
         ] ++
         [
-          "#{Indent.build(indent_level + 3)}call #{function.spec.name}(#{Enum.join(arguments, ", ")})"
+          "#{Indent.build(indent_level + 3)}call #{function.spec.name}(#{Enum.join(argument_names, ", ")})"
         ] ++
         ["#{Indent.build(indent_level + 2)}end if;"]
 

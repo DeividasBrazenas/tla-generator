@@ -16,7 +16,7 @@ defmodule Models.Argument do
   @spec parse_argument(any()) :: Models.Argument.t()
   def parse_argument(argument_ast)
       when is_atom(argument_ast) or is_number(argument_ast) or is_binary(argument_ast),
-      do: Models.Argument.Constant.parse_argument(argument_ast, nil)
+      do: Models.Argument.Constant.parse_argument(argument_ast, %{name: nil})
 
   def parse_argument({argument_ast, _, nil}) do
     Models.Argument.Variable.parse_argument(argument_ast, nil)

@@ -8,13 +8,15 @@ defmodule Models.Argument.Constant do
 
   typedstruct do
     field(:value, any(), default: nil, enforce: true)
+    field(:name, atom(), default: nil)
   end
 
   @impl Models.Argument
   @spec parse_argument(any(), any()) :: Models.Argument.Constant.t()
-  def parse_argument(constant, _) do
+  def parse_argument(constant, %{name: name}) do
     argument = %Models.Argument.Constant{
-      value: constant
+      value: constant,
+      name: name
     }
 
     argument

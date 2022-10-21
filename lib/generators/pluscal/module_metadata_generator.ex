@@ -26,19 +26,16 @@ defmodule Generators.PlusCal.Module.Metadata do
 
   @spec generate_constants(List[Models.Function.t()]) :: String.t()
   def generate_constants(functions) do
-    arguments =
+    {_, input_arguments} =
       functions
-      |> Enum.flat_map(fn func ->
-        Enum.flat_map(func.clauses, fn c -> c.metadata.arguments end)
+      |> Enum.map_reduce([], fn func, acc ->
+        func_argument_names = Generators.Common.Argument.get_argument_names(func, "in_")
+
+        {func, acc ++ func_argument_names}
       end)
-      |> Enum.filter(fn arg -> !String.starts_with?(Atom.to_string(arg), "_") end)
-      |> Enum.uniq()
-      |> Enum.map(fn arg -> "in_#{arg}" end)
 
-    IO.inspect(arguments)
-
-    if length(arguments) > 0 do
-      "CONSTANTS #{Enum.join(arguments, ", ")}"
+    if length(input_arguments) > 0 do
+      "CONSTANTS #{Enum.join(input_arguments, ", ")}"
     else
       ""
     end
