@@ -21,4 +21,10 @@ defmodule Models.Argument.Constant do
 
     argument
   end
+
+  @impl Models.Argument
+  @spec has_constant(Models.Argument.Constant.t()) :: boolean()
+  def has_constant(_) do
+    true
+  end
 end

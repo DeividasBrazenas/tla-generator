@@ -55,12 +55,13 @@ defmodule Generators.PlusCal.Algorithm.Procedure do
   @spec generate_clause(Models.Function.Clause.t(), Integer.t(), Integer.t(), Integer.t()) ::
           List[String.t()]
   defp generate_clause(fn_clause, clause_number, clauses_count, indent_level) do
+    IO.inspect(fn_clause)
     generated_condition =
       case clauses_count do
         #
         # Only one clause in function, so no need to generate condition
         1 -> []
-        _ -> generate_condition(fn_clause.metadata.condition, clause_number, indent_level)
+        _ -> generate_condition(fn_clause.metadata, clause_number, indent_level)
       end
 
     new_indent_level =
@@ -81,14 +82,17 @@ defmodule Generators.PlusCal.Algorithm.Procedure do
   end
 
   @spec generate_condition(
-          Models.Common.Condition.t(),
+          Models.Function.Clause.Metadata.t(),
           Integer.t(),
           Integer.t()
         ) ::
           List[String.t()]
-  defp generate_condition(condition, clause_number, indent_level) do
+  defp generate_condition(metadata, clause_number, indent_level) do
+    IO.inspect(metadata)
+    arguments_with_constants = Models.Argument.get_arguments_with_constants(metadata.arguments)
+
     condition_keyword =
-      case {condition, clause_number} do
+      case {metadata.condition, clause_number} do
         {nil, _} -> "else"
         {_, 1} -> "if"
         {_, _} -> "elsif"
@@ -98,7 +102,7 @@ defmodule Generators.PlusCal.Algorithm.Procedure do
       ["#{Indent.build(indent_level)}#{condition_keyword}"]
     else
       [
-        "#{Indent.build(indent_level)}#{condition_keyword} #{Generators.Common.Condition.generate_condition(condition)} then"
+        "#{Indent.build(indent_level)}#{condition_keyword} #{Generators.Common.Condition.generate_condition(metadata.condition)} then"
       ]
     end
   end

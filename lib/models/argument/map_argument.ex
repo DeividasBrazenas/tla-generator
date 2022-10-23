@@ -7,7 +7,7 @@ defmodule Models.Argument.Map do
   use TypedStruct
 
   typedstruct do
-    field(:key_value_pairs, List[{atom(), any()}], default: nil, enforce: true)
+    field(:key_value_pairs, List[{atom(), Models.Argument.t()}], default: nil, enforce: true)
     field(:name, atom(), default: nil)
   end
 
@@ -26,5 +26,18 @@ defmodule Models.Argument.Map do
     }
 
     argument
+  end
+
+  @impl Models.Argument
+  @spec has_constant(Models.Argument.t()) :: boolean()
+  def has_constant(argument) do
+    {_, map_arguments} =
+      Enum.map_reduce(argument.key_value_pairs, [], fn {_, argument}, acc ->
+        {argument, acc ++ [argument]}
+      end)
+
+    constants = Models.Argument.get_arguments_with_constants(map_arguments)
+    has_constants = length(constants) > 0
+    has_constants
   end
 end

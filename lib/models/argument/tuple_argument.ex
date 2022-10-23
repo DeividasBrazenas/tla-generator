@@ -26,4 +26,12 @@ defmodule Models.Argument.Tuple do
 
     argument
   end
+
+  @impl Models.Argument
+  @spec has_constant(Models.Argument.Tuple.t()) :: boolean()
+  def has_constant(argument) do
+    constants = Models.Argument.get_arguments_with_constants(argument.arguments)
+    has_constants = length(constants) > 0
+    has_constants
+  end
 end

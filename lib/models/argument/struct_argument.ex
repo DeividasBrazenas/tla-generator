@@ -20,7 +20,7 @@ defmodule Models.Argument.Struct do
           name: name
         }
       ) do
-    arguments_map = Models.Argument.Map.parse_argument(arguments_map_ast, nil)
+    arguments_map = Models.Argument.Map.parse_argument(arguments_map_ast, %{name: nil})
 
     argument = %Models.Argument.Struct{
       name: name,
@@ -29,5 +29,12 @@ defmodule Models.Argument.Struct do
     }
 
     argument
+  end
+
+  @impl Models.Argument
+  @spec has_constant(Models.Argument.Struct.t()) :: boolean()
+  def has_constant(argument) do
+    has_constant = Models.Argument.Map.has_constant(argument.arguments)
+    has_constant
   end
 end

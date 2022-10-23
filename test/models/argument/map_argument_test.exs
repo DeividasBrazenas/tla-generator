@@ -8,7 +8,7 @@ defmodule Models.Argument.Map.Tests do
       ast = [operator: :<, right_operand: :a]
 
       # Act
-      argument = Models.Argument.Map.parse_argument(ast, nil)
+      argument = Models.Argument.Map.parse_argument(ast, %{name: nil})
 
       # Assert
       assert length(argument.key_value_pairs) == 2
@@ -25,7 +25,7 @@ defmodule Models.Argument.Map.Tests do
       ast = [operator: {:{}, [line: 1], [{:a, [line: 1], nil}]}]
 
       # Act
-      argument = Models.Argument.Map.parse_argument(ast, nil)
+      argument = Models.Argument.Map.parse_argument(ast, %{name: nil})
 
       IO.inspect(argument)
       # Assert
@@ -41,7 +41,7 @@ defmodule Models.Argument.Map.Tests do
       ast = [operator: {:%{}, [line: 1], [a: :b]}]
 
       # Act
-      argument = Models.Argument.Map.parse_argument(ast, nil)
+      argument = Models.Argument.Map.parse_argument(ast, %{name: nil})
 
       IO.inspect(argument)
       # Assert
@@ -49,7 +49,74 @@ defmodule Models.Argument.Map.Tests do
 
       assert Enum.at(argument.key_value_pairs, 0) ==
                {:operator,
-                %Models.Argument.Map{key_value_pairs: [{:a, %Models.Argument.Constant{value: :b}}]}}
+                %Models.Argument.Map{
+                  key_value_pairs: [{:a, %Models.Argument.Constant{value: :b}}]
+                }}
+    end
+
+    test "has constant" do
+      # Arrange
+      argument = %Models.Argument.Map{
+        key_value_pairs: [
+          {:a,
+           %Models.Argument.Constant{
+             value: :a,
+             name: nil
+           }}
+        ],
+        name: nil
+      }
+
+      # Act
+      has_constant = Models.Argument.Map.has_constant(argument)
+
+      # Assert
+      assert has_constant == true
+    end
+
+    test "has constant in inner argument" do
+      # Arrange
+      argument = %Models.Argument.Map{
+        key_value_pairs: [
+          {:a,
+           %Models.Argument.Map{
+             key_value_pairs: [
+               {:a,
+                %Models.Argument.Constant{
+                  value: :a,
+                  name: nil
+                }}
+             ],
+             name: nil
+           }}
+        ],
+        name: nil
+      }
+
+      # Act
+      has_constant = Models.Argument.Map.has_constant(argument)
+
+      # Assert
+      assert has_constant == true
+    end
+
+    test "has no constant" do
+      # Arrange
+      argument = %Models.Argument.Map{
+        key_value_pairs: [
+          {:a,
+           %Models.Argument.Variable{
+             name: :a
+           }}
+        ],
+        name: nil
+      }
+
+      # Act
+      has_constant = Models.Argument.Map.has_constant(argument)
+
+      # Assert
+      assert has_constant == false
     end
   end
 end

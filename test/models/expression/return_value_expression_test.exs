@@ -11,7 +11,7 @@ defmodule Models.Expression.Return.Value.Test do
       }
 
       # Act
-      expression = Models.Expression.Return.Value.parse_expression(metadata, ast_token)
+      expression = Models.Expression.Return.Value.parse_expression(ast_token, metadata)
 
       # Assert
       assert expression.value == :b
