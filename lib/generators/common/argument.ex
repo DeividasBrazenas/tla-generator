@@ -13,8 +13,9 @@ defmodule Generators.Common.Argument do
   @spec get_argument_names(Models.Function.t(), String.t()) :: List[String.t()]
   def get_argument_names(function, prefix) do
     arguments_count = length(function.spec.argument_types)
+
     {_, func_argument_names} =
-      Enum.to_list(1..arguments_count)
+      Enum.to_list(0..(arguments_count - 1))
       |> Enum.map_reduce([], fn arg_number, acc ->
         argument_name = get_argument_name(function.clauses, arg_number)
         {arg_number, acc ++ ["#{prefix}#{argument_name}"]}
@@ -33,7 +34,7 @@ defmodule Generators.Common.Argument do
         argument_name = argument.name
 
         if argument_name != nil and
-             !String.starts_with?(Atom.to_string(argument_name), "_") do
+             !String.starts_with?(Atom.to_string(argument_name), "arg_") do
           {clause, argument_name}
         else
           {clause, nil}

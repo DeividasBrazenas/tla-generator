@@ -17,7 +17,7 @@ defmodule Models.Function.Clause.Metadata do
   def parse_metadata({:when, _, [{name, _, arguments_ast}, condition_ast]}) do
     arguments =
       arguments_ast
-      |> Enum.map(fn argument_ast -> Models.Argument.parse_argument(argument_ast) end)
+      |> Enum.with_index(fn argument_ast, idx -> Models.Argument.parse_function_argument(argument_ast, idx) end)
 
     metadata = %Models.Function.Clause.Metadata{
       name: name,
@@ -31,7 +31,7 @@ defmodule Models.Function.Clause.Metadata do
   def parse_metadata({name, _, arguments_ast}) do
     arguments =
       arguments_ast
-      |> Enum.map(fn argument_ast -> Models.Argument.parse_argument(argument_ast) end)
+      |> Enum.with_index(fn argument_ast, idx -> Models.Argument.parse_function_argument(argument_ast, idx) end)
 
     metadata = %Models.Function.Clause.Metadata{
       name: name,

@@ -14,6 +14,35 @@ defmodule Models.Argument do
   @callback parse_argument(any(), any()) :: Models.Argument.t()
   @callback has_constant(Models.Argument.t()) :: boolean()
 
+  @spec parse_function_argument(any(), Integer.t()) :: Models.Argument.t()
+  def parse_function_argument(argument_ast, arg_number) do
+    argument = parse_argument(argument_ast)
+
+    if argument.name == nil or String.starts_with?(Atom.to_string(argument.name), "_") do
+      named_argument =
+        case argument.__struct__ do
+          Models.Argument.Constant ->
+            %Models.Argument.Constant{argument | name: String.to_atom("arg_#{arg_number}")}
+
+          Models.Argument.Map ->
+            %Models.Argument.Map{argument | name: String.to_atom("arg_#{arg_number}")}
+
+          Models.Argument.Struct ->
+            %Models.Argument.Struct{argument | name: String.to_atom("arg_#{arg_number}")}
+
+          Models.Argument.Tuple ->
+            %Models.Argument.Tuple{argument | name: String.to_atom("arg_#{arg_number}")}
+
+          Models.Argument.Variable ->
+            %Models.Argument.Variable{argument | name: String.to_atom("arg_#{arg_number}")}
+        end
+
+      named_argument
+    else
+      argument
+    end
+  end
+
   @spec parse_argument(any()) :: Models.Argument.t()
   def parse_argument(argument_ast)
       when is_atom(argument_ast) or is_number(argument_ast) or is_binary(argument_ast),
@@ -56,8 +85,6 @@ defmodule Models.Argument do
     {_, arguments_with_constants} =
       arguments
       |> Enum.map_reduce([], fn argument, acc ->
-        IO.inspect(argument.__struct__)
-
         has_constant =
           case argument.__struct__ do
             Models.Argument.Constant -> Models.Argument.Constant.has_constant(argument)
@@ -67,8 +94,6 @@ defmodule Models.Argument do
             Models.Argument.Variable -> Models.Argument.Variable.has_constant(argument)
             _ -> false
           end
-
-        IO.inspect(has_constant)
 
         if has_constant do
           {argument, acc ++ [argument]}
