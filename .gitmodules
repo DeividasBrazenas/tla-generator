@@ -1,0 +1,3 @@
+[submodule "test/apps/wasper"]
+	path = test/apps/wasper
+	url = https://github.com/kape1395/wasper
