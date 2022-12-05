@@ -14,29 +14,12 @@ defmodule Models.Argument do
   @callback parse_argument(any(), any()) :: Models.Argument.t()
   @callback has_constant(Models.Argument.t()) :: boolean()
 
-  @spec parse_function_argument(any(), Integer.t()) :: Models.Argument.t()
-  def parse_function_argument(argument_ast, arg_number) do
+  @spec parse_function_argument(any(), String.t(), Integer.t()) :: Models.Argument.t()
+  def parse_function_argument(argument_ast, fn_name, arg_number) do
     argument = parse_argument(argument_ast)
 
     if argument.name == nil or String.starts_with?(Atom.to_string(argument.name), "_") do
-      named_argument =
-        case argument.__struct__ do
-          Models.Argument.Constant ->
-            %Models.Argument.Constant{argument | name: String.to_atom("arg_#{arg_number}")}
-
-          Models.Argument.Map ->
-            %Models.Argument.Map{argument | name: String.to_atom("arg_#{arg_number}")}
-
-          Models.Argument.Struct ->
-            %Models.Argument.Struct{argument | name: String.to_atom("arg_#{arg_number}")}
-
-          Models.Argument.Tuple ->
-            %Models.Argument.Tuple{argument | name: String.to_atom("arg_#{arg_number}")}
-
-          Models.Argument.Variable ->
-            %Models.Argument.Variable{argument | name: String.to_atom("arg_#{arg_number}")}
-        end
-
+      named_argument = %{argument | name: String.to_atom("#{fn_name}_arg_#{arg_number}")}
       named_argument
     else
       argument
@@ -74,6 +57,10 @@ defmodule Models.Argument do
 
   def parse_argument({:=, _, [{name, _, nil}, argument_ast]}) do
     Models.Argument.Tuple.parse_argument(Tuple.to_list(argument_ast), %{name: name})
+  end
+
+  def parse_argument(argument_ast) when is_list(argument_ast) do
+    Models.Argument.Tuple.parse_argument(argument_ast, %{name: nil})
   end
 
   def parse_argument(argument_ast) do

@@ -7,7 +7,7 @@ defmodule Models.Argument.Tuple do
   use TypedStruct
 
   typedstruct do
-    field(:arguments, List[Models.Argument.t()], default: nil, enforce: true)
+    field(:arguments, List[{integer(), Models.Argument.t()}], default: nil, enforce: true)
     field(:name, atom(), default: nil)
   end
 
@@ -16,7 +16,7 @@ defmodule Models.Argument.Tuple do
   def parse_argument(arguments_ast, %{name: name}) do
     tuple_arguments =
       arguments_ast
-      |> Enum.map(fn argument_ast -> Models.Argument.parse_argument(argument_ast)
+      |> Enum.with_index(fn argument_ast, idx -> {idx + 1, Models.Argument.parse_argument(argument_ast)}
       end)
 
     argument = %Models.Argument.Tuple{
@@ -30,7 +30,7 @@ defmodule Models.Argument.Tuple do
   @impl Models.Argument
   @spec has_constant(Models.Argument.Tuple.t()) :: boolean()
   def has_constant(argument) do
-    constants = Models.Argument.get_arguments_with_constants(argument.arguments)
+    constants = Models.Argument.get_arguments_with_constants(Enum.map(argument.arguments, fn {_idx, arg} -> arg end))
     has_constants = length(constants) > 0
     has_constants
   end

@@ -1,6 +1,6 @@
 defmodule Models.Expression.Return.Function do
   @moduledoc """
-  Defines `if` expression
+  Defines `return function` expression
   """
   @behaviour Models.Expression
 

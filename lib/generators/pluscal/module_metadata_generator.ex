@@ -35,7 +35,7 @@ defmodule Generators.PlusCal.Module.Metadata do
       end)
 
     if length(input_arguments) > 0 do
-      "CONSTANTS #{Enum.join(input_arguments, ", ")}"
+      "CONSTANTS #{Enum.join(input_arguments ++ ["NULL"], ", ")}"
     else
       ""
     end

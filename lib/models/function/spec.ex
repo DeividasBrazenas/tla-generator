@@ -13,13 +13,13 @@ defmodule Models.Function.Spec do
   @doc """
   Parses specs that are specified in generation_defs
   """
-  @spec parse_specs(List[atom()], any()) :: List[Models.Function.Spec.t()]
-  def parse_specs(generation_defs, ast) do
+  @spec parse_specs(List[atom()], List[atom()], any()) :: List[Models.Function.Spec.t()]
+  def parse_specs(pluscal_procedures, pluscal_macros, ast) do
     {_, specs} = Macro.postwalk(ast, [], &parse_spec/2)
 
     filtered_specs =
       specs
-      |> Enum.filter(fn spec -> Enum.member?(generation_defs, spec.name) end)
+      |> Enum.filter(fn spec -> Enum.member?(pluscal_procedures, spec.name) || Enum.member?(pluscal_macros, spec.name) end)
 
     filtered_specs
   end
@@ -27,13 +27,17 @@ defmodule Models.Function.Spec do
   @spec parse_spec(any(), List[Models.Function.Spec.t()]) ::
           {any(), List[Models.Function.Spec.t()]}
   defp parse_spec(
-         {:spec, _, [{:"::", _, [{method, _, arguments}, {return_type, _, _}]}]} = node,
+         # Return type is ignored. Probably it is not needed for PlusCal
+         {:spec, _, [{:"::", _, [{method, _, _arguments}, _]}]} = node,
          acc
        ) do
+    IO.inspect(node)
+
     spec = %Models.Function.Spec{
       name: method,
-      argument_types: Enum.map(arguments, fn {argument_type, _, _} -> argument_type end),
-      return_type: return_type
+      #argument_types: Enum.map(arguments, fn {argument_type, _, _} -> argument_type end),
+      argument_types: [], # Maybe it is also not needed?
+      return_type: nil
     }
 
     {node, acc ++ [spec]}

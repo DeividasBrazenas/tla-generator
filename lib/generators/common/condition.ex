@@ -19,7 +19,7 @@ defmodule Generators.Common.Condition do
   def generate_clause_condition(nil), do: nil
 
   def generate_clause_condition(condition) do
-    "#{condition.left_operand} #{get_pluscal_operator(condition.operator)} #{condition.right_operand}"
+    "#{condition.left_operand} #{Generators.Common.Argument.get_pluscal_operator(condition.operator)} #{condition.right_operand}"
   end
 
   @spec generate_arguments_condition(List[Models.Argument.t()], boolean()) :: List[String.t()]
@@ -45,64 +45,8 @@ defmodule Generators.Common.Condition do
         {_, _} -> "/\\ "
       end
 
-    conditions = generate(argument_with_constant, prefix, "")
+    conditions = Generators.Common.Argument.generate_tla_string(argument_with_constant, prefix, "")
 
     conditions
-  end
-
-  @spec generate(Models.Argument.t(), String.t(), String.t()) :: List[String.t()]
-  defp generate(argument = %Models.Argument.Constant{}, prefix, accessor) do
-    ["#{prefix}#{accessor}#{argument.name} = #{get_constant_value(argument.value)}"]
-  end
-
-  defp generate(argument = %Models.Argument.Tuple{}, prefix, accessor) do
-    generated =
-      argument.arguments
-      |> Enum.with_index(fn arg, idx ->
-        generate(arg, prefix, "#{accessor}#{argument.name}[#{idx}]")
-      end)
-      |> Enum.flat_map(fn arg -> arg end)
-      |> Enum.filter(fn arg -> arg != "" end)
-
-    generated
-  end
-
-  defp generate(argument = %Models.Argument.Map{}, prefix, accessor) do
-    generated =
-      argument.key_value_pairs
-      |> Enum.map(fn {key, arg} ->
-        generate(arg, prefix, "#{accessor}#{argument.name}[\"#{key}\"]")
-      end)
-      |> Enum.flat_map(fn arg -> arg end)
-      |> Enum.filter(fn arg -> arg != "" end)
-
-    generated
-  end
-
-  defp generate(argument = %Models.Argument.Struct{}, prefix, accessor) do
-    generated = generate(argument.arguments, prefix, "#{accessor}#{argument.name}")
-
-    generated
-  end
-
-  defp generate(argument, _, _) do
-    IO.inspect(argument)
-    [""]
-  end
-
-  @spec get_constant_value(any()) :: String.t()
-  defp get_constant_value(value) when is_atom(value) or is_binary(value), do: "\"#{value}\""
-  defp get_constant_value(value) when is_number(value), do: value
-
-  @spec get_pluscal_operator(atom()) :: String.t()
-  defp get_pluscal_operator(operator) do
-    case operator do
-      :== -> " = "
-      :!= -> " # "
-      :< -> "<"
-      :> -> ">"
-      :<= -> "<="
-      :>= -> ">="
-    end
   end
 end

@@ -1,12 +1,13 @@
 defmodule Generators.PlusCal.Algorithm.Procedure do
   alias Models.Common.Indent, as: Indent
 
-  @spec generate_procedures(List[Models.Function.t()], Integer.t()) :: List[String.t()]
-  def generate_procedures(functions, indent_level) do
+  @spec generate_procedures(List[Models.Function.t()], List[atom()], Integer.t()) :: List[String.t()]
+  def generate_procedures(functions, pluscal_procedures, indent_level) do
     IO.inspect(functions)
 
     procedures =
       functions
+      |> Enum.filter(fn function -> Enum.any?(pluscal_procedures, fn procedure_name -> procedure_name == function.spec.name end) end)
       |> Enum.flat_map(fn function ->
         procedure = generate_procedure(function, indent_level)
         procedure ++ [""]
@@ -18,6 +19,7 @@ defmodule Generators.PlusCal.Algorithm.Procedure do
 
   @spec generate_procedure(Models.Function.t(), Integer.t()) :: List[String.t()]
   defp generate_procedure(function, indent_level) do
+    IO.inspect(function)
     procedure =
       generate_header(function, indent_level) ++
         [generate_label(function.spec, indent_level + 1)] ++
@@ -91,6 +93,7 @@ defmodule Generators.PlusCal.Algorithm.Procedure do
       generated_condition ++
         Generators.PlusCal.Algorithm.Procedure.Expression.generate_expressions(
           fn_clause.expressions,
+          fn_clause.metadata.arguments,
           new_indent_level
         )
 

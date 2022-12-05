@@ -7,6 +7,8 @@ defmodule Models.Expression do
 
   @type t() ::
           Models.Expression.If.t()
+          | Models.Expression.Map.Update.t()
+          | Models.Expression.Call.Function.t()
           | Models.Expression.Return.Function.t()
           | Models.Expression.Return.Value.t()
 
@@ -15,24 +17,45 @@ defmodule Models.Expression do
   @spec parse_expressions(any(), Models.Function.Clause.Metadata.t()) ::
           List[Models.Expression.t()]
   def parse_expressions(body_ast, metadata) do
+    IO.inspect(body_ast)
+
     {_, expressions} =
       Macro.postwalk(body_ast, [], fn node, acc ->
+        IO.inspect(node)
+
         expression =
           case node do
             # Parse `if` expression
             {:if, _, _} = if_ast ->
               Models.Expression.If.parse_expression(if_ast, metadata)
 
+            # Parse `map update` expression
+            {:=, _, [_, {_, _, [{:|, _, _}]}]} = map_update_ast ->
+              Models.Expression.Map.Update.parse_expression(map_update_ast, metadata)
+
+            # Parse `call function` expression
+            {:=, _, [_, {_, _, _}]} = call_function_ast ->
+              Models.Expression.Call.Function.parse_expression(call_function_ast, metadata)
+
             # Parse `return value` expression
             [do: {_value, _, nil} = return_value_ast] ->
               Models.Expression.Return.Value.parse_expression(return_value_ast, metadata)
 
+            [do: {:{}, _, values}] ->
+              Models.Expression.Return.Value.parse_expression(values, metadata)
+
             [else: {_value, _, nil} = return_value_ast] ->
               Models.Expression.Return.Value.parse_expression(return_value_ast, metadata)
 
+            {:{}, _, values} ->
+              Models.Expression.Return.Value.parse_expression(values, metadata)
+
             # Parse `return function` expression
-            [do: {_function, _, [_, _]} = return_function_ast] ->
-              Models.Expression.Return.Function.parse_expression(return_function_ast, metadata)
+            [do: {function, _, [_, _]} = return_function_ast] ->
+              case Atom.to_string(function) == "__block__" do
+                true -> nil
+                false -> Models.Expression.Return.Function.parse_expression(return_function_ast, metadata)
+              end
 
             [else: {_function, _, [_, _]} = return_function_ast] ->
               Models.Expression.Return.Function.parse_expression(return_function_ast, metadata)

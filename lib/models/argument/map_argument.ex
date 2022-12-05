@@ -7,7 +7,7 @@ defmodule Models.Argument.Map do
   use TypedStruct
 
   typedstruct do
-    field(:key_value_pairs, List[{atom(), Models.Argument.t()}], default: nil, enforce: true)
+    field(:key_value_pairs, List[{atom(), Models.Argument.t()}], default: [], enforce: true)
     field(:name, atom(), default: nil)
   end
 

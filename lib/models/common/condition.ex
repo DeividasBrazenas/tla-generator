@@ -22,4 +22,20 @@ defmodule Models.Common.Condition do
 
     condition
   end
+
+  @spec parse_conditions(any()) :: List[Models.Common.Condition.t()]
+  def parse_conditions({operator, _, [{left, _, _}, {right, _, _}]}) do
+    condition = %Models.Common.Condition{
+      operator: operator,
+      left_operand: left,
+      right_operand: right
+    }
+
+    [condition]
+  end
+
+  @spec parse_arguments_conditions() :: List[Models.Common.Condition.t()]
+  def parse_arguments_conditions() do
+    []
+  end
 end
