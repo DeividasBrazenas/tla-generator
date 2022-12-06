@@ -14,12 +14,12 @@ defmodule Models.Function.Spec do
   Parses specs that are specified in generation_defs
   """
   @spec parse_specs(List[atom()], List[atom()], any()) :: List[Models.Function.Spec.t()]
-  def parse_specs(pluscal_procedures, pluscal_macros, ast) do
+  def parse_specs(pluscal_processes, pluscal_procedures, ast) do
     {_, specs} = Macro.postwalk(ast, [], &parse_spec/2)
 
     filtered_specs =
       specs
-      |> Enum.filter(fn spec -> Enum.member?(pluscal_procedures, spec.name) || Enum.member?(pluscal_macros, spec.name) end)
+      |> Enum.filter(fn spec -> Enum.member?(pluscal_processes, spec.name) || Enum.member?(pluscal_procedures, spec.name) end)
 
     filtered_specs
   end

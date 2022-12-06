@@ -1,9 +1,9 @@
-defmodule Generators.PlusCal.Algorithm.Procedure.Expression.Map.Update do
+defmodule Generators.PlusCal.Expression.Map.Update do
   alias Models.Common.Indent, as: Indent
 
-  @behaviour Generators.PlusCal.Algorithm.Procedure.Expression
+  @behaviour Generators.PlusCal.Expression
 
-  @impl Generators.PlusCal.Algorithm.Procedure.Expression
+  @impl Generators.PlusCal.Expression
   @spec generate_expression(any(), List[Models.Argument.t()], Integer.t()) :: List[String.t()]
   def generate_expression(%Models.Expression.Map.Update{} = expression, fn_inputs, indent_level) do
     lines =

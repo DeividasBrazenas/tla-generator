@@ -112,11 +112,35 @@ end procedure;
 \*    end if;
 \*end procedure;
 
-begin
+  process handle_new = "handle_new"
+  begin
   handle_new:
-    call handle_new(in_handle_new_arg_1);
-\*  handle_input:
-\*    call handle_input(in_handle_input_rbc, in_handle_input_input);
+    result_handle_new := <<"ok", [i |-> handle_new_arg_1[1], n |-> handle_new_arg_1[2], f |-> handle_new_arg_1[3]], {}, NULL>>;
+  end process;
+
+  process handle_input = "handle_input"
+  variables rbc = handle_input_rbc, input = handle_input_input, shards, root_hash, msgs
+  begin
+    handle_input:
+      if rbc["n"] = 1 then
+        rbc["decoded"] := input
+        || rbc["output"] := TRUE;
+
+        result_handle_input := <<"ok", rbc, {}, input>>;
+
+      else
+        await rs_encode(rbc, input);
+        shards := result_rs_encode;
+
+        await hash(input);
+        root_hash := result_hash;
+
+        await broadcast_val(rbc, root_hash, shards);
+        msgs := result_broadcast_val;
+          
+        result_handle_input := <<"ok", rbc, msgs, NULL>>;
+      end if;
+  end process;
 end algorithm; *)
 \* BEGIN TRANSLATION (chksum(pcal) = "49fa937a" /\ chksum(tla) = "6558e3be")
 \* Label handle_new of procedure handle_new at line 41 col 5 changed to handle_new_

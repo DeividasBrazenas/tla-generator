@@ -140,8 +140,4 @@ defmodule Models.Argument do
         |> Enum.any?(fn x -> x == true end)
     end
   end
-
-  defp is_defined_in_argument(var_name, fn_input) do
-    IO.inspect(fn_input)
-  end
 end

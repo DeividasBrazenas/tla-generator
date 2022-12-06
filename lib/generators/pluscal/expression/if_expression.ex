@@ -1,9 +1,9 @@
-defmodule Generators.PlusCal.Algorithm.Procedure.Expression.If do
+defmodule Generators.PlusCal.Expression.If do
   alias Models.Common.Indent, as: Indent
 
-  @behaviour Generators.PlusCal.Algorithm.Procedure.Expression
+  @behaviour Generators.PlusCal.Expression
 
-  @impl Generators.PlusCal.Algorithm.Procedure.Expression
+  @impl Generators.PlusCal.Expression
   @spec generate_expression(any(), List[Models.Argument.t()], Integer.t()) :: List[String.t()]
   def generate_expression(%Models.Expression.If{} = expression, fn_inputs, indent_level) do
     expression =
@@ -34,7 +34,7 @@ defmodule Generators.PlusCal.Algorithm.Procedure.Expression.If do
         ) ::
           List[String.t()]
   defp generate_condition_satisfied_expressions(expressions, fn_inputs, indent_level) do
-    Generators.PlusCal.Algorithm.Procedure.Expression.generate_expressions(
+    Generators.PlusCal.Expression.generate_expressions(
       expressions,
       fn_inputs,
       indent_level
@@ -50,7 +50,7 @@ defmodule Generators.PlusCal.Algorithm.Procedure.Expression.If do
   defp generate_condition_unsatisfied_expressions(expressions, fn_inputs, indent_level) do
     if length(expressions) > 0 do
       ["#{Indent.build(indent_level - 1)}else"] ++
-        Generators.PlusCal.Algorithm.Procedure.Expression.generate_expressions(
+        Generators.PlusCal.Expression.generate_expressions(
           expressions,
           fn_inputs,
           indent_level

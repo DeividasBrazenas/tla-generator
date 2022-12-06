@@ -17,15 +17,15 @@ defmodule Generators.Common.Argument do
     {_, func_argument_names} =
       Enum.to_list(1..arguments_count)
       |> Enum.map_reduce([], fn arg_number, acc ->
-        argument_name = get_argument_name(function.clauses, function.spec.name, arg_number)
-        {arg_number, acc ++ ["#{prefix}#{argument_name}"]}
+        argument_name = get_argument_name(function.clauses, prefix, arg_number)
+        {arg_number, acc ++ [argument_name]}
       end)
 
     func_argument_names
   end
 
   @spec get_argument_name(List[Models.Function.Clause.t()], String.t(), Integer.t()) :: String.t()
-  def get_argument_name(clauses, fn_name, argument_index) do
+  def get_argument_name(clauses, prefix, argument_index) do
     {_, name} =
       clauses
       |> Enum.map_reduce(nil, fn clause, _ ->
@@ -34,7 +34,7 @@ defmodule Generators.Common.Argument do
         argument_name = argument.name
 
         if argument_name != nil and
-             !String.starts_with?(Atom.to_string(argument_name), "#{fn_name}_arg_") do
+             !String.starts_with?(Atom.to_string(argument_name), "#{prefix}_arg_") do
           {clause, argument_name}
         else
           {clause, nil}
@@ -44,7 +44,7 @@ defmodule Generators.Common.Argument do
     if name != nil do
       name
     else
-      "#{fn_name}_arg_#{argument_index}"
+      "#{prefix}_arg_#{argument_index}"
     end
   end
 

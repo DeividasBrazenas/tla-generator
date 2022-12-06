@@ -4,8 +4,8 @@ defmodule Extractors.PlusCal do
 
   defmacro __using__(_opts) do
     quote do
+      Module.register_attribute(__MODULE__, :pluscal_process, accumulate: true, persist: true)
       Module.register_attribute(__MODULE__, :pluscal_procedure, accumulate: true, persist: true)
-      Module.register_attribute(__MODULE__, :pluscal_macro, accumulate: true, persist: true)
       @after_compile Extractors.PlusCal
     end
   end
@@ -38,11 +38,11 @@ defmodule Extractors.PlusCal do
 
     attributes = dbgi_map[:attributes]
 
+    pluscal_processes = Keyword.get_values(attributes, :pluscal_process)
     pluscal_procedures = Keyword.get_values(attributes, :pluscal_procedure)
-    pluscal_macros = Keyword.get_values(attributes, :pluscal_macro)
 
     # For TLA to be generated, generation type and defs to generate should be defined
-    result = Generators.PlusCal.generate_module(module_name, file_path, pluscal_procedures, pluscal_macros)
+    result = Generators.PlusCal.generate_module(module_name, file_path, pluscal_processes, pluscal_procedures)
 
     file_name = "#{module_name}.tla"
     result_folder =

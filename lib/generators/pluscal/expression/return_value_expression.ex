@@ -1,9 +1,9 @@
-defmodule Generators.PlusCal.Algorithm.Procedure.Expression.Return.Value do
+defmodule Generators.PlusCal.Expression.Return.Value do
   alias Models.Common.Indent, as: Indent
 
-  @behaviour Generators.PlusCal.Algorithm.Procedure.Expression
+  @behaviour Generators.PlusCal.Expression
 
-  @impl Generators.PlusCal.Algorithm.Procedure.Expression
+  @impl Generators.PlusCal.Expression
   @spec generate_expression(any(), List[Models.Argument.t()], Integer.t()) :: List[String.t()]
   def generate_expression(%Models.Expression.Return.Value{} = expression, fn_inputs, indent_level) do
     tla_string = to_tla_string(expression.value, fn_inputs)
@@ -12,7 +12,6 @@ defmodule Generators.PlusCal.Algorithm.Procedure.Expression.Return.Value do
 
     [
       "#{Indent.build(indent_level)}result_#{expression.function_name} := #{tla_string};",
-      "#{Indent.build(indent_level)}return;"
     ]
   end
 

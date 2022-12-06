@@ -29,7 +29,7 @@ defmodule Generators.PlusCal.Module.Metadata do
     {_, input_arguments} =
       functions
       |> Enum.map_reduce([], fn func, acc ->
-        func_argument_names = Generators.Common.Argument.get_argument_names(func, "in_")
+        func_argument_names = Generators.Common.Argument.get_argument_names(func, "in_#{func.spec.name}")
 
         {func, acc ++ func_argument_names}
       end)

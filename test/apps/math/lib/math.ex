@@ -9,23 +9,23 @@ defmodule Math do
     field(:right_operand, atom(), default: nil, enforce: true)
   end
 
-  # @pluscal_procedure :min
+  # @pluscal_process :min
   # @spec min(integer(), integer()) :: integer()
   # def min(a, b) when a > b, do: b
   # def min(a, _), do: a
 
-  # @pluscal_procedure :max
+  # @pluscal_process :max
   # @spec max(integer(), integer()) :: integer()
   # def max(a, b) when a < b, do: b
   # def max(a, _), do: a
 
-  # @pluscal_procedure :compare
+  # @pluscal_process :compare
   # @spec compare({atom(), any(), any()}) :: any()
   # def compare({:<, a, b}), do: a
   # def compare({_, "a", b}), do: b
   # def compare({_, a, 7}), do: a
 
-  @pluscal_procedure :compare_v2
+  @pluscal_process :compare_v2
   @spec compare_v2(atom(), any(), any()) :: any()
   def compare_v2(x = %Math{operator: :<}, a, {b, 7}) when a > b, do: a
   # def compare_v2(%{a: :b}, a, {b, 7}), do: a

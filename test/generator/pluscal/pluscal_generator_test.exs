@@ -43,8 +43,8 @@ defmodule Generators.PlusCal.Test do
     test "generates rbc" do
       module_name = "Rbc"
       file_name = "rbc_cachin_tessaro.ex"
-      pluscal_procedures = [:handle_new, :handle_input]
-      pluscal_macros = [:broadcast_val, :rs_encode, :hash]
+      pluscal_processes = [:handle_new, :handle_input]
+      pluscal_procedures = [:broadcast_val, :rs_encode, :hash]
       source_path = File.cwd!() |> Path.join("test/apps/wasper/lib/wasper_hbbft") |> Path.join(file_name)
 
       {_, ast} =
@@ -52,7 +52,7 @@ defmodule Generators.PlusCal.Test do
         |> File.read!()
         |> Code.string_to_quoted()
 
-      result = Generators.PlusCal.generate_module(module_name, source_path, pluscal_procedures, pluscal_macros)
+      result = Generators.PlusCal.generate_module(module_name, source_path, pluscal_processes, pluscal_procedures)
 
       result_path = File.cwd!() |> Path.join("test/generator/pluscal/priv/rbc.tla")
       File.mkdir_p!(Path.dirname(result_path))
