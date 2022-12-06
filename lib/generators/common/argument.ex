@@ -116,6 +116,13 @@ defmodule Generators.Common.Argument do
     end
   end
 
+  defp get_accessor_from_input(var_name, fn_input = %Models.Argument.Variable{}, prefix) do
+    case var_name == fn_input.name do
+      true -> "#{prefix}#{fn_input.name}"
+      false -> nil
+    end
+  end
+
   defp get_accessor_from_input(var_name, fn_input = %Models.Argument.Map{}, prefix) do
     fn_input.key_value_pairs
     |> Enum.map(fn {name, value} ->
@@ -143,18 +150,14 @@ defmodule Generators.Common.Argument do
         fn_input.arguments
         |> Enum.map(fn {number, value} ->
           case var_name == value.name do
-            true -> "#{prefix}#{fn_input.name}[#{number}]"
-            false -> get_accessor_from_input(var_name, value, "#{prefix}#{fn_input.name}[#{number}]")
+            true ->
+              "#{prefix}#{fn_input.name}[#{number}]"
+
+            false ->
+              get_accessor_from_input(var_name, value, "#{prefix}#{fn_input.name}[#{number}]")
           end
         end)
         |> Enum.find(nil, fn accessor -> accessor != nil end)
-    end
-  end
-
-  defp get_accessor_from_input(var_name, fn_input = %Models.Argument.Variable{}, prefix) do
-    case var_name == fn_input.name do
-      true -> "#{prefix}#{fn_input.name}"
-      false -> nil
     end
   end
 end

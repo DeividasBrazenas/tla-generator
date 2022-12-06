@@ -1,13 +1,18 @@
 defmodule Generators.PlusCal.Algorithm.Procedure do
   alias Models.Common.Indent, as: Indent
 
-  @spec generate_procedures(List[Models.Function.t()], List[atom()], Integer.t()) :: List[String.t()]
+  @spec generate_procedures(List[Models.Function.t()], List[atom()], Integer.t()) ::
+          List[String.t()]
   def generate_procedures(functions, pluscal_procedures, indent_level) do
     IO.inspect(functions)
 
     procedures =
       functions
-      |> Enum.filter(fn function -> Enum.any?(pluscal_procedures, fn procedure_name -> procedure_name == function.spec.name end) end)
+      |> Enum.filter(fn function ->
+        Enum.any?(pluscal_procedures, fn procedure_name ->
+          procedure_name == function.spec.name
+        end)
+      end)
       |> Enum.flat_map(fn function ->
         procedure = generate_procedure(function, indent_level)
         procedure ++ [""]
@@ -20,8 +25,11 @@ defmodule Generators.PlusCal.Algorithm.Procedure do
   @spec generate_procedure(Models.Function.t(), Integer.t()) :: List[String.t()]
   defp generate_procedure(function, indent_level) do
     IO.inspect(function)
+
     procedure =
-      generate_header(function, indent_level) ++
+      [generate_header(function, indent_level)] ++
+        generate_variables(function, indent_level) ++
+        ["#{Indent.build(indent_level)}begin"] ++
         [generate_label(function.spec, indent_level + 1)] ++
         generate_body(function.clauses, indent_level + 2) ++
         [generate_footer(indent_level)]
@@ -154,18 +162,25 @@ defmodule Generators.PlusCal.Algorithm.Procedure do
     end
   end
 
-  @spec generate_header(Models.Function.t(), Integer.t()) :: List[String.t()]
+  @spec generate_header(Models.Function.t(), Integer.t()) :: String.t()
   defp generate_header(function, indent_level) do
     argument_names = Generators.Common.Argument.get_argument_names(function, "")
-    IO.inspect(argument_names)
 
-    header =
-      [
-        "#{Indent.build(indent_level)}procedure #{function.spec.name}(#{Enum.join(argument_names, ", ")})"
-      ] ++
-        ["#{Indent.build(indent_level)}begin"]
+    "#{Indent.build(indent_level)}procedure #{function.spec.name}(#{Enum.join(argument_names, ", ")})"
+  end
 
-    header
+  @spec generate_variables(Models.Function.t(), Integer.t()) :: List[String.t()]
+  defp generate_variables(function, indent_level) do
+    variables =
+      function.clauses
+      |> Enum.flat_map(fn clause -> Models.Function.Clause.get_defined_variables(clause) end)
+
+    variables = variables |> Enum.uniq()
+
+    case length(variables) > 0 do
+      true -> ["#{Indent.build(indent_level)}variables #{Enum.join(variables, ", ")};"]
+      false -> []
+    end
   end
 
   @spec generate_footer(Integer.t()) :: String.t()

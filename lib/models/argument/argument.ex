@@ -91,4 +91,57 @@ defmodule Models.Argument do
 
     arguments_with_constants
   end
+
+  @spec is_input_argument(String.t(), List[Models.Argument.t()]) :: boolean()
+  def is_input_argument(var_name, fn_inputs) do
+    fn_inputs
+    |> Enum.map(fn fn_input -> is_defined_in_argument(var_name, fn_input) end)
+    |> Enum.any?(fn x -> x == true end)
+  end
+
+  @spec is_defined_in_argument(String.t(), Models.Argument.t()) :: boolean()
+  defp is_defined_in_argument(var_name, fn_input = %Models.Argument.Constant{}),
+    do: var_name == fn_input.name
+
+  defp is_defined_in_argument(var_name, fn_input = %Models.Argument.Variable{}),
+    do: var_name == fn_input.name
+
+  defp is_defined_in_argument(var_name, fn_input = %Models.Argument.Map{}) do
+    fn_input.key_value_pairs
+    |> Enum.map(fn {name, value} ->
+      case var_name == name do
+        true -> true
+        false -> is_defined_in_argument(var_name, value)
+      end
+    end)
+    |> Enum.any?(fn x -> x == true end)
+  end
+
+  defp is_defined_in_argument(var_name, fn_input = %Models.Argument.Struct{}) do
+    case var_name == fn_input.name do
+      true -> true
+      false -> is_defined_in_argument(var_name, fn_input.arguments)
+    end
+  end
+
+  defp is_defined_in_argument(var_name, fn_input = %Models.Argument.Tuple{}) do
+    case var_name == fn_input.name do
+      true ->
+        true
+
+      false ->
+        fn_input.arguments
+        |> Enum.map(fn {_, value} ->
+          case var_name == value.name do
+            true -> true
+            false -> is_defined_in_argument(var_name, value)
+          end
+        end)
+        |> Enum.any?(fn x -> x == true end)
+    end
+  end
+
+  defp is_defined_in_argument(var_name, fn_input) do
+    IO.inspect(fn_input)
+  end
 end

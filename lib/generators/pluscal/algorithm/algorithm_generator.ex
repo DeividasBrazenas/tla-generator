@@ -12,6 +12,12 @@ defmodule Generators.PlusCal.Algorithm do
       [generate_header(module_name)] ++
         [generate_result_variables(pluscal_procedures, pluscal_macros, indent_level)] ++
         [""] ++
+        Generators.PlusCal.Algorithm.Macro.generate_macros(
+          functions,
+          pluscal_macros,
+          indent_level
+        ) ++
+        [""] ++
         Generators.PlusCal.Algorithm.Procedure.generate_procedures(
           functions,
           pluscal_procedures,

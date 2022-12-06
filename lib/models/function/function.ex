@@ -44,6 +44,12 @@ defmodule Models.Function do
 
   # "Returns all defined functions"
   @spec get_function_definitions(any(), List[any()]) :: {any(), List[any()]}
+  defp get_function_definitions({:defp, _, [metadata_ast, body_ast]} = node, acc) do
+    IO.inspect(node)
+    metadata = Models.Function.Clause.Metadata.parse_metadata(metadata_ast)
+    {node, acc ++ [{metadata, body_ast}]}
+  end
+
   defp get_function_definitions({:def, _, [metadata_ast, body_ast]} = node, acc) do
     IO.inspect(node)
     metadata = Models.Function.Clause.Metadata.parse_metadata(metadata_ast)
