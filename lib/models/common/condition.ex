@@ -34,8 +34,8 @@ defmodule Models.Common.Condition do
     [condition]
   end
 
-  @spec parse_arguments_conditions() :: List[Models.Common.Condition.t()]
-  def parse_arguments_conditions() do
+  @spec parse_types_conditions() :: List[Models.Common.Condition.t()]
+  def parse_types_conditions() do
     []
   end
 end

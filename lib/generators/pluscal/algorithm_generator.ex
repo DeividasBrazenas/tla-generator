@@ -5,7 +5,6 @@ defmodule Generators.PlusCal.Algorithm do
   @spec generate_algorithm(String.t(), List[Models.Function.t()], List[atom()], List[atom()]) ::
           List[String.t()]
   def generate_algorithm(module_name, functions, pluscal_processes, pluscal_procedures) do
-    IO.inspect(functions)
     indent_level = 1
 
     algorithm =
@@ -25,7 +24,6 @@ defmodule Generators.PlusCal.Algorithm do
         ) ++
         [generate_footer()]
 
-    IO.inspect(algorithm)
     algorithm
   end
 

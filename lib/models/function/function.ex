@@ -14,8 +14,6 @@ defmodule Models.Function do
   def parse_functions(specs, ast) do
     {_, all_definitions} = Macro.postwalk(ast, [], &get_function_definitions/2)
 
-    IO.inspect(all_definitions)
-
     functions =
       specs
       |> Enum.map(fn spec ->
@@ -44,14 +42,12 @@ defmodule Models.Function do
 
   # "Returns all defined functions"
   @spec get_function_definitions(any(), List[any()]) :: {any(), List[any()]}
-  # defp get_function_definitions({:defp, _, [metadata_ast, body_ast]} = node, acc) do
-  #   IO.inspect(node)
-  #   metadata = Models.Function.Clause.Metadata.parse_metadata(metadata_ast)
-  #   {node, acc ++ [{metadata, body_ast}]}
-  # end
+  defp get_function_definitions({:defp, _, [metadata_ast, body_ast]} = node, acc) do
+    metadata = Models.Function.Clause.Metadata.parse_metadata(metadata_ast)
+    {node, acc ++ [{metadata, body_ast}]}
+  end
 
   defp get_function_definitions({:def, _, [metadata_ast, body_ast]} = node, acc) do
-    IO.inspect(node)
     metadata = Models.Function.Clause.Metadata.parse_metadata(metadata_ast)
     {node, acc ++ [{metadata, body_ast}]}
   end

@@ -1,11 +1,11 @@
-defmodule Models.Argument.Constant.Tests do
+defmodule Models.Type.Constant.Tests do
   use ExUnit.Case
-  doctest Models.Argument.Constant
+  doctest Models.Type.Constant
 
   describe "constant argument" do
     test "is parsed" do
       # Act
-      argument = Models.Argument.Constant.parse_argument(:a, %{name: nil})
+      argument = Models.Type.Constant.parse_type(:a, %{name: nil})
 
       # Assert
       assert argument.value == :a
@@ -13,13 +13,13 @@ defmodule Models.Argument.Constant.Tests do
 
     test "has constant" do
       # Arrange
-      argument = %Models.Argument.Constant{
+      argument = %Models.Type.Constant{
         value: :a,
         name: nil
       }
 
       # Act
-      has_constant = Models.Argument.Constant.has_constant(argument)
+      has_constant = Models.Type.Constant.has_constant(argument)
 
       # Assert
       assert has_constant == true

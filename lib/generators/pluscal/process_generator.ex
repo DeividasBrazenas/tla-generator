@@ -4,8 +4,6 @@ defmodule Generators.PlusCal.Process do
   @spec generate_processes(List[Models.Function.t()], List[atom()], Integer.t()) ::
           List[String.t()]
   def generate_processes(functions, pluscal_processes, indent_level) do
-    IO.inspect(functions)
-
     processes =
       functions
       |> Enum.filter(fn function ->
@@ -18,14 +16,11 @@ defmodule Generators.PlusCal.Process do
         process ++ [""]
       end)
 
-    IO.inspect(processes)
     processes
   end
 
   @spec generate_process(Models.Function.t(), Integer.t()) :: List[String.t()]
   defp generate_process(function, indent_level) do
-    IO.inspect(function)
-
     process =
       [generate_header(function, indent_level)] ++
         generate_variables(function, indent_level) ++
@@ -34,7 +29,6 @@ defmodule Generators.PlusCal.Process do
         Generators.PlusCal.Body.generate_body(function.clauses, indent_level + 2) ++
         [generate_footer(indent_level)]
 
-    IO.inspect(process)
     process
   end
 
@@ -51,7 +45,7 @@ defmodule Generators.PlusCal.Process do
 
     local_variables =
       function.clauses
-      |> Enum.flat_map(fn clause -> Models.Function.Clause.get_defined_variables(clause) end)
+      |> Enum.flat_map(fn clause -> clause.local_variables end)
 
     variables = Enum.concat(input_variables, local_variables) |> Enum.uniq()
 

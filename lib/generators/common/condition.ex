@@ -1,6 +1,6 @@
 defmodule Generators.Common.Condition do
   # Returns TLA+ condition string
-  @spec generate_conditions(Models.Common.Condition.t(), List[Models.Argument.t()]) ::
+  @spec generate_conditions(Models.Common.Condition.t(), List[Models.Type.t()]) ::
           List[String.t()]
   def generate_conditions(clause_condition, arguments_with_constant) do
     generated_clause_condition = generate_clause_condition(clause_condition)
@@ -22,7 +22,7 @@ defmodule Generators.Common.Condition do
     "#{condition.left_operand} #{Generators.Common.Argument.get_pluscal_operator(condition.operator)} #{condition.right_operand}"
   end
 
-  @spec generate_arguments_condition(List[Models.Argument.t()], boolean()) :: List[String.t()]
+  @spec generate_arguments_condition(List[Models.Type.t()], boolean()) :: List[String.t()]
   def generate_arguments_condition([], _), do: []
 
   def generate_arguments_condition(arguments_with_constant, is_first_condition) do
@@ -36,7 +36,7 @@ defmodule Generators.Common.Condition do
     argument_conditions
   end
 
-  @spec generate_argument_conditions(Models.Argument.t(), Integer.t(), boolean()) ::
+  @spec generate_argument_conditions(Models.Type.t(), Integer.t(), boolean()) ::
           List[String.t()]
   defp generate_argument_conditions(argument_with_constant, index, is_first_condition) do
     prefix =

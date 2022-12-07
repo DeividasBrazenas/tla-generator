@@ -7,8 +7,8 @@ defmodule Models.Expression.Return.Value do
   use TypedStruct
 
   typedstruct do
-    field(:value, Models.Argument.t(), default: nil, enforce: true)
-    field(:function_name, atom(), default: nil, enforce: true)
+    field(:parent_function_name, atom(), default: nil, enforce: true)
+    field(:value, Models.Type.t(), default: nil, enforce: true)
   end
 
   @impl Models.Expression
@@ -16,8 +16,8 @@ defmodule Models.Expression.Return.Value do
           Models.Expression.Return.Value.t()
   def parse_expression(value, metadata) do
     expression = %Models.Expression.Return.Value{
-      value: Models.Argument.parse_argument(value),
-      function_name: metadata.name
+      value: Models.Type.parse_type(value),
+      parent_function_name: metadata.name
     }
 
     expression

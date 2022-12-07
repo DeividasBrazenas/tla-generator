@@ -1,6 +1,6 @@
-defmodule Models.Argument.Map.Tests do
+defmodule Models.Type.Map.Tests do
   use ExUnit.Case
-  doctest Models.Argument.Map
+  doctest Models.Type.Map
 
   describe "map argument" do
     test "is parsed with constant arguments" do
@@ -8,16 +8,16 @@ defmodule Models.Argument.Map.Tests do
       ast = [operator: :<, right_operand: :a]
 
       # Act
-      argument = Models.Argument.Map.parse_argument(ast, %{name: nil})
+      argument = Models.Type.Map.parse_type(ast, %{name: nil})
 
       # Assert
       assert length(argument.key_value_pairs) == 2
 
       assert Enum.at(argument.key_value_pairs, 0) ==
-               {:operator, %Models.Argument.Constant{value: :<}}
+               {:operator, %Models.Type.Constant{value: :<}}
 
       assert Enum.at(argument.key_value_pairs, 1) ==
-               {:right_operand, %Models.Argument.Constant{value: :a}}
+               {:right_operand, %Models.Type.Constant{value: :a}}
     end
 
     test "is parsed with tuple argument" do
@@ -25,15 +25,14 @@ defmodule Models.Argument.Map.Tests do
       ast = [operator: {:{}, [line: 1], [{:a, [line: 1], nil}]}]
 
       # Act
-      argument = Models.Argument.Map.parse_argument(ast, %{name: nil})
+      argument = Models.Type.Map.parse_type(ast, %{name: nil})
 
-      IO.inspect(argument)
       # Assert
       assert length(argument.key_value_pairs) == 1
 
       assert Enum.at(argument.key_value_pairs, 0) ==
                {:operator,
-                %Models.Argument.Tuple{arguments: [%Models.Argument.Variable{name: :a}]}}
+                %Models.Type.Tuple{arguments: [%Models.Type.Variable{name: :a}]}}
     end
 
     test "is parsed with map argument" do
@@ -41,25 +40,24 @@ defmodule Models.Argument.Map.Tests do
       ast = [operator: {:%{}, [line: 1], [a: :b]}]
 
       # Act
-      argument = Models.Argument.Map.parse_argument(ast, %{name: nil})
+      argument = Models.Type.Map.parse_type(ast, %{name: nil})
 
-      IO.inspect(argument)
       # Assert
       assert length(argument.key_value_pairs) == 1
 
       assert Enum.at(argument.key_value_pairs, 0) ==
                {:operator,
-                %Models.Argument.Map{
-                  key_value_pairs: [{:a, %Models.Argument.Constant{value: :b}}]
+                %Models.Type.Map{
+                  key_value_pairs: [{:a, %Models.Type.Constant{value: :b}}]
                 }}
     end
 
     test "has constant" do
       # Arrange
-      argument = %Models.Argument.Map{
+      argument = %Models.Type.Map{
         key_value_pairs: [
           {:a,
-           %Models.Argument.Constant{
+           %Models.Type.Constant{
              value: :a,
              name: nil
            }}
@@ -68,7 +66,7 @@ defmodule Models.Argument.Map.Tests do
       }
 
       # Act
-      has_constant = Models.Argument.Map.has_constant(argument)
+      has_constant = Models.Type.Map.has_constant(argument)
 
       # Assert
       assert has_constant == true
@@ -76,13 +74,13 @@ defmodule Models.Argument.Map.Tests do
 
     test "has constant in inner argument" do
       # Arrange
-      argument = %Models.Argument.Map{
+      argument = %Models.Type.Map{
         key_value_pairs: [
           {:a,
-           %Models.Argument.Map{
+           %Models.Type.Map{
              key_value_pairs: [
                {:a,
-                %Models.Argument.Constant{
+                %Models.Type.Constant{
                   value: :a,
                   name: nil
                 }}
@@ -94,7 +92,7 @@ defmodule Models.Argument.Map.Tests do
       }
 
       # Act
-      has_constant = Models.Argument.Map.has_constant(argument)
+      has_constant = Models.Type.Map.has_constant(argument)
 
       # Assert
       assert has_constant == true
@@ -102,10 +100,10 @@ defmodule Models.Argument.Map.Tests do
 
     test "has no constant" do
       # Arrange
-      argument = %Models.Argument.Map{
+      argument = %Models.Type.Map{
         key_value_pairs: [
           {:a,
-           %Models.Argument.Variable{
+           %Models.Type.Variable{
              name: :a
            }}
         ],
@@ -113,7 +111,7 @@ defmodule Models.Argument.Map.Tests do
       }
 
       # Act
-      has_constant = Models.Argument.Map.has_constant(argument)
+      has_constant = Models.Type.Map.has_constant(argument)
 
       # Assert
       assert has_constant == false

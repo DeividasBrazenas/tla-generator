@@ -8,17 +8,21 @@ defmodule Generators.PlusCal do
 
     specs = Models.Function.Spec.parse_specs(pluscal_processes, pluscal_procedures, ast)
     functions = Models.Function.parse_functions(specs, ast)
-
     IO.inspect(functions)
+
     module_lines =
       [Generators.PlusCal.Module.Metadata.generate_header(module_name)] ++
         [Generators.PlusCal.Module.Metadata.generate_extensions()] ++
         [Generators.PlusCal.Module.Metadata.generate_constants(functions)] ++
         [""] ++
-        Generators.PlusCal.Algorithm.generate_algorithm(module_name, functions, pluscal_processes, pluscal_procedures) ++
+        Generators.PlusCal.Algorithm.generate_algorithm(
+          module_name,
+          functions,
+          pluscal_processes,
+          pluscal_procedures
+        ) ++
         [Generators.PlusCal.Module.Metadata.generate_footer(module_name)]
 
-    IO.inspect(module_lines)
     Enum.join(module_lines, "\n")
   end
 end

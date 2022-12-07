@@ -9,6 +9,7 @@ defmodule Models.Expression do
           Models.Expression.If.t()
           | Models.Expression.Map.Update.t()
           | Models.Expression.Call.Function.t()
+          | Models.Expression.Call.ExternalFunction.t()
           | Models.Expression.Return.Function.t()
           | Models.Expression.Return.Value.t()
 
@@ -17,10 +18,8 @@ defmodule Models.Expression do
   @spec parse_expressions(any(), Models.Function.Clause.Metadata.t()) ::
           List[Models.Expression.t()]
   def parse_expressions(body_ast, metadata) do
-    IO.inspect(body_ast)
-
     {_, expressions} =
-      Macro.postwalk(body_ast, [], fn node, acc ->
+      Macro.prewalk(body_ast, [], fn node, acc ->
         IO.inspect(node)
 
         expression =
@@ -32,6 +31,13 @@ defmodule Models.Expression do
             # Parse `map update` expression
             {:=, _, [_, {_, _, [{:|, _, _}]}]} = map_update_ast ->
               Models.Expression.Map.Update.parse_expression(map_update_ast, metadata)
+
+            # Parse `call external function` expression
+            {:=, _, [_, {{:., _, _}, _, _}]} = call_external_function_ast ->
+              Models.Expression.Call.ExternalFunction.parse_expression(
+                call_external_function_ast,
+                metadata
+              )
 
             # Parse `call function` expression
             {:=, _, [_, {_, _, _}]} = call_function_ast ->
@@ -50,12 +56,15 @@ defmodule Models.Expression do
             {:{}, _, values} ->
               Models.Expression.Return.Value.parse_expression(values, metadata)
 
+            {return, _, nil} ->
+              Models.Expression.Return.Value.parse_expression(return, metadata)
+
             # Parse `return function` expression
-            [do: {function, _, [_, _]} = return_function_ast] ->
-              case Atom.to_string(function) == "__block__" do
-                true -> nil
-                false -> Models.Expression.Return.Function.parse_expression(return_function_ast, metadata)
-              end
+            [do: {_function, _, _arguments} = return_function_ast] ->
+              Models.Expression.Return.Function.parse_expression(
+                return_function_ast,
+                metadata
+              )
 
             [else: {_function, _, [_, _]} = return_function_ast] ->
               Models.Expression.Return.Function.parse_expression(return_function_ast, metadata)
@@ -80,7 +89,6 @@ defmodule Models.Expression do
         {new_node, new_acc}
       end)
 
-    IO.inspect(expressions)
     expressions
   end
 end

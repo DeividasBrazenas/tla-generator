@@ -31,7 +31,6 @@ defmodule Models.Function.Spec do
          {:spec, _, [{:"::", _, [{method, _, _arguments}, _]}]} = node,
          acc
        ) do
-    IO.inspect(node)
 
     spec = %Models.Function.Spec{
       name: method,

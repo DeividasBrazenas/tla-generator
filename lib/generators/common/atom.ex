@@ -1,16 +1,23 @@
 defmodule Generators.Common.Constant do
   @spec to_tla_constant(any()) :: String.t()
-  def to_tla_constant(constant) do
+  def to_tla_constant(value) do
+    IO.inspect(value)
+
     cond do
-      constant == :nil -> "NULL"
-      is_boolean(constant) ->
-        case constant do
+      value == nil ->
+        "NULL"
+
+      is_boolean(value) ->
+        case value do
           true -> "TRUE"
           false -> "FALSE"
         end
 
+      is_number(value) ->
+        to_string(value)
+
       true ->
-        "\"#{Atom.to_string(constant)}\""
+        "\"#{Atom.to_string(value)}\""
     end
   end
 end

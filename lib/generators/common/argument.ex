@@ -48,12 +48,12 @@ defmodule Generators.Common.Argument do
     end
   end
 
-  @spec generate_tla_string(Models.Argument.t(), String.t(), String.t()) :: List[String.t()]
-  def generate_tla_string(argument = %Models.Argument.Constant{}, prefix, accessor) do
+  @spec generate_tla_string(Models.Type.t(), String.t(), String.t()) :: List[String.t()]
+  def generate_tla_string(argument = %Models.Type.Constant{}, prefix, accessor) do
     ["#{prefix}#{accessor}#{argument.name} = #{get_constant_value(argument.value)}"]
   end
 
-  def generate_tla_string(argument = %Models.Argument.Tuple{}, prefix, accessor) do
+  def generate_tla_string(argument = %Models.Type.Tuple{}, prefix, accessor) do
     generated =
       argument.arguments
       |> Enum.with_index(fn arg, idx ->
@@ -65,7 +65,7 @@ defmodule Generators.Common.Argument do
     generated
   end
 
-  def generate_tla_string(argument = %Models.Argument.Map{}, prefix, accessor) do
+  def generate_tla_string(argument = %Models.Type.Map{}, prefix, accessor) do
     generated =
       argument.key_value_pairs
       |> Enum.map(fn {key, arg} ->
@@ -77,7 +77,7 @@ defmodule Generators.Common.Argument do
     generated
   end
 
-  def generate_tla_string(argument = %Models.Argument.Struct{}, prefix, accessor) do
+  def generate_tla_string(argument = %Models.Type.Struct{}, prefix, accessor) do
     generated = generate_tla_string(argument.arguments, prefix, "#{accessor}#{argument.name}")
 
     generated
@@ -99,31 +99,37 @@ defmodule Generators.Common.Argument do
     end
   end
 
-  @spec get_accessor(String.t(), List[Models.Argument.t()]) ::
+  @spec get_accessor(String.t(), List[Models.Type.t()], List[atom()]) ::
           String.t() | nil
-  def get_accessor(var_name, fn_inputs) do
-    fn_inputs
-    |> Enum.map(fn fn_input -> get_accessor_from_input(var_name, fn_input, "") end)
-    |> Enum.find(nil, fn accessor -> accessor != nil end)
+  def get_accessor(var_name, fn_inputs, local_variables) do
+    case Enum.member?(local_variables, var_name) do
+      true ->
+        var_name
+
+      false ->
+        fn_inputs
+        |> Enum.map(fn fn_input -> get_accessor_from_input(var_name, fn_input, "") end)
+        |> Enum.find(nil, fn accessor -> accessor != nil end)
+    end
   end
 
-  @spec get_accessor_from_input(String.t(), Models.Argument.t(), String.t()) ::
+  @spec get_accessor_from_input(String.t(), Models.Type.t(), String.t()) ::
           String.t() | nil
-  defp get_accessor_from_input(var_name, fn_input = %Models.Argument.Constant{}, prefix) do
+  defp get_accessor_from_input(var_name, fn_input = %Models.Type.Constant{}, prefix) do
     case var_name == fn_input.name do
       true -> "#{prefix}#{fn_input.name}"
       false -> nil
     end
   end
 
-  defp get_accessor_from_input(var_name, fn_input = %Models.Argument.Variable{}, prefix) do
+  defp get_accessor_from_input(var_name, fn_input = %Models.Type.Variable{}, prefix) do
     case var_name == fn_input.name do
       true -> "#{prefix}#{fn_input.name}"
       false -> nil
     end
   end
 
-  defp get_accessor_from_input(var_name, fn_input = %Models.Argument.Map{}, prefix) do
+  defp get_accessor_from_input(var_name, fn_input = %Models.Type.Map{}, prefix) do
     fn_input.key_value_pairs
     |> Enum.map(fn {name, value} ->
       case var_name == name do
@@ -134,14 +140,14 @@ defmodule Generators.Common.Argument do
     |> Enum.find(nil, fn accessor -> accessor != nil end)
   end
 
-  defp get_accessor_from_input(var_name, fn_input = %Models.Argument.Struct{}, prefix) do
+  defp get_accessor_from_input(var_name, fn_input = %Models.Type.Struct{}, prefix) do
     case var_name == fn_input.name do
       true -> "#{prefix}#{fn_input.name}"
       false -> get_accessor_from_input(var_name, fn_input.arguments, "#{prefix}#{fn_input.name}")
     end
   end
 
-  defp get_accessor_from_input(var_name, fn_input = %Models.Argument.Tuple{}, prefix) do
+  defp get_accessor_from_input(var_name, fn_input = %Models.Type.Tuple{}, prefix) do
     case var_name == fn_input.name do
       true ->
         "#{prefix}#{fn_input.name}"

@@ -4,8 +4,6 @@ defmodule Generators.PlusCal.Procedure do
   @spec generate_procedures(List[Models.Function.t()], List[atom()], Integer.t()) ::
           List[String.t()]
   def generate_procedures(functions, pluscal_processes, indent_level) do
-    IO.inspect(functions)
-
     procedures =
       functions
       |> Enum.filter(fn function ->
@@ -18,14 +16,11 @@ defmodule Generators.PlusCal.Procedure do
         procedure ++ [""]
       end)
 
-    IO.inspect(procedures)
     procedures
   end
 
   @spec generate_procedure(Models.Function.t(), Integer.t()) :: List[String.t()]
   defp generate_procedure(function, indent_level) do
-    IO.inspect(function)
-
     procedure =
       [generate_header(function, indent_level)] ++
         generate_variables(function, indent_level) ++
@@ -34,13 +29,13 @@ defmodule Generators.PlusCal.Procedure do
         Generators.PlusCal.Body.generate_body(function.clauses, indent_level + 2) ++
         [generate_footer(indent_level)]
 
-    IO.inspect(procedure)
     procedure
   end
 
   @spec generate_header(Models.Function.t(), Integer.t()) :: String.t()
   defp generate_header(function, indent_level) do
-    argument_names = Generators.Common.Argument.get_argument_names(function, "#{function.spec.name}")
+    argument_names =
+      Generators.Common.Argument.get_argument_names(function, "#{function.spec.name}")
 
     "#{Indent.build(indent_level)}procedure #{function.spec.name}(#{Enum.join(argument_names, ", ")})"
   end
@@ -49,7 +44,7 @@ defmodule Generators.PlusCal.Procedure do
   defp generate_variables(function, indent_level) do
     variables =
       function.clauses
-      |> Enum.flat_map(fn clause -> Models.Function.Clause.get_defined_variables(clause) end)
+      |> Enum.flat_map(fn clause -> clause.local_variables end)
 
     variables = variables |> Enum.uniq()
 

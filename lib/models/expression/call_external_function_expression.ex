@@ -1,13 +1,13 @@
-defmodule Models.Expression.Return.Function do
+defmodule Models.Expression.Call.ExternalFunction do
   @moduledoc """
-  Defines `return function` expression
+  Defines `value update` expression
   """
   @behaviour Models.Expression
 
   use TypedStruct
 
   typedstruct do
-    field(:parent_function_name, atom(), default: nil, enforce: true)
+    field(:variables, List[atom()], default: [])
     field(:namespace, atom(), default: nil, enforce: true)
     field(:function_name, atom(), default: nil, enforce: true)
     field(:arguments, List[any()], default: [], enforce: true)
@@ -15,17 +15,18 @@ defmodule Models.Expression.Return.Function do
 
   @impl Models.Expression
   @spec parse_expression(any(), Models.Function.Clause.Metadata.t()) ::
-          Models.Expression.Return.Function.t()
+          Models.Expression.Call.ExternalFunction.t()
   def parse_expression(
-        {{:., _, function_call_ast}, _, arguments_ast},
-        metadata
+        {:=, _, [variables_ast, {{:., _, function_call_ast}, _, arguments_ast}]},
+        _metadata
       ) do
+    variables = Models.Type.parse_type(variables_ast)
     arguments = arguments_ast |> Enum.map(fn ast -> get_argument(ast) end)
     namespace = List.first(function_call_ast)
     function_name = List.last(function_call_ast)
 
-    expression = %Models.Expression.Return.Function{
-      parent_function_name: metadata.name,
+    expression = %Models.Expression.Call.ExternalFunction{
+      variables: variables,
       namespace: namespace,
       function_name: function_name,
       arguments: arguments
@@ -33,8 +34,6 @@ defmodule Models.Expression.Return.Function do
 
     expression
   end
-
-  def parse_expression(_ast, _metadata), do: nil
 
   defp get_argument(ast) do
     Macro.to_string(ast)

@@ -1,6 +1,6 @@
-defmodule Models.Argument.Tests do
+defmodule Models.Type.Tests do
   use ExUnit.Case
-  doctest Models.Argument
+  doctest Models.Type
 
   describe "argument" do
     test "variable is parsed" do
@@ -8,10 +8,10 @@ defmodule Models.Argument.Tests do
       ast = {:a, [line: 32], nil}
 
       # Act
-      argument = Models.Argument.parse_argument(ast)
+      argument = Models.Type.parse_type(ast)
 
       # Assert
-      assert argument.__struct__ == Models.Argument.Variable
+      assert argument.__struct__ == Models.Type.Variable
     end
 
     test "tuple is parsed #1" do
@@ -19,10 +19,10 @@ defmodule Models.Argument.Tests do
       ast = {:{}, [line: 1], [:<, {:a, [line: 1], nil}, {:b, [line: 1], nil}]}
 
       # Act
-      argument = Models.Argument.parse_argument(ast)
+      argument = Models.Type.parse_type(ast)
 
       # Assert
-      assert argument.__struct__ == Models.Argument.Tuple
+      assert argument.__struct__ == Models.Type.Tuple
     end
 
     test "tuple is parsed #2" do
@@ -30,10 +30,10 @@ defmodule Models.Argument.Tests do
       ast = {{:a, [line: 1], nil}, {:b, [line: 1], nil}}
 
       # Act
-      argument = Models.Argument.parse_argument(ast)
+      argument = Models.Type.parse_type(ast)
 
       # Assert
-      assert argument.__struct__ == Models.Argument.Tuple
+      assert argument.__struct__ == Models.Type.Tuple
     end
 
     test "named tuple is parsed" do
@@ -41,10 +41,10 @@ defmodule Models.Argument.Tests do
       ast = {:=, [line: 36], [{:named_tuple, [line: 36], nil}, {{:b, [line: 36], nil}, 7}]}
 
       # Act
-      argument = Models.Argument.parse_argument(ast)
+      argument = Models.Type.parse_type(ast)
 
       # Assert
-      assert argument.__struct__ == Models.Argument.Tuple
+      assert argument.__struct__ == Models.Type.Tuple
     end
 
     test "named struct is parsed" do
@@ -52,10 +52,10 @@ defmodule Models.Argument.Tests do
       ast = {:=, [line: 1], [{:x, [line: 1], nil}, {:%, [line: 1], [{:__aliases__, [line: 1], [:Math]}, {:%{}, [line: 1], [operator: :<]}]}]}
 
       # Act
-      argument = Models.Argument.parse_argument(ast)
+      argument = Models.Type.parse_type(ast)
 
       # Assert
-      assert argument.__struct__ == Models.Argument.Struct
+      assert argument.__struct__ == Models.Type.Struct
     end
 
     test "struct is parsed" do
@@ -63,10 +63,10 @@ defmodule Models.Argument.Tests do
       ast = {:%, [line: 1], [{:__aliases__, [line: 1], [:Math]}, {:%{}, [line: 1], [operator: :<]}]}
 
       # Act
-      argument = Models.Argument.parse_argument(ast)
+      argument = Models.Type.parse_type(ast)
 
       # Assert
-      assert argument.__struct__ == Models.Argument.Struct
+      assert argument.__struct__ == Models.Type.Struct
     end
 
     test "map is parsed" do
@@ -74,10 +74,10 @@ defmodule Models.Argument.Tests do
       ast = {:%{}, [line: 1], [operator: :<]}
 
       # Act
-      argument = Models.Argument.parse_argument(ast)
+      argument = Models.Type.parse_type(ast)
 
       # Assert
-      assert argument.__struct__ == Models.Argument.Map
+      assert argument.__struct__ == Models.Type.Map
     end
 
     test "string is parsed as constant" do
@@ -85,10 +85,10 @@ defmodule Models.Argument.Tests do
       ast = "a"
 
       # Act
-      argument = Models.Argument.parse_argument(ast)
+      argument = Models.Type.parse_type(ast)
 
       # Assert
-      assert argument.__struct__ == Models.Argument.Constant
+      assert argument.__struct__ == Models.Type.Constant
     end
 
     test "atom is parsed as constant" do
@@ -96,10 +96,10 @@ defmodule Models.Argument.Tests do
       ast = :a
 
       # Act
-      argument = Models.Argument.parse_argument(ast)
+      argument = Models.Type.parse_type(ast)
 
       # Assert
-      assert argument.__struct__ == Models.Argument.Constant
+      assert argument.__struct__ == Models.Type.Constant
     end
 
     test "integer is parsed as constant" do
@@ -107,10 +107,10 @@ defmodule Models.Argument.Tests do
       ast = 42
 
       # Act
-      argument = Models.Argument.parse_argument(ast)
+      argument = Models.Type.parse_type(ast)
 
       # Assert
-      assert argument.__struct__ == Models.Argument.Constant
+      assert argument.__struct__ == Models.Type.Constant
     end
 
     test "float is parsed as constant" do
@@ -118,10 +118,10 @@ defmodule Models.Argument.Tests do
       ast = 4.2
 
       # Act
-      argument = Models.Argument.parse_argument(ast)
+      argument = Models.Type.parse_type(ast)
 
       # Assert
-      assert argument.__struct__ == Models.Argument.Constant
+      assert argument.__struct__ == Models.Type.Constant
     end
   end
 end
