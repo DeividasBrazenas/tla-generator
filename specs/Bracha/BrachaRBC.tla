@@ -39,7 +39,7 @@ from the Das et al.:
 In the above 𝑡 is "Given a network of 𝑛 nodes, of which up to 𝑡 could be malicious",
 thus that's the parameter F in the specification bellow.
 *)
-EXTENDS FiniteSets, Naturals, TLC
+EXTENDS FiniteSets, Naturals
 CONSTANT CN
 CONSTANT FN
 CONSTANT Value
@@ -90,18 +90,11 @@ Actions.
 >    2: input 𝑀
 >    3: send ⟨PROPOSE, 𝑀⟩ to all
 *)
-
-(*
-    Jei broadcasteris yra CN
-    Ir broadcasteris nera issiuntes PROPOSE msg su Value
-    Tada pridedu viena zinute
-*)
 Broadcast ==
     /\ bcNode \in CN \* We only care on the behaviour of the correct nodes.
     /\ ~HaveProposeMsg(bcNode, Value)
     /\ msgs' = msgs \cup {[t |-> "PROPOSE", src |-> bcNode, v |-> bcValue]}
     /\ UNCHANGED <<bcNode, bcValue, predicate, output>>
-
 
 (*
 >    4: // all nodes
@@ -177,15 +170,15 @@ Init ==
        \/ bcNode \in FN /\ bcValue = NotValue
     /\ predicate \in [CN -> BOOLEAN]
     /\ output = [n \in CN |-> NotValue]
-    /\ msgs = {}
+    /\ msgs = [t : {"PROPOSE", "ECHO", "READY"}, src: FN, v: Value]
 
 Next ==
     \/ Broadcast
-    \* \/ UpdatePredicate
-    \* \/ \E pm \in msgs : RecvPropose(pm)
-    \* \/ \E eq \in QXF  : RecvEcho(eq)
-    \* \/ \E rq \in Q1F  : RecvReadySupport(rq)
-    \* \/ \E rq \in Q2F  : RecvReadyOutput(rq)
+    \/ UpdatePredicate
+    \/ \E pm \in msgs : RecvPropose(pm)
+    \/ \E eq \in QXF  : RecvEcho(eq)
+    \/ \E rq \in Q1F  : RecvReadySupport(rq)
+    \/ \E rq \in Q2F  : RecvReadyOutput(rq)
 
 Fairness ==
     /\ WF_vars(Broadcast)
