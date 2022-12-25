@@ -4,7 +4,7 @@ EXTENDS BrachaRBC_Broadcast_PCal
 org_spec == INSTANCE BrachaRBC_Broadcast WITH
     bcNode <- bcNode,
     bcValue <- input,
-    msgs <- IF \A n \in AN: msgs[n] = {[t |-> "PROPOSE", src |-> bcNode, v |-> input]}
+    msgs <- IF \A n \in AN: {<<"PROPOSE", bcNode, input>>} \subseteq msgs[n]
                 THEN {[t |-> "PROPOSE", src |-> bcNode, v |-> input]}
                 ELSE {}
 

@@ -39,7 +39,7 @@ from the Das et al.:
 In the above 𝑡 is "Given a network of 𝑛 nodes, of which up to 𝑡 could be malicious",
 thus that's the parameter F in the specification bellow.
 *)
-EXTENDS FiniteSets, Naturals
+EXTENDS FiniteSets, Naturals, TLC
 CONSTANT CN
 CONSTANT FN
 CONSTANT Value

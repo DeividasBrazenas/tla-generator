@@ -24,35 +24,33 @@ variables
     peers = rbc.peers, 
     output = rbc.output,
     peer_id,
-    index = 1,
-    msg = [t : {"PROPOSE", "ECHO", "READY"}, src: AN, v: Value]
+    index = 1
 begin
     handle_input:
-    print <<"msgs">>;
     if broadcaster = me /\ propose_sent = FALSE then
         rbc.propose_sent := TRUE;
         iterate:
             while index <= Len(peers) do
                 peer_id := peers[index];
-                msgs[peer_id] := msgs[peer_id] \union {[t |-> "PROPOSE", src |-> me, v |-> input]};
+                msgs[peer_id] := msgs[peer_id] \union {<<"PROPOSE", me, input>>};
                 index := index + 1;
             end while;
             output := output;
     end if;
 end process;
 end algorithm;*)
-\* BEGIN TRANSLATION (chksum(pcal) = "51657f10" /\ chksum(tla) = "8bf91dbd")
-\* Label handle_input of process handle_input at line 31 col 5 changed to handle_input_
+\* BEGIN TRANSLATION (chksum(pcal) = "94ed0f00" /\ chksum(tla) = "56b3f946")
+\* Label handle_input of process handle_input at line 30 col 5 changed to handle_input_
 CONSTANT defaultInitValue
 VARIABLES bcNode, rbc, input, msgs, pc
 
 (* define statement *)
 AN  == CN \cup FN
 
-VARIABLES me, broadcaster, propose_sent, peers, output, peer_id, index, msg
+VARIABLES me, broadcaster, propose_sent, peers, output, peer_id, index
 
 vars == << bcNode, rbc, input, msgs, pc, me, broadcaster, propose_sent, peers, 
-           output, peer_id, index, msg >>
+           output, peer_id, index >>
 
 ProcSet == {"handle_input"}
 
@@ -69,24 +67,21 @@ Init == (* Global variables *)
         /\ output = rbc.output
         /\ peer_id = defaultInitValue
         /\ index = 1
-        /\ msg = [t : {"PROPOSE", "ECHO", "READY"}, src: AN, v: Value]
         /\ pc = [self \in ProcSet |-> "handle_input_"]
 
 handle_input_ == /\ pc["handle_input"] = "handle_input_"
-                 /\ PrintT(<<"msgs">>)
                  /\ IF broadcaster = me /\ propose_sent = FALSE
                        THEN /\ rbc' = [rbc EXCEPT !.propose_sent = TRUE]
                             /\ pc' = [pc EXCEPT !["handle_input"] = "iterate"]
                        ELSE /\ pc' = [pc EXCEPT !["handle_input"] = "Done"]
                             /\ rbc' = rbc
                  /\ UNCHANGED << bcNode, input, msgs, me, broadcaster, 
-                                 propose_sent, peers, output, peer_id, index, 
-                                 msg >>
+                                 propose_sent, peers, output, peer_id, index >>
 
 iterate == /\ pc["handle_input"] = "iterate"
            /\ IF index <= Len(peers)
                  THEN /\ peer_id' = peers[index]
-                      /\ msgs' = [msgs EXCEPT ![peer_id'] = msgs[peer_id'] \union {[t |-> "PROPOSE", src |-> me, v |-> input]}]
+                      /\ msgs' = [msgs EXCEPT ![peer_id'] = msgs[peer_id'] \union {<<"PROPOSE", me, input>>}]
                       /\ index' = index + 1
                       /\ pc' = [pc EXCEPT !["handle_input"] = "iterate"]
                       /\ UNCHANGED output
@@ -94,7 +89,7 @@ iterate == /\ pc["handle_input"] = "iterate"
                       /\ pc' = [pc EXCEPT !["handle_input"] = "Done"]
                       /\ UNCHANGED << msgs, peer_id, index >>
            /\ UNCHANGED << bcNode, rbc, input, me, broadcaster, propose_sent, 
-                           peers, msg >>
+                           peers >>
 
 handle_input == handle_input_ \/ iterate
 
@@ -111,5 +106,6 @@ Spec == /\ Init /\ [][Next]_vars
 Termination == <>(\A self \in ProcSet: pc[self] = "Done")
 
 \* END TRANSLATION 
+
 
 ===============================================================================
