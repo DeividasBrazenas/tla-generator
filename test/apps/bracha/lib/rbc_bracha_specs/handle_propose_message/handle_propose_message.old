@@ -1,0 +1,94 @@
+-------------------- MODULE handle_propose_message --------------------
+EXTENDS Naturals, FiniteSets, Sequences, TLC
+
+CONSTANT CN
+CONSTANT FN
+CONSTANT Value
+CONSTANT NotValue
+CONSTANT NULL
+
+(*--algorithm handle_propose_message
+variables
+  bcNode \in AN,
+  from = bcNode,
+  value \in (CASE from \in CN -> Value [] from \in FN -> {NotValue}),
+  echoSent \in BOOLEAN,
+  rbcs = [node_id \in AN |->
+       [n |-> N,
+       f |-> F,
+       me |-> node_id,
+       peers |-> AN,
+       broadcaster |-> bcNode,
+       predicate |-> [v \in AllValues |-> TRUE],
+       max_msg_size |-> 1000,
+       propose_sent |-> FALSE,
+       msg_recv |-> [msg_from_node_id \in AN |-> [msg_type \in MsgTypes |-> FALSE]],
+       echo_sent |-> echoSent,
+       echo_recv |-> [echo_value \in AllValues |-> [x \in AN |-> FALSE]],
+       ready_sent |-> FALSE,
+       ready_recv |-> [ready_value \in AllValues |-> [x \in AN |-> FALSE]],
+       output |-> NULL]],
+  msgs = [node_id \in AN |-> {}],
+  _msg = <<"PROPOSE", from, value>>,
+
+define
+  AN  == CN \cup FN
+  N == Cardinality(AN)
+  F == Cardinality(FN)
+  MsgTypes == {"PROPOSE", "ECHO", "READY"}
+  AllValues == Value \cup {NotValue}
+end define;
+
+fair process handle_propose_message \in AN
+variables
+  rbc = rbcs[self],
+  broadcaster = NULL,
+  echo_sent = NULL,
+  me = NULL,
+  msg_recv = NULL,
+  output = NULL,
+  peers = NULL,
+  predicate = NULL,
+  result = NULL,
+begin
+handle_propose_message:
+  if _msg[1] /= "PROPOSE" then
+    goto Done;
+  end if;
+  after_condition:
+
+  broadcaster := rbc.broadcaster;
+  echo_sent := rbc.echo_sent;
+  me := rbc.me;
+  msg_recv := rbc.msg_recv;
+  output := rbc.output;
+  peers := rbc.peers;
+  predicate := rbc.predicate;
+
+  if broadcaster /= from then
+    goto Done;
+  end if;
+  after_pin_0:
+
+  if (~echo_sent /\ predicate[value]) then
+    if_0:
+      msg_recv[from]["PROPOSE"] := TRUE;
+
+      rbc.echo_sent := TRUE
+      || rbc.msg_recv := msg_recv;
+
+      msgs := [peer_id \in peers |-> msgs[peer_id] \cup {<<"ECHO", me, value>>}];
+
+      result := <<"ok", rbc, msgs, output>>;
+
+  else
+    else_0:
+
+      result := <<"ok", rbc, msgs, output>>;
+
+  end if;
+
+end process;
+end algorithm; *)
+
+=======================================================================

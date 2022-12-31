@@ -1,0 +1,70 @@
+-------------------- MODULE BrachaRBC_handle_input --------------------
+EXTENDS Naturals, FiniteSets, Sequences, SequencesExt, TLC
+
+CONSTANT CN
+CONSTANT FN
+CONSTANT Value
+CONSTANT NotValue
+
+(*--algorithm BrachaRBC_handle_input
+variables
+  bcNode \in AN,
+  rbc = [n |-> Cardinality(AN),
+       f |-> Cardinality(FN),
+       me |-> bcNode,
+       peers |-> SetToSeq(AN),
+       broadcaster |-> bcNode,
+       predicate |-> TRUE,
+       max_msg_size |-> 1000,
+       propose_sent |-> FALSE,
+       output |-> NotValue],
+  input \in (CASE bcNode \in CN -> Value [] bcNode \in FN -> {NotValue}),
+  msgs = [node_id \in AN |-> {}],
+
+define
+  AN  == CN \cup FN
+end define;
+
+fair process handle_input \in CN
+variables
+  broadcaster,
+  me,
+  output,
+  peers,
+  propose_sent,
+  enum_into_0_idx = 1,
+  peer_id,
+  result,
+begin
+handle_input:
+  broadcaster := rbc.broadcaster;
+  me := rbc.me;
+  output := rbc.output;
+  peers := rbc.peers;
+  propose_sent := rbc.propose_sent;
+
+  if broadcaster /= me then
+    goto Done;
+  end if;
+  after_pin_0:
+
+  if propose_sent /= FALSE then
+    goto Done;
+  end if;
+  after_pin_1:
+
+  rbc.propose_sent := TRUE;
+
+  enum_into_0:
+    while enum_into_0_idx <= Len(peers) do
+      peer_id := peers[enum_into_0_idx];
+      msgs[peer_id] := msgs[peer_id] \cup {<<"PROPOSE", me, input>>};
+      enum_into_0_idx := enum_into_0_idx + 1;
+    end while;
+
+  result := <<"ok", rbc, msgs, output>>;
+
+end process;
+end algorithm; *)
+
+=======================================================================

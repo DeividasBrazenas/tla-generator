@@ -1,0 +1,785 @@
+@!@!@STARTMSG 2262:0 @!@!@
+TLC2 Version 2.18 of Day Month 20?? (rev: 6dfec66)
+@!@!@ENDMSG 2262 @!@!@
+@!@!@STARTMSG 2187:0 @!@!@
+Running breadth-first search Model-Checking with fp 17 and seed 4892643593334085820 with 1 worker on 8 cores with 7220MB heap and 64MB offheap memory [pid: 1544] (Windows 11 10.0 amd64, Oracle Corporation 18.0.1.1 x86_64, MSBDiskFPSet, DiskStateQueue).
+@!@!@ENDMSG 2187 @!@!@
+@!@!@STARTMSG 2220:0 @!@!@
+Starting SANY...
+@!@!@ENDMSG 2220 @!@!@
+Parsing file C:\University\Master's Thesis\tla_generator_v2\test\apps\bracha\lib\rbc_bracha_specs\handle_ready_message\handle_ready_message_REF.tla (file:/c:/University/Master's%20Thesis/tla_generator_v2/test/apps/bracha/lib/rbc_bracha_specs/handle_ready_message/handle_ready_message_REF.tla)
+Parsing file C:\University\Master's Thesis\tla_generator_v2\test\apps\bracha\lib\rbc_bracha_specs\handle_ready_message\handle_ready_message.tla (file:/c:/University/Master's%20Thesis/tla_generator_v2/test/apps/bracha/lib/rbc_bracha_specs/handle_ready_message/handle_ready_message.tla)
+Warning: symbols were renamed.
+!! WARNING: The PlusCal algorithm in module handle_ready_message has changed since its last translation.
+Parsing file C:\Users\Deividas\AppData\Local\Temp\tlc-18432966539562243684\Naturals.tla (jar:file:/C:/Users/Deividas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.3106/tools/tla2tools.jar!/tla2sany/StandardModules/Naturals.tla)
+Parsing file C:\Users\Deividas\AppData\Local\Temp\tlc-18432966539562243684\FiniteSets.tla (jar:file:/C:/Users/Deividas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.3106/tools/tla2tools.jar!/tla2sany/StandardModules/FiniteSets.tla)
+Parsing file C:\Users\Deividas\AppData\Local\Temp\tlc-18432966539562243684\Sequences.tla (jar:file:/C:/Users/Deividas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.3106/tools/tla2tools.jar!/tla2sany/StandardModules/Sequences.tla)
+Parsing file C:\Users\Deividas\AppData\Local\Temp\tlc-18432966539562243684\TLC.tla (jar:file:/C:/Users/Deividas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.3106/tools/tla2tools.jar!/tla2sany/StandardModules/TLC.tla)
+Parsing file C:\University\Master's Thesis\tla_generator_v2\test\apps\bracha\lib\rbc_bracha_specs\handle_ready_message\BrachaRBC.tla (file:/c:/University/Master's%20Thesis/tla_generator_v2/test/apps/bracha/lib/rbc_bracha_specs/handle_ready_message/BrachaRBC.tla)
+Semantic processing of module Naturals
+Semantic processing of module Sequences
+Semantic processing of module FiniteSets
+Semantic processing of module TLC
+Semantic processing of module handle_ready_message
+Semantic processing of module BrachaRBC
+Semantic processing of module handle_ready_message_REF
+@!@!@STARTMSG 2219:0 @!@!@
+SANY finished.
+@!@!@ENDMSG 2219 @!@!@
+@!@!@STARTMSG 2185:0 @!@!@
+Starting... (2022-12-31 12:01:38)
+@!@!@ENDMSG 2185 @!@!@
+@!@!@STARTMSG 2212:0 @!@!@
+Implied-temporal checking--satisfiability problem has 1 branches.
+@!@!@ENDMSG 2212 @!@!@
+@!@!@STARTMSG 2189:0 @!@!@
+Computing initial states...
+@!@!@ENDMSG 2189 @!@!@
+@!@!@STARTMSG 2269:0 @!@!@
+Computed 2 initial states...
+@!@!@ENDMSG 2269 @!@!@
+@!@!@STARTMSG 2269:0 @!@!@
+Computed 4 initial states...
+@!@!@ENDMSG 2269 @!@!@
+@!@!@STARTMSG 2269:0 @!@!@
+Computed 8 initial states...
+@!@!@ENDMSG 2269 @!@!@
+@!@!@STARTMSG 2269:0 @!@!@
+Computed 16 initial states...
+@!@!@ENDMSG 2269 @!@!@
+@!@!@STARTMSG 2269:0 @!@!@
+Computed 32 initial states...
+@!@!@ENDMSG 2269 @!@!@
+@!@!@STARTMSG 2269:0 @!@!@
+Computed 64 initial states...
+@!@!@ENDMSG 2269 @!@!@
+@!@!@STARTMSG 2190:0 @!@!@
+Finished computing initial states: 84 distinct states generated at 2022-12-31 12:01:38.
+@!@!@ENDMSG 2190 @!@!@
+@!@!@STARTMSG 2192:0 @!@!@
+Checking temporal properties for the current state space with 4196 total distinct states at (2022-12-31 12:01:41)
+@!@!@ENDMSG 2192 @!@!@
+@!@!@STARTMSG 2267:0 @!@!@
+Finished checking temporal properties in 00s at 2022-12-31 12:01:41
+@!@!@ENDMSG 2267 @!@!@
+@!@!@STARTMSG 2200:0 @!@!@
+Progress(6) at 2022-12-31 12:01:41: 12,786 states generated (12,786 s/min), 6,242 distinct states found (6,242 ds/min), 3,059 states left on queue.
+@!@!@ENDMSG 2200 @!@!@
+@!@!@STARTMSG 2200:0 @!@!@
+Progress(17) at 2022-12-31 12:02:09: 176,428 states generated, 58,072 distinct states found, 0 states left on queue.
+@!@!@ENDMSG 2200 @!@!@
+@!@!@STARTMSG 2192:0 @!@!@
+Checking temporal properties for the complete state space with 58072 total distinct states at (2022-12-31 12:02:09)
+@!@!@ENDMSG 2192 @!@!@
+@!@!@STARTMSG 2267:0 @!@!@
+Finished checking temporal properties in 00s at 2022-12-31 12:02:09
+@!@!@ENDMSG 2267 @!@!@
+@!@!@STARTMSG 2193:0 @!@!@
+Model checking completed. No error has been found.
+  Estimates of the probability that TLC did not check all reachable states
+  because two distinct states had the same fingerprint:
+  calculated (optimistic):  val = 3.7E-10
+  based on the actual fingerprints:  val = 3.6E-10
+@!@!@ENDMSG 2193 @!@!@
+@!@!@STARTMSG 2201:0 @!@!@
+The coverage statistics at 2022-12-31 12:02:09
+@!@!@ENDMSG 2201 @!@!@
+@!@!@STARTMSG 2773:0 @!@!@
+<Init line 136, col 1 to line 136, col 4 of module handle_ready_message>: 84:84
+@!@!@ENDMSG 2773 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 137, col 12 to line 137, col 24 of module handle_ready_message: 1
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 138, col 12 to line 138, col 22 of module handle_ready_message: 4
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 139, col 23 to line 139, col 80 of module handle_ready_message: 16
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 139, col 28 to line 139, col 40 of module handle_ready_message: 16
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 139, col 45 to line 139, col 49 of module handle_ready_message: 12
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 139, col 54 to line 139, col 66 of module handle_ready_message: 4
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 139, col 71 to line 139, col 80 of module handle_ready_message: 4:8
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 139, col 72 to line 139, col 79 of module handle_ready_message: 4
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 140, col 32 to line 140, col 50 of module handle_ready_message: 28
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 140, col 32 to line 140, col 38 of module handle_ready_message: 28
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 140, col 45 to line 140, col 50 of module handle_ready_message: 28:56
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 140, col 46 to line 140, col 49 of module handle_ready_message: 28
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 141, col 24 to line 141, col 74 of module handle_ready_message: 84:252
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 141, col 31 to line 141, col 39 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 142, col 24 to line 142, col 43 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 124, col 26 to line 124, col 57 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 124, col 26 to line 124, col 47 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 123, col 27 to line 123, col 81 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 123, col 39 to line 123, col 80 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 123, col 52 to line 123, col 79 of module handle_ready_message: 336
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 123, col 47 to line 123, col 48 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 124, col 37 to line 124, col 46 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 124, col 52 to line 124, col 56 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 142, col 34 to line 142, col 42 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 143, col 21 to line 157, col 35 of module handle_ready_message: 84:336
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 143, col 34 to line 143, col 35 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 158, col 19 to line 158, col 41 of module handle_ready_message: 84:336
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 158, col 32 to line 158, col 33 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 159, col 12 to line 159, col 42 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 161, col 18 to line 161, col 45 of module handle_ready_message: 84:336
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 161, col 28 to line 161, col 29 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 162, col 16 to line 162, col 37 of module handle_ready_message: 84:336
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 162, col 26 to line 162, col 27 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 163, col 17 to line 163, col 38 of module handle_ready_message: 84:336
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 163, col 27 to line 163, col 28 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 164, col 23 to line 164, col 44 of module handle_ready_message: 84:336
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 164, col 33 to line 164, col 34 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 165, col 21 to line 165, col 42 of module handle_ready_message: 84:336
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 165, col 31 to line 165, col 32 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 166, col 20 to line 166, col 41 of module handle_ready_message: 84:336
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 166, col 30 to line 166, col 31 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 167, col 25 to line 167, col 46 of module handle_ready_message: 84:336
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 167, col 35 to line 167, col 36 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 168, col 25 to line 168, col 46 of module handle_ready_message: 84:336
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 168, col 35 to line 168, col 36 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 169, col 28 to line 169, col 49 of module handle_ready_message: 84:336
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 169, col 38 to line 169, col 39 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 170, col 25 to line 170, col 46 of module handle_ready_message: 84:336
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 170, col 35 to line 170, col 36 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 171, col 20 to line 171, col 41 of module handle_ready_message: 84:336
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 171, col 30 to line 171, col 31 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 172, col 21 to line 172, col 42 of module handle_ready_message: 84:336
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 172, col 31 to line 172, col 32 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 173, col 12 to line 173, col 62 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 173, col 17 to line 173, col 62 of module handle_ready_message: 84:336
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 173, col 27 to line 173, col 33 of module handle_ready_message: 84
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<handle_ready_message_ line 175, col 1 to line 175, col 27 of module handle_ready_message>: 13608:43904
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 175, col 35 to line 175, col 68 of module handle_ready_message: 276192
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 175, col 35 to line 175, col 42 of module handle_ready_message: 232288
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 176, col 38 to line 176, col 55 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 177, col 46 to line 177, col 79 of module handle_ready_message: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 178, col 43 to line 178, col 90 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 179, col 35 to line 185, col 63 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<after_condition line 187, col 1 to line 187, col 21 of module handle_ready_message>: 13608:43904
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 187, col 29 to line 187, col 56 of module handle_ready_message: 276192
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 187, col 29 to line 187, col 36 of module handle_ready_message: 232288
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 188, col 29 to line 188, col 65 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 189, col 29 to line 189, col 68 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 190, col 29 to line 190, col 86 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 191, col 29 to line 191, col 80 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 192, col 29 to line 192, col 77 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 193, col 29 to line 193, col 92 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 194, col 29 to line 194, col 92 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 195, col 29 to line 195, col 102 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 196, col 29 to line 196, col 92 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 197, col 29 to line 197, col 67 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 198, col 29 to line 200, col 68 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<map_put_0 line 202, col 1 to line 202, col 15 of module handle_ready_message>: 13608:43904
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 202, col 23 to line 202, col 44 of module handle_ready_message: 276192
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 202, col 23 to line 202, col 30 of module handle_ready_message: 232288
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 203, col 23 to line 203, col 76 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 204, col 23 to line 204, col 90 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 205, col 23 to line 205, col 80 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 206, col 23 to line 206, col 83 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 206, col 32 to line 206, col 83 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 206, col 33 to line 206, col 37 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 206, col 46 to line 206, col 82 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 206, col 56 to line 206, col 82 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 125, col 24 to line 125, col 85 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 125, col 36 to line 125, col 84 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 125, col 64 to line 125, col 83 of module handle_ready_message: 175616
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 125, col 44 to line 125, col 59 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 206, col 65 to line 206, col 81 of module handle_ready_message: 219520
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 207, col 23 to line 209, col 82 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 207, col 33 to line 209, col 82 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 207, col 34 to line 207, col 39 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 207, col 48 to line 209, col 81 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 207, col 64 to line 209, col 81 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 208, col 59 to line 208, col 113 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 208, col 60 to line 208, col 87 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 208, col 94 to line 208, col 112 of module handle_ready_message: 29904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 208, col 119 to line 208, col 123 of module handle_ready_message: 29904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 209, col 61 to line 209, col 81 of module handle_ready_message: 14000
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 210, col 27 to line 210, col 71 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 210, col 27 to line 210, col 43 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 210, col 49 to line 210, col 70 of module handle_ready_message: 29904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 211, col 31 to line 211, col 67 of module handle_ready_message: 15904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 212, col 31 to line 212, col 69 of module handle_ready_message: 28000
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 213, col 23 to line 216, col 59 of module handle_ready_message: 43904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<if_0 line 218, col 1 to line 218, col 10 of module handle_ready_message>: 8428:15904
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 218, col 18 to line 218, col 34 of module handle_ready_message: 248192
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 218, col 18 to line 218, col 25 of module handle_ready_message: 232288
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 219, col 18 to line 219, col 76 of module handle_ready_message: 15904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 220, col 18 to line 221, col 62 of module handle_ready_message: 15904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 222, col 18 to line 222, col 104 of module handle_ready_message: 15904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 222, col 26 to line 222, col 104 of module handle_ready_message: 15904:63616
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 222, col 39 to line 222, col 49 of module handle_ready_message: 15904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 223, col 18 to line 223, col 94 of module handle_ready_message: 15904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 223, col 28 to line 223, col 94 of module handle_ready_message: 15904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 223, col 29 to line 223, col 34 of module handle_ready_message: 15904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 223, col 43 to line 223, col 93 of module handle_ready_message: 15904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  ||line 223, col 53 to line 223, col 93 of module handle_ready_message: 15904:1015168
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 223, col 61 to line 223, col 70 of module handle_ready_message: 15904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 223, col 73 to line 223, col 77 of module handle_ready_message: 15904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 223, col 80 to line 223, col 91 of module handle_ready_message: 15904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 224, col 18 to line 224, col 51 of module handle_ready_message: 15904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 225, col 18 to line 228, col 50 of module handle_ready_message: 15904
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<else_0 line 230, col 1 to line 230, col 12 of module handle_ready_message>: 8736:28000
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 230, col 20 to line 230, col 38 of module handle_ready_message: 260288
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 230, col 20 to line 230, col 27 of module handle_ready_message: 232288
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 231, col 20 to line 231, col 94 of module handle_ready_message: 28000
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 231, col 30 to line 231, col 94 of module handle_ready_message: 28000
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 231, col 31 to line 231, col 36 of module handle_ready_message: 28000
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 231, col 45 to line 231, col 93 of module handle_ready_message: 28000
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  ||line 231, col 55 to line 231, col 93 of module handle_ready_message: 28000:1347456
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 231, col 63 to line 231, col 71 of module handle_ready_message: 28000
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 231, col 74 to line 231, col 77 of module handle_ready_message: 28000
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 231, col 80 to line 231, col 91 of module handle_ready_message: 28000
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 232, col 20 to line 232, col 53 of module handle_ready_message: 28000
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 233, col 20 to line 236, col 79 of module handle_ready_message: 28000
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Terminating line 244, col 1 to line 244, col 11 of module handle_ready_message>: 0:728
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 244, col 40 to line 244, col 56 of module handle_ready_message: 81088
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 244, col 40 to line 244, col 47 of module handle_ready_message: 78176
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 244, col 31 to line 244, col 37 of module handle_ready_message: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 245, col 19 to line 245, col 32 of module handle_ready_message: 728
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2774:0 @!@!@
+<TypeOK line 65, col 1 to line 65, col 6 of module handle_ready_message_REF>
+@!@!@ENDMSG 2774 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 65, col 11 to line 65, col 25 of module handle_ready_message_REF: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 28, col 1 to line 37, col 23 of module handle_ready_message_REF: 58192
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 32, col 15 to line 34, col 47 of module handle_ready_message_REF: 58192
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 32, col 18 to line 32, col 55 of module handle_ready_message_REF: 58192
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 32, col 33 to line 32, col 55 of module handle_ready_message_REF: 72712
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 21, col 5 to line 23, col 27 of module handle_ready_message_REF: 72712
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 21, col 8 to line 21, col 24 of module handle_ready_message_REF: 72712
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 23, col 8 to line 23, col 27 of module handle_ready_message_REF: 19624
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 32, col 45 to line 32, col 50 of module handle_ready_message_REF: 72712
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 32, col 53 to line 32, col 54 of module handle_ready_message_REF: 72712
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 32, col 28 to line 32, col 29 of module handle_ready_message_REF: 58192
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  ||line 33, col 22 to line 33, col 44 of module handle_ready_message_REF: 1604:4452
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 33, col 32 to line 33, col 33 of module handle_ready_message_REF: 1604
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  ||line 34, col 22 to line 34, col 47 of module handle_ready_message_REF: 56588:169764
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 34, col 32 to line 34, col 33 of module handle_ready_message_REF: 56588
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 28, col 1 to line 37, col 23 of module handle_ready_message_REF: 1821512
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 29, col 15 to line 29, col 20 of module handle_ready_message_REF: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 28, col 1 to line 37, col 23 of module handle_ready_message_REF: 1821512
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 28, col 1 to line 37, col 23 of module handle_ready_message_REF: 1821512
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 35, col 13 to line 37, col 23 of module handle_ready_message_REF: 1821512
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 35, col 16 to line 35, col 53 of module handle_ready_message_REF: 1821512
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 35, col 31 to line 35, col 53 of module handle_ready_message_REF: 1921472
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 12, col 5 to line 17, col 84 of module handle_ready_message_REF: 1921472
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 12, col 8 to line 12, col 24 of module handle_ready_message_REF: 1921472
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 13, col 8 to line 13, col 37 of module handle_ready_message_REF: 330848
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 14, col 8 to line 17, col 84 of module handle_ready_message_REF: 243068
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||line 14, col 11 to line 15, col 51 of module handle_ready_message_REF: 243068
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||line 14, col 14 to line 14, col 22 of module handle_ready_message_REF: 243068
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||line 15, col 14 to line 15, col 51 of module handle_ready_message_REF: 101500
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||line 15, col 14 to line 15, col 25 of module handle_ready_message_REF: 101500
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  ||||||||line 15, col 29 to line 15, col 51 of module handle_ready_message_REF: 101500:406000
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||||line 15, col 42 to line 15, col 43 of module handle_ready_message_REF: 101500
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||line 16, col 11 to line 17, col 84 of module handle_ready_message_REF: 141568
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||line 16, col 14 to line 16, col 23 of module handle_ready_message_REF: 141568
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||line 17, col 14 to line 17, col 84 of module handle_ready_message_REF: 141568
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||line 17, col 31 to line 17, col 84 of module handle_ready_message_REF: 141568
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |||||||||line 17, col 31 to line 17, col 55 of module handle_ready_message_REF: 141568:141568
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||||line 17, col 32 to line 17, col 54 of module handle_ready_message_REF: 141568
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||||line 17, col 67 to line 17, col 84 of module handle_ready_message_REF: 141568
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||line 17, col 26 to line 17, col 27 of module handle_ready_message_REF: 141568
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 35, col 43 to line 35, col 48 of module handle_ready_message_REF: 1921472
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 35, col 51 to line 35, col 52 of module handle_ready_message_REF: 1921472
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 35, col 26 to line 35, col 27 of module handle_ready_message_REF: 1821512
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  ||line 36, col 22 to line 36, col 56 of module handle_ready_message_REF: 1540:226020
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |||line 36, col 23 to line 36, col 34 of module handle_ready_message_REF: 1540:29320
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 36, col 37 to line 36, col 43 of module handle_ready_message_REF: 1540
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |||line 36, col 49 to line 36, col 55 of module handle_ready_message_REF: 1540:102620
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 36, col 50 to line 36, col 54 of module handle_ready_message_REF: 1540
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  ||line 37, col 22 to line 37, col 23 of module handle_ready_message_REF: 1819972:10630172
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 30, col 16 to line 30, col 20 of module handle_ready_message_REF: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 31, col 18 to line 31, col 37 of module handle_ready_message_REF: 58072:174216
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 31, col 26 to line 31, col 27 of module handle_ready_message_REF: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 78, col 5 to line 83, col 28 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 78, col 8 to line 78, col 25 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 78, col 8 to line 78, col 11 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 78, col 23 to line 78, col 25 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 72, col 8 to line 72, col 57 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 72, col 9 to line 72, col 40 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 72, col 43 to line 72, col 49 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 72, col 55 to line 72, col 56 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||line 56, col 8 to line 56, col 28 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||line 56, col 8 to line 56, col 12 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |||||||line 56, col 19 to line 56, col 28 of module BrachaRBC: 58072:116144
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||line 56, col 20 to line 56, col 27 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 79, col 8 to line 79, col 20 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 80, col 8 to line 81, col 45 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 80, col 11 to line 80, col 44 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 80, col 11 to line 80, col 23 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 80, col 28 to line 80, col 44 of module BrachaRBC: 49776
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 81, col 11 to line 81, col 45 of module BrachaRBC: 8296
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 82, col 8 to line 82, col 36 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 83, col 8 to line 83, col 28 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 83, col 8 to line 83, col 13 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 83, col 19 to line 83, col 28 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 83, col 20 to line 83, col 21 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 83, col 26 to line 83, col 27 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 56, col 8 to line 56, col 28 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||line 56, col 8 to line 56, col 12 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  ||||||line 56, col 19 to line 56, col 28 of module BrachaRBC: 58072:116144
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||line 56, col 20 to line 56, col 27 of module BrachaRBC: 58072
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2202:0 @!@!@
+End of statistics.
+@!@!@ENDMSG 2202 @!@!@
+@!@!@STARTMSG 2200:0 @!@!@
+Progress(17) at 2022-12-31 12:02:09: 176,428 states generated (333,754 s/min), 58,072 distinct states found (109,856 ds/min), 0 states left on queue.
+@!@!@ENDMSG 2200 @!@!@
+@!@!@STARTMSG 2199:0 @!@!@
+176428 states generated, 58072 distinct states found, 0 states left on queue.
+@!@!@ENDMSG 2199 @!@!@
+@!@!@STARTMSG 2194:0 @!@!@
+The depth of the complete state graph search is 17.
+@!@!@ENDMSG 2194 @!@!@
+@!@!@STARTMSG 2268:0 @!@!@
+The average outdegree of the complete state graph is 1 (minimum is 0, the maximum 4 and the 95th percentile is 2).
+@!@!@ENDMSG 2268 @!@!@
+@!@!@STARTMSG 2186:0 @!@!@
+Finished in 31720ms at (2022-12-31 12:02:09)
+@!@!@ENDMSG 2186 @!@!@

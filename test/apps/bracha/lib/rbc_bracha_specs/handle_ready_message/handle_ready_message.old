@@ -1,0 +1,113 @@
+-------------------- MODULE handle_ready_message --------------------
+EXTENDS Naturals, FiniteSets, Sequences, TLC
+
+CONSTANT CN
+CONSTANT FN
+CONSTANT Value
+CONSTANT NotValue
+CONSTANT NULL
+
+(*--algorithm handle_ready_message
+variables
+  bcNode \in AN,
+  from \in AN,
+  value \in (CASE bcNode \in CN -> Value [] bcNode \in FN -> {NotValue}),
+  readyRecvValue \in BOOLEAN \cup {NULL},
+  readyRecv = [v \in AllValues |-> [x \in AN |-> readyRecvValue]],
+  readySent = ReadySent(readyRecv),
+  rbcs = [node_id \in AN |->
+       [n |-> N,
+       f |-> F,
+       me |-> node_id,
+       peers |-> AN,
+       broadcaster |-> bcNode,
+       predicate |-> [v \in AllValues |-> TRUE],
+       max_msg_size |-> 1000,
+       propose_sent |-> FALSE,
+       msg_recv |-> [msg_from_node_id \in AN |-> [msg_type \in MsgTypes |-> FALSE]],
+       echo_sent |-> FALSE,
+       echo_recv |-> [echo_value \in AllValues |-> [x \in AN |-> FALSE]],
+       ready_sent |-> readySent,
+       ready_recv |-> readyRecv,
+       output |-> NULL]],
+  msgs = [node_id \in AN |-> {}],
+  _msg = <<"READY", from, value>>,
+
+define
+  AN  == CN \cup FN
+  N == Cardinality(AN)
+  F == Cardinality(FN)
+  MsgTypes == {"PROPOSE", "ECHO", "READY"}
+  AllValues == Value \cup {NotValue}
+  ReadyCount(ready_recv) == Cardinality({an \in AN : ready_recv[value][an] = TRUE})
+  ReadySent(ready_recv) == ReadyCount(ready_recv) > (F * 3)
+  map_size(structure) == Cardinality({k \in (DOMAIN structure) : structure[k] /= NULL})
+end define;
+
+fair process handle_ready_message \in AN
+variables
+  rbc = rbcs[self],
+  f = NULL,
+  me = NULL,
+  msg_recv = NULL,
+  output = NULL,
+  peers = NULL,
+  ready_recv = NULL,
+  ready_sent = NULL,
+  existing_recv = NULL,
+  value_recv = NULL,
+  count = NULL,
+  result = NULL,
+begin
+handle_ready_message:
+  if _msg[1] /= "READY" then
+    goto Done;
+  end if;
+  after_condition:
+
+  f := rbc.f;
+  me := rbc.me;
+  msg_recv := rbc.msg_recv;
+  output := rbc.output;
+  peers := rbc.peers;
+  ready_recv := rbc.ready_recv;
+  ready_sent := rbc.ready_sent;
+
+  existing_recv := ready_recv[value];
+
+  value_recv := existing_recv;
+  map_put_0:
+  value_recv[from] := TRUE;
+
+  ready_recv[value] := value_recv;
+
+  rbc.ready_recv := ready_recv;
+
+  count := map_size(value_recv);
+
+  output := CASE
+      ((count > (3 * f)) /\ (output = NULL)) -> value
+      [] OTHER -> output;
+
+  if (~ready_sent /\ (count > f)) then
+    if_0:
+      msg_recv[from]["READY"] := TRUE;
+
+      rbc.msg_recv := msg_recv
+      || rbc.ready_sent := TRUE;
+
+      msgs := [peer_id \in peers |-> msgs[peer_id] \cup {<<"READY", me, value>>}];
+
+      result := <<"ok", rbc, msgs, output>>;
+
+  else
+    else_0:
+
+      result := <<"ok", rbc, msgs, output>>;
+
+  end if;
+
+end process;
+end algorithm; *)
+
+=====================================================================

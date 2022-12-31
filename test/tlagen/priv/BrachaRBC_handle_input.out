@@ -1,0 +1,55 @@
+@!@!@STARTMSG 2262:0 @!@!@
+TLC2 Version 2.18 of Day Month 20?? (rev: 6dfec66)
+@!@!@ENDMSG 2262 @!@!@
+@!@!@STARTMSG 2187:0 @!@!@
+Running breadth-first search Model-Checking with fp 108 and seed -6570136673822445461 with 1 worker on 8 cores with 7220MB heap and 64MB offheap memory [pid: 16632] (Windows 11 10.0 amd64, Oracle Corporation 18.0.1.1 x86_64, MSBDiskFPSet, DiskStateQueue).
+@!@!@ENDMSG 2187 @!@!@
+@!@!@STARTMSG 2220:0 @!@!@
+Starting SANY...
+@!@!@ENDMSG 2220 @!@!@
+Parsing file C:\University\Master's Thesis\tla_generator_v2\test\tlagen\priv\BrachaRBC_handle_input.tla (file:/c:/University/Master's%20Thesis/tla_generator_v2/test/tlagen/priv/BrachaRBC_handle_input.tla)
+Warning: symbols were renamed.
+Parsing file C:\Users\Deividas\AppData\Local\Temp\tlc-8157399167930660008\Naturals.tla (jar:file:/C:/Users/Deividas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2506/tools/tla2tools.jar!/tla2sany/StandardModules/Naturals.tla)
+Parsing file C:\Users\Deividas\AppData\Local\Temp\tlc-8157399167930660008\FiniteSets.tla (jar:file:/C:/Users/Deividas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2506/tools/tla2tools.jar!/tla2sany/StandardModules/FiniteSets.tla)
+Parsing file C:\Users\Deividas\AppData\Local\Temp\tlc-8157399167930660008\Sequences.tla (jar:file:/C:/Users/Deividas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2506/tools/tla2tools.jar!/tla2sany/StandardModules/Sequences.tla)
+Parsing file C:\Users\Deividas\AppData\Local\Temp\tlc-8157399167930660008\SequencesExt.tla (jar:file:/C:/Users/Deividas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2506/tools/CommunityModules-deps.jar!/SequencesExt.tla)
+Parsing file C:\Users\Deividas\AppData\Local\Temp\tlc-8157399167930660008\TLC.tla (jar:file:/C:/Users/Deividas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2506/tools/tla2tools.jar!/tla2sany/StandardModules/TLC.tla)
+Parsing file C:\Users\Deividas\AppData\Local\Temp\tlc-8157399167930660008\FiniteSetsExt.tla (jar:file:/C:/Users/Deividas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2506/tools/CommunityModules-deps.jar!/FiniteSetsExt.tla)
+Parsing file C:\Users\Deividas\AppData\Local\Temp\tlc-8157399167930660008\Functions.tla (jar:file:/C:/Users/Deividas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2506/tools/CommunityModules-deps.jar!/Functions.tla)
+Parsing file C:\Users\Deividas\AppData\Local\Temp\tlc-8157399167930660008\Folds.tla (jar:file:/C:/Users/Deividas/.vscode/extensions/alygin.vscode-tlaplus-nightly-2022.12.2506/tools/CommunityModules-deps.jar!/Folds.tla)
+Semantic processing of module Naturals
+Semantic processing of module Sequences
+Semantic processing of module FiniteSets
+Semantic processing of module Folds
+Semantic processing of module Functions
+Semantic processing of module FiniteSetsExt
+Semantic processing of module TLC
+Semantic processing of module SequencesExt
+Semantic processing of module BrachaRBC_handle_input
+Semantic errors:
+
+*** Errors: 2
+
+line 101, col 50 to line 101, col 54 of module BrachaRBC_handle_input
+
+Unknown operator: `false'.
+
+
+line 109, col 61 to line 109, col 64 of module BrachaRBC_handle_input
+
+Unknown operator: `true'.
+
+
+
+@!@!@STARTMSG 2219:0 @!@!@
+SANY finished.
+@!@!@ENDMSG 2219 @!@!@
+@!@!@STARTMSG 2185:0 @!@!@
+Starting... (2022-12-27 19:13:39)
+@!@!@ENDMSG 2185 @!@!@
+@!@!@STARTMSG 3002:1 @!@!@
+Parsing or semantic analysis failed.
+@!@!@ENDMSG 3002 @!@!@
+@!@!@STARTMSG 2186:0 @!@!@
+Finished in 602ms at (2022-12-27 19:13:39)
+@!@!@ENDMSG 2186 @!@!@

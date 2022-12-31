@@ -1,21 +1,21 @@
-# TlaGeneratorV2
+# Bracha
 
 **TODO: Add description**
 
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `tla_generator_v2` to your list of dependencies in `mix.exs`:
+by adding `bracha` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:tla_generator_v2, "~> 0.1.0"}
+    {:bracha, "~> 0.1.0"}
   ]
 end
 ```
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/tla_generator_v2>.
+be found at <https://hexdocs.pm/bracha>.
 

@@ -1,0 +1,90 @@
+-------------------- MODULE BrachaRBC_handle_propose_message --------------------
+EXTENDS Naturals, FiniteSets, Sequences, SequencesExt, TLC
+
+CONSTANT CN
+CONSTANT FN
+CONSTANT Value
+CONSTANT NotValue
+
+(*--algorithm BrachaRBC_handle_propose_message
+variables
+  from \in AN,
+  value \in (CASE from \in CN -> Value [] from \in FN -> {NotValue}),
+  rbcs = [node_id \in AN |->
+       [n |-> Cardinality(AN),
+       f |-> Cardinality(FN),
+       me |-> node_id,
+       peers |-> SetToSeq(AN),
+       broadcaster |-> from,
+       predicate |-> [v \in AllValues |-> TRUE],
+       max_msg_size |-> 1000,
+       propose_sent |-> FALSE,
+       echo_sent |-> FALSE,
+       msg_recv |-> [from_node_id \in AN |-> [msg_type \in MsgTypes |-> FALSE]],
+       output |-> NotValue]],
+  msgs = [node_id \in AN |-> {}],
+  msg = <<"PROPOSE", from, value>>,
+
+define
+  AN  == CN \cup FN
+  MsgTypes == {"PROPOSE", "ECHO", "READY"}
+  AllValues == Value \cup {NotValue}
+end define;
+
+fair process handle_propose_message \in CN
+variables
+  broadcaster,
+  echo_sent,
+  me,
+  msg_recv,
+  output,
+  peers,
+  predicate,
+  enum_into_0_idx = 1,
+  peer_id,
+  result,
+  rbc,
+begin
+handle_propose_message:
+  if msg[1] /= "PROPOSE" then
+    goto Done;
+  end if;
+  after_condition:
+
+  broadcaster := rbc.broadcaster;
+  echo_sent := rbc.echo_sent;
+  me := rbc.me;
+  msg_recv := rbc.msg_recv;
+  output := rbc.output;
+  peers := rbc.peers;
+  predicate := rbc.predicate;
+
+  if broadcaster /= from then
+    goto Done;
+  end if;
+  after_pin_0:
+
+  if ~echo_sent /\ predicate[value] then
+    msg_recv[from]["PROPOSE"] := TRUE;
+
+    rbc.echo_sent := TRUE
+    || rbc.msg_recv := msg_recv;
+
+    enum_into_0:
+      while enum_into_0_idx <= Len(peers) do
+        peer_id := peers[enum_into_0_idx];
+        msgs[peer_id] := msgs[peer_id] \cup {<<"ECHO", me, value>>};
+        enum_into_0_idx := enum_into_0_idx + 1;
+      end while;
+
+    result := <<"ok", rbc, msgs, output>>;
+
+  else
+    result := <<"ok", rbc, {}, output>>;
+
+  end if;
+
+end process;
+end algorithm; *)
+
+=================================================================================
