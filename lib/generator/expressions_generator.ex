@@ -5,11 +5,12 @@ defmodule Generator.Expressions do
         {:def, _, [{_function_name, _, arguments_ast}, [do: {:__block__, [], body_ast}]]},
         indent_lvl
       ) do
+    argument_variables = Expressions.Argument.parse(arguments_ast)
     arguments_condition = Expressions.ArgumentCondition.parse(arguments_ast, indent_lvl)
 
     {lines, variables, definitions, _} = generate_expressions(body_ast, indent_lvl)
 
-    {arguments_condition ++ lines, variables, definitions}
+    {arguments_condition ++ lines, argument_variables ++ variables, definitions}
   end
 
   @spec generate_expressions(List[any()], Integer.t()) ::
@@ -68,10 +69,6 @@ defmodule Generator.Expressions do
 
   def generate_expression({arg, _, nil}, _, _, _) do
     Expressions.Variable.parse(arg)
-  end
-
-  def generate_expression({:%{}, _, []}, _, _, _) do
-    Expressions.EmptyMap.parse()
   end
 
   def generate_expression({:==, _, [left_ast, right_ast]}, _, _, _) do
@@ -293,18 +290,18 @@ defmodule Generator.Expressions do
         {:=, _, [{variable, _, nil}, {:%{}, _, []}]},
         _,
         _,
-        _
+        indent_lvl
       ) do
-    Expressions.DefaultValueAssignment.parse(variable)
+    Expressions.DefaultValueAssignment.parse(variable, indent_lvl)
   end
 
   def generate_expression(
-        {{:., _, [{:predicate, _, nil}]}, _, [arguments_ast]},
+        {{:., _, [{function_name, _, nil}]}, _, arguments_ast},
         _,
         _,
         _
       ) do
-    Expressions.CustomPredicateCall.parse(arguments_ast)
+    Expressions.AnonymousFunctionCall.parse(function_name, arguments_ast)
   end
 
   def generate_expression(ast, _, _, _) do

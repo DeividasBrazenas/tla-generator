@@ -10,8 +10,7 @@ CONSTANT NULL
 (*--algorithm handle_propose_message
 variables
   bcNode \in AN,
-  from = bcNode,
-  value \in (CASE from \in CN -> Value [] from \in FN -> {NotValue}),
+  bcValue \in (CASE bcNode \in CN -> Value [] bcNode \in FN -> {NotValue}),
   echoSent \in BOOLEAN,
   rbcs = [node_id \in AN |->
        [n |-> N,
@@ -28,8 +27,7 @@ variables
        ready_sent |-> FALSE,
        ready_recv |-> [ready_value \in AllValues |-> [x \in AN |-> FALSE]],
        output |-> NULL]],
-  msgs = [node_id \in AN |-> {}],
-  _msg = <<"PROPOSE", from, value>>,
+  node_msgs = [node_id \in AN |-> <<"PROPOSE", bcNode, bcValue>>],
 
 define
   AN  == CN \cup FN
@@ -37,11 +35,16 @@ define
   F == Cardinality(FN)
   MsgTypes == {"PROPOSE", "ECHO", "READY"}
   AllValues == Value \cup {NotValue}
+  predicate_fn(val) == TRUE
 end define;
 
 fair process handle_propose_message \in AN
 variables
   rbc = rbcs[self],
+  _msg = node_msgs[self],
+  msgs = [node_id \in AN |-> {}],
+  from = _msg[2],
+  value = _msg[3],
   broadcaster = NULL,
   echo_sent = NULL,
   me = NULL,
@@ -52,7 +55,7 @@ variables
   result = NULL,
 begin
 handle_propose_message:
-  if _msg[1] /= "PROPOSE" then
+  if (_msg[1] /= "PROPOSE") then
     goto Done;
   end if;
   after_condition:
@@ -65,12 +68,12 @@ handle_propose_message:
   peers := rbc.peers;
   predicate := rbc.predicate;
 
-  if broadcaster /= from then
+  if (broadcaster /= from) then
     goto Done;
   end if;
   after_pin_0:
 
-  if (~echo_sent /\ predicate[value]) then
+  if (~echo_sent /\ predicate_fn(value)) then
     if_0:
       msg_recv[from]["PROPOSE"] := TRUE;
 
@@ -83,6 +86,7 @@ handle_propose_message:
 
   else
     else_0:
+      msgs := msgs;
 
       result := <<"ok", rbc, msgs, output>>;
 
@@ -90,9 +94,9 @@ handle_propose_message:
 
 end process;
 end algorithm; *)
-\* BEGIN TRANSLATION (chksum(pcal) = "111ca0ff" /\ chksum(tla) = "f59ea420")
-\* Label handle_propose_message of process handle_propose_message at line 55 col 3 changed to handle_propose_message_
-VARIABLES bcNode, from, value, echoSent, rbcs, msgs, _msg, pc
+\* BEGIN TRANSLATION (chksum(pcal) = "91082720" /\ chksum(tla) = "e1453317")
+\* Label handle_propose_message of process handle_propose_message at line 58 col 3 changed to handle_propose_message_
+VARIABLES bcNode, bcValue, echoSent, rbcs, node_msgs, pc
 
 (* define statement *)
 AN  == CN \cup FN
@@ -100,20 +104,20 @@ N == Cardinality(AN)
 F == Cardinality(FN)
 MsgTypes == {"PROPOSE", "ECHO", "READY"}
 AllValues == Value \cup {NotValue}
+predicate_fn(val) == TRUE
 
-VARIABLES rbc, broadcaster, echo_sent, me, msg_recv, output, peers, predicate, 
-          result
+VARIABLES rbc, _msg, msgs, from, value, broadcaster, echo_sent, me, msg_recv, 
+          output, peers, predicate, result
 
-vars == << bcNode, from, value, echoSent, rbcs, msgs, _msg, pc, rbc, 
-           broadcaster, echo_sent, me, msg_recv, output, peers, predicate, 
-           result >>
+vars == << bcNode, bcValue, echoSent, rbcs, node_msgs, pc, rbc, _msg, msgs, 
+           from, value, broadcaster, echo_sent, me, msg_recv, output, peers, 
+           predicate, result >>
 
 ProcSet == (AN)
 
 Init == (* Global variables *)
         /\ bcNode \in AN
-        /\ from = bcNode
-        /\ value \in (CASE from \in CN -> Value [] from \in FN -> {NotValue})
+        /\ bcValue \in (CASE bcNode \in CN -> Value [] bcNode \in FN -> {NotValue})
         /\ echoSent \in BOOLEAN
         /\ rbcs =   [node_id \in AN |->
                   [n |-> N,
@@ -130,10 +134,13 @@ Init == (* Global variables *)
                   ready_sent |-> FALSE,
                   ready_recv |-> [ready_value \in AllValues |-> [x \in AN |-> FALSE]],
                   output |-> NULL]]
-        /\ msgs = [node_id \in AN |-> {}]
-        /\ _msg = <<"PROPOSE", from, value>>
+        /\ node_msgs = [node_id \in AN |-> <<"PROPOSE", bcNode, bcValue>>]
         (* Process handle_propose_message *)
         /\ rbc = [self \in AN |-> rbcs[self]]
+        /\ _msg = [self \in AN |-> node_msgs[self]]
+        /\ msgs = [self \in AN |-> [node_id \in AN |-> {}]]
+        /\ from = [self \in AN |-> _msg[self][2]]
+        /\ value = [self \in AN |-> _msg[self][3]]
         /\ broadcaster = [self \in AN |-> NULL]
         /\ echo_sent = [self \in AN |-> NULL]
         /\ me = [self \in AN |-> NULL]
@@ -145,11 +152,12 @@ Init == (* Global variables *)
         /\ pc = [self \in ProcSet |-> "handle_propose_message_"]
 
 handle_propose_message_(self) == /\ pc[self] = "handle_propose_message_"
-                                 /\ IF _msg[1] /= "PROPOSE"
+                                 /\ IF (_msg[self][1] /= "PROPOSE")
                                        THEN /\ pc' = [pc EXCEPT ![self] = "Done"]
                                        ELSE /\ pc' = [pc EXCEPT ![self] = "after_condition"]
-                                 /\ UNCHANGED << bcNode, from, value, echoSent, 
-                                                 rbcs, msgs, _msg, rbc, 
+                                 /\ UNCHANGED << bcNode, bcValue, echoSent, 
+                                                 rbcs, node_msgs, rbc, _msg, 
+                                                 msgs, from, value, 
                                                  broadcaster, echo_sent, me, 
                                                  msg_recv, output, peers, 
                                                  predicate, result >>
@@ -162,38 +170,40 @@ after_condition(self) == /\ pc[self] = "after_condition"
                          /\ output' = [output EXCEPT ![self] = rbc[self].output]
                          /\ peers' = [peers EXCEPT ![self] = rbc[self].peers]
                          /\ predicate' = [predicate EXCEPT ![self] = rbc[self].predicate]
-                         /\ IF broadcaster'[self] /= from
+                         /\ IF (broadcaster'[self] /= from[self])
                                THEN /\ pc' = [pc EXCEPT ![self] = "Done"]
                                ELSE /\ pc' = [pc EXCEPT ![self] = "after_pin_0"]
-                         /\ UNCHANGED << bcNode, from, value, echoSent, rbcs, 
-                                         msgs, _msg, rbc, result >>
+                         /\ UNCHANGED << bcNode, bcValue, echoSent, rbcs, 
+                                         node_msgs, rbc, _msg, msgs, from, 
+                                         value, result >>
 
 after_pin_0(self) == /\ pc[self] = "after_pin_0"
-                     /\ IF (~echo_sent[self] /\ predicate[self][value])
+                     /\ IF (~echo_sent[self] /\ predicate_fn(value[self]))
                            THEN /\ pc' = [pc EXCEPT ![self] = "if_0"]
                            ELSE /\ pc' = [pc EXCEPT ![self] = "else_0"]
-                     /\ UNCHANGED << bcNode, from, value, echoSent, rbcs, msgs, 
-                                     _msg, rbc, broadcaster, echo_sent, me, 
-                                     msg_recv, output, peers, predicate, 
-                                     result >>
+                     /\ UNCHANGED << bcNode, bcValue, echoSent, rbcs, 
+                                     node_msgs, rbc, _msg, msgs, from, value, 
+                                     broadcaster, echo_sent, me, msg_recv, 
+                                     output, peers, predicate, result >>
 
 if_0(self) == /\ pc[self] = "if_0"
-              /\ msg_recv' = [msg_recv EXCEPT ![self][from]["PROPOSE"] = TRUE]
+              /\ msg_recv' = [msg_recv EXCEPT ![self][from[self]]["PROPOSE"] = TRUE]
               /\ rbc' = [rbc EXCEPT ![self].echo_sent = TRUE,
                                     ![self].msg_recv = msg_recv'[self]]
-              /\ msgs' = [peer_id \in peers[self] |-> msgs[peer_id] \cup {<<"ECHO", me[self], value>>}]
-              /\ result' = [result EXCEPT ![self] = <<"ok", rbc'[self], msgs', output[self]>>]
+              /\ msgs' = [msgs EXCEPT ![self] = [peer_id \in peers[self] |-> msgs[self][peer_id] \cup {<<"ECHO", me[self], value[self]>>}]]
+              /\ result' = [result EXCEPT ![self] = <<"ok", rbc'[self], msgs'[self], output[self]>>]
               /\ pc' = [pc EXCEPT ![self] = "Done"]
-              /\ UNCHANGED << bcNode, from, value, echoSent, rbcs, _msg, 
-                              broadcaster, echo_sent, me, output, peers, 
-                              predicate >>
+              /\ UNCHANGED << bcNode, bcValue, echoSent, rbcs, node_msgs, _msg, 
+                              from, value, broadcaster, echo_sent, me, output, 
+                              peers, predicate >>
 
 else_0(self) == /\ pc[self] = "else_0"
-                /\ result' = [result EXCEPT ![self] = <<"ok", rbc[self], msgs, output[self]>>]
+                /\ msgs' = [msgs EXCEPT ![self] = msgs[self]]
+                /\ result' = [result EXCEPT ![self] = <<"ok", rbc[self], msgs'[self], output[self]>>]
                 /\ pc' = [pc EXCEPT ![self] = "Done"]
-                /\ UNCHANGED << bcNode, from, value, echoSent, rbcs, msgs, 
-                                _msg, rbc, broadcaster, echo_sent, me, 
-                                msg_recv, output, peers, predicate >>
+                /\ UNCHANGED << bcNode, bcValue, echoSent, rbcs, node_msgs, 
+                                rbc, _msg, from, value, broadcaster, echo_sent, 
+                                me, msg_recv, output, peers, predicate >>
 
 handle_propose_message(self) == handle_propose_message_(self)
                                    \/ after_condition(self)

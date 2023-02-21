@@ -25,6 +25,12 @@
                     ]
                 },
                 {
+                    "name": "bcValue",
+                    "assignment_lines": [
+                        "\\in (CASE bcNode \\in CN -> Value [] bcNode \\in FN -> {NotValue})"
+                    ]
+                },
+                {
                     "name": "rbcs",
                     "assignment_lines": [
                         "= [node_id \\in AN |->",
@@ -45,15 +51,9 @@
                     ]
                 },
                 {
-                    "name": "input",
+                    "name": "node_input",
                     "assignment_lines": [
-                        "\\in (CASE bcNode \\in CN -> Value [] bcNode \\in FN -> {NotValue})"
-                    ]
-                },
-                {
-                    "name": "msgs",
-                    "assignment_lines": [
-                        "= [node_id \\in AN |-> {}]"
+                        "= [node_id \\in AN |-> bcValue]"
                     ]
                 }
             ],
@@ -62,6 +62,18 @@
                     "name": "rbc",
                     "assignment_lines": [
                         "= rbcs[self]"
+                    ]
+                },
+                {
+                    "name": "input",
+                    "assignment_lines": [
+                        "= node_input[self]"
+                    ]
+                },
+                {
+                    "name": "msgs",
+                    "assignment_lines": [
+                        "= [node_id \\in AN |-> {}]"
                     ]
                 }
             ],
@@ -97,15 +109,9 @@
                     ]
                 },
                 {
-                    "name": "from",
+                    "name": "bcValue",
                     "assignment_lines": [
-                        "= bcNode"
-                    ]
-                },
-                {
-                    "name": "value",
-                    "assignment_lines": [
-                        "\\in (CASE from \\in CN -> Value [] from \\in FN -> {NotValue})"
+                        "\\in (CASE bcNode \\in CN -> Value [] bcNode \\in FN -> {NotValue})"
                     ]
                 },
                 {
@@ -135,15 +141,9 @@
                     ]
                 },
                 {
-                    "name": "msgs",
+                    "name": "node_msgs",
                     "assignment_lines": [
-                        "= [node_id \\in AN |-> {}]"
-                    ]
-                },
-                {
-                    "name": "_msg",
-                    "assignment_lines": [
-                        "= <<\"PROPOSE\", from, value>>"
+                        "= [node_id \\in AN |-> <<\"PROPOSE\", bcNode, bcValue>>]"
                     ]
                 }
             ],
@@ -153,6 +153,18 @@
                     "assignment_lines": [
                         "= rbcs[self]"
                     ]
+                },
+                {
+                    "name": "_msg",
+                    "assignment_lines": [
+                        "= node_msgs[self]"
+                    ]
+                },
+                {
+                    "name": "msgs",
+                    "assignment_lines": [
+                        "= [node_id \\in AN |-> {}]"
+                    ]
                 }
             ],
             "definitions": [
@@ -160,7 +172,8 @@
                 "N == Cardinality(AN)",
                 "F == Cardinality(FN)",
                 "MsgTypes == {\"PROPOSE\", \"ECHO\", \"READY\"}",
-                "AllValues == Value \\cup {NotValue}"
+                "AllValues == Value \\cup {NotValue}",
+                "predicate_fn(val) == TRUE"
             ]
         },
         {
@@ -187,13 +200,7 @@
                     ]
                 },
                 {
-                    "name": "from",
-                    "assignment_lines": [
-                        "\\in CN"
-                    ]
-                },
-                {
-                    "name": "value",
+                    "name": "bcValue",
                     "assignment_lines": [
                         "\\in (CASE bcNode \\in CN -> Value [] bcNode \\in FN -> {NotValue})"
                     ]
@@ -237,15 +244,9 @@
                     ]
                 },
                 {
-                    "name": "msgs",
+                    "name": "node_msgs",
                     "assignment_lines": [
-                        "= [node_id \\in AN |-> {}]"
-                    ]
-                },
-                {
-                    "name": "_msg",
-                    "assignment_lines": [
-                        "= <<\"ECHO\", from, value>>"
+                        "= [node_id \\in AN |-> <<\"ECHO\", bcNode, bcValue>>]"
                     ]
                 }
             ],
@@ -255,6 +256,18 @@
                     "assignment_lines": [
                         "= rbcs[self]"
                     ]
+                },
+                {
+                    "name": "_msg",
+                    "assignment_lines": [
+                        "= node_msgs[self]"
+                    ]
+                },
+                {
+                    "name": "msgs",
+                    "assignment_lines": [
+                        "= [node_id \\in AN |-> {}]"
+                    ]
                 }
             ],
             "definitions": [
@@ -263,7 +276,7 @@
                 "F == Cardinality(FN)",
                 "MsgTypes == {\"PROPOSE\", \"ECHO\", \"READY\"}",
                 "AllValues == Value \\cup {NotValue}",
-                "EchosCount(echo_recv) == Cardinality({an \\in AN : echo_recv[value][an] = TRUE})",
+                "EchosCount(echo_recv) == Cardinality({an \\in AN : echo_recv[bcValue][an] = TRUE})",
                 "ReadySent(echo_recv) == EchosCount(echo_recv) > ((N + F) \\div 2)"
             ]
         },
@@ -291,13 +304,7 @@
                     ]
                 },
                 {
-                    "name": "from",
-                    "assignment_lines": [
-                        "\\in AN"
-                    ]
-                },
-                {
-                    "name": "value",
+                    "name": "bcValue",
                     "assignment_lines": [
                         "\\in (CASE bcNode \\in CN -> Value [] bcNode \\in FN -> {NotValue})"
                     ]
@@ -341,15 +348,9 @@
                     ]
                 },
                 {
-                    "name": "msgs",
+                    "name": "node_msgs",
                     "assignment_lines": [
-                        "= [node_id \\in AN |-> {}]"
-                    ]
-                },
-                {
-                    "name": "_msg",
-                    "assignment_lines": [
-                        "= <<\"READY\", from, value>>"
+                        "= [node_id \\in AN |-> <<\"READY\", bcNode, bcValue>>]"
                     ]
                 }
             ],
@@ -359,6 +360,18 @@
                     "assignment_lines": [
                         "= rbcs[self]"
                     ]
+                },
+                {
+                    "name": "_msg",
+                    "assignment_lines": [
+                        "= node_msgs[self]"
+                    ]
+                },
+                {
+                    "name": "msgs",
+                    "assignment_lines": [
+                        "= [node_id \\in AN |-> {}]"
+                    ]
                 }
             ],
             "definitions": [
@@ -367,7 +380,7 @@
                 "F == Cardinality(FN)",
                 "MsgTypes == {\"PROPOSE\", \"ECHO\", \"READY\"}",
                 "AllValues == Value \\cup {NotValue}",
-                "ReadyCount(ready_recv) == Cardinality({an \\in AN : ready_recv[value][an] = TRUE})",
+                "ReadyCount(ready_recv) == Cardinality({an \\in AN : ready_recv[bcValue][an] = TRUE})",
                 "ReadySent(ready_recv) == ReadyCount(ready_recv) > (F * 3)"
             ]
         }

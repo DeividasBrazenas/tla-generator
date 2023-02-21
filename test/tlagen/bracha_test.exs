@@ -8,7 +8,7 @@ defmodule Bracha.Test do
 
     %Config.Module{functions: functions} = config
 
-    function = Enum.at(functions, 1)
+    function = Enum.at(functions, 0)
 
     module =
       Generator.Module.generate_module(

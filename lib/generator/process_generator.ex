@@ -70,10 +70,14 @@ defmodule Generator.Process do
     end
   end
 
-  @spec generate_variables(List[Config.Variable.t()], List[String.t()], List[Config.Variable.t()]) :: List[String.t()]
+  @spec generate_variables(List[Config.Variable.t()], List[String.t()], List[Config.Variable.t()]) ::
+          List[String.t()]
   defp generate_variables(predefined_local_variables, generated_local_variables, global_variables) do
     global_variable_names =
       global_variables |> Enum.map(fn %Config.Variable{name: name} -> name end)
+
+    predefined_local_variable_names =
+      predefined_local_variables |> Enum.map(fn %Config.Variable{name: name} -> name end)
 
     ["variables"] ++
       Enum.map(predefined_local_variables, fn %Config.Variable{
@@ -82,12 +86,19 @@ defmodule Generator.Process do
                                               } ->
         "#{Indent.build(1)}#{name} #{Enum.at(assignment_lines, 0)},"
       end) ++
-      Enum.map(generated_local_variables -- global_variable_names, fn var ->
-        cond do
-          String.contains?(var, "=") -> "#{Indent.build(1)}#{var},"
-          true -> "#{Indent.build(1)}#{var} = NULL,"
+      Enum.map(
+        generated_local_variables
+        |> Enum.filter(fn v ->
+          not Enum.member?(global_variable_names, v) and
+            not Enum.member?(predefined_local_variable_names, v)
+        end),
+        fn var ->
+          cond do
+            String.contains?(var, "=") -> "#{Indent.build(1)}#{var},"
+            true -> "#{Indent.build(1)}#{var} = NULL,"
+          end
         end
-      end)
+      )
   end
 
   @spec generate_header(String.t()) :: String.t()

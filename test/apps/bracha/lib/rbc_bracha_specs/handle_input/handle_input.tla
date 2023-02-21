@@ -10,6 +10,7 @@ CONSTANT NULL
 (*--algorithm handle_input
 variables
   bcNode \in AN,
+  bcValue \in (CASE bcNode \in CN -> Value [] bcNode \in FN -> {NotValue}),
   rbcs = [node_id \in AN |->
        [n |-> N,
        f |-> F,
@@ -25,8 +26,7 @@ variables
        ready_sent |-> FALSE,
        ready_recv |-> [ready_value \in AllValues |-> [x \in AN |-> FALSE]],
        output |-> NULL]],
-  input \in (CASE bcNode \in CN -> Value [] bcNode \in FN -> {NotValue}),
-  msgs = [node_id \in AN |-> {}],
+  node_input = [node_id \in AN |-> bcValue],
 
 define
   AN  == CN \cup FN
@@ -39,6 +39,8 @@ end define;
 fair process handle_input \in AN
 variables
   rbc = rbcs[self],
+  input = node_input[self],
+  msgs = [node_id \in AN |-> {}],
   broadcaster = NULL,
   me = NULL,
   output = NULL,
@@ -53,12 +55,12 @@ handle_input:
   peers := rbc.peers;
   propose_sent := rbc.propose_sent;
 
-  if broadcaster /= me then
+  if (broadcaster /= me) then
     goto Done;
   end if;
   after_pin_0:
 
-  if propose_sent /= FALSE then
+  if (propose_sent /= FALSE) then
     goto Done;
   end if;
   after_pin_1:
@@ -71,9 +73,9 @@ handle_input:
 
 end process;
 end algorithm; *)
-\* BEGIN TRANSLATION (chksum(pcal) = "930ef61f" /\ chksum(tla) = "c4356351")
-\* Label handle_input of process handle_input at line 50 col 3 changed to handle_input_
-VARIABLES bcNode, rbcs, input, msgs, pc
+\* BEGIN TRANSLATION (chksum(pcal) = "222a76a" /\ chksum(tla) = "fd38e5df")
+\* Label handle_input of process handle_input at line 52 col 3 changed to handle_input_
+VARIABLES bcNode, bcValue, rbcs, node_input, pc
 
 (* define statement *)
 AN  == CN \cup FN
@@ -82,15 +84,17 @@ F == Cardinality(FN)
 AllValues == Value \cup {NotValue}
 MsgTypes == {"PROPOSE", "ECHO", "READY"}
 
-VARIABLES rbc, broadcaster, me, output, peers, propose_sent, result
+VARIABLES rbc, input, msgs, broadcaster, me, output, peers, propose_sent, 
+          result
 
-vars == << bcNode, rbcs, input, msgs, pc, rbc, broadcaster, me, output, peers, 
-           propose_sent, result >>
+vars == << bcNode, bcValue, rbcs, node_input, pc, rbc, input, msgs, 
+           broadcaster, me, output, peers, propose_sent, result >>
 
 ProcSet == (AN)
 
 Init == (* Global variables *)
         /\ bcNode \in AN
+        /\ bcValue \in (CASE bcNode \in CN -> Value [] bcNode \in FN -> {NotValue})
         /\ rbcs =   [node_id \in AN |->
                   [n |-> N,
                   f |-> F,
@@ -106,10 +110,11 @@ Init == (* Global variables *)
                   ready_sent |-> FALSE,
                   ready_recv |-> [ready_value \in AllValues |-> [x \in AN |-> FALSE]],
                   output |-> NULL]]
-        /\ input \in (CASE bcNode \in CN -> Value [] bcNode \in FN -> {NotValue})
-        /\ msgs = [node_id \in AN |-> {}]
+        /\ node_input = [node_id \in AN |-> bcValue]
         (* Process handle_input *)
         /\ rbc = [self \in AN |-> rbcs[self]]
+        /\ input = [self \in AN |-> node_input[self]]
+        /\ msgs = [self \in AN |-> [node_id \in AN |-> {}]]
         /\ broadcaster = [self \in AN |-> NULL]
         /\ me = [self \in AN |-> NULL]
         /\ output = [self \in AN |-> NULL]
@@ -124,26 +129,28 @@ handle_input_(self) == /\ pc[self] = "handle_input_"
                        /\ output' = [output EXCEPT ![self] = rbc[self].output]
                        /\ peers' = [peers EXCEPT ![self] = rbc[self].peers]
                        /\ propose_sent' = [propose_sent EXCEPT ![self] = rbc[self].propose_sent]
-                       /\ IF broadcaster'[self] /= me'[self]
+                       /\ IF (broadcaster'[self] /= me'[self])
                              THEN /\ pc' = [pc EXCEPT ![self] = "Done"]
                              ELSE /\ pc' = [pc EXCEPT ![self] = "after_pin_0"]
-                       /\ UNCHANGED << bcNode, rbcs, input, msgs, rbc, result >>
+                       /\ UNCHANGED << bcNode, bcValue, rbcs, node_input, rbc, 
+                                       input, msgs, result >>
 
 after_pin_0(self) == /\ pc[self] = "after_pin_0"
-                     /\ IF propose_sent[self] /= FALSE
+                     /\ IF (propose_sent[self] /= FALSE)
                            THEN /\ pc' = [pc EXCEPT ![self] = "Done"]
                            ELSE /\ pc' = [pc EXCEPT ![self] = "after_pin_1"]
-                     /\ UNCHANGED << bcNode, rbcs, input, msgs, rbc, 
-                                     broadcaster, me, output, peers, 
-                                     propose_sent, result >>
+                     /\ UNCHANGED << bcNode, bcValue, rbcs, node_input, rbc, 
+                                     input, msgs, broadcaster, me, output, 
+                                     peers, propose_sent, result >>
 
 after_pin_1(self) == /\ pc[self] = "after_pin_1"
                      /\ rbc' = [rbc EXCEPT ![self].propose_sent = TRUE]
-                     /\ msgs' = [peer_id \in peers[self] |-> msgs[peer_id] \cup {<<"PROPOSE", me[self], input>>}]
-                     /\ result' = [result EXCEPT ![self] = <<"ok", rbc'[self], msgs', output[self]>>]
+                     /\ msgs' = [msgs EXCEPT ![self] = [peer_id \in peers[self] |-> msgs[self][peer_id] \cup {<<"PROPOSE", me[self], input[self]>>}]]
+                     /\ result' = [result EXCEPT ![self] = <<"ok", rbc'[self], msgs'[self], output[self]>>]
                      /\ pc' = [pc EXCEPT ![self] = "Done"]
-                     /\ UNCHANGED << bcNode, rbcs, input, broadcaster, me, 
-                                     output, peers, propose_sent >>
+                     /\ UNCHANGED << bcNode, bcValue, rbcs, node_input, input, 
+                                     broadcaster, me, output, peers, 
+                                     propose_sent >>
 
 handle_input(self) == handle_input_(self) \/ after_pin_0(self)
                          \/ after_pin_1(self)

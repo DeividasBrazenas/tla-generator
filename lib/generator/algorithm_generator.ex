@@ -58,7 +58,9 @@ defmodule Generator.Algorithm do
   @spec generate_definitions(List[String.t()], List[String.t()]) :: List[String.t()]
   def generate_definitions(predefined_definitions, generated_definitions) do
     ["define"] ++
-      Enum.map(predefined_definitions ++ generated_definitions, fn definition -> "#{Indent.build(1)}#{definition}" end) ++
+      Enum.map(predefined_definitions ++ generated_definitions, fn definition ->
+        "#{Indent.build(1)}#{definition}"
+      end) ++
       ["end define;"]
   end
 end

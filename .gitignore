@@ -28,3 +28,9 @@ tla_generator_v2-*.tar
 **/.vscode/**
 
 **/states/**
+
+*.dvi
+*.out
+*.pdf
+*.tex
+*.old

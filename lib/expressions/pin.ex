@@ -13,7 +13,7 @@ defmodule Expressions.Pin do
 
     lines =
       [
-        "#{Indent.build(indent_lvl)}if #{left_operand} /= #{Enum.at(lines, 0)} then"
+        "#{Indent.build(indent_lvl)}if (#{left_operand} /= #{Enum.at(lines, 0)}) then"
       ] ++
         ["#{Indent.build(indent_lvl + 1)}goto Done;"] ++
         ["#{Indent.build(indent_lvl)}end if;"] ++

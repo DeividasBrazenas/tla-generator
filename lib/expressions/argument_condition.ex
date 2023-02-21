@@ -14,7 +14,7 @@ defmodule Expressions.ArgumentCondition do
           []
 
         _ ->
-          ["#{Indent.build(indent_lvl)}if #{Enum.join(conditions, " \\/ ")} then"] ++
+          ["#{Indent.build(indent_lvl)}if (#{Enum.join(conditions, " \\/ ")}) then"] ++
             ["#{Indent.build(indent_lvl + 1)}goto Done;"] ++
             ["#{Indent.build(indent_lvl)}end if;"] ++
             ["#{Indent.build(indent_lvl)}after_condition:"] ++

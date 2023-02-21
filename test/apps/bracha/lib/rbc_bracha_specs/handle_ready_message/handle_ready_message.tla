@@ -10,8 +10,7 @@ CONSTANT NULL
 (*--algorithm handle_ready_message
 variables
   bcNode \in AN,
-  from \in AN,
-  value \in (CASE bcNode \in CN -> Value [] bcNode \in FN -> {NotValue}),
+  bcValue \in (CASE bcNode \in CN -> Value [] bcNode \in FN -> {NotValue}),
   readyRecvValue \in BOOLEAN \cup {NULL},
   readyRecv = [v \in AllValues |-> [x \in AN |-> readyRecvValue]],
   readySent = ReadySent(readyRecv),
@@ -30,8 +29,7 @@ variables
        ready_sent |-> readySent,
        ready_recv |-> readyRecv,
        output |-> NULL]],
-  msgs = [node_id \in AN |-> {}],
-  _msg = <<"READY", from, value>>,
+  node_msgs = [node_id \in AN |-> <<"READY", bcNode, bcValue>>],
 
 define
   AN  == CN \cup FN
@@ -39,7 +37,7 @@ define
   F == Cardinality(FN)
   MsgTypes == {"PROPOSE", "ECHO", "READY"}
   AllValues == Value \cup {NotValue}
-  ReadyCount(ready_recv) == Cardinality({an \in AN : ready_recv[value][an] = TRUE})
+  ReadyCount(ready_recv) == Cardinality({an \in AN : ready_recv[bcValue][an] = TRUE})
   ReadySent(ready_recv) == ReadyCount(ready_recv) > (F * 3)
   map_size(structure) == Cardinality({k \in (DOMAIN structure) : structure[k] /= NULL})
 end define;
@@ -47,6 +45,10 @@ end define;
 fair process handle_ready_message \in AN
 variables
   rbc = rbcs[self],
+  _msg = node_msgs[self],
+  msgs = [node_id \in AN |-> {}],
+  from = _msg[2],
+  value = _msg[3],
   f = NULL,
   me = NULL,
   msg_recv = NULL,
@@ -60,7 +62,7 @@ variables
   result = NULL,
 begin
 handle_ready_message:
-  if _msg[1] /= "READY" then
+  if (_msg[1] /= "READY") then
     goto Done;
   end if;
   after_condition:
@@ -102,6 +104,7 @@ handle_ready_message:
 
   else
     else_0:
+      msgs := msgs;
 
       result := <<"ok", rbc, msgs, output>>;
 
@@ -109,10 +112,10 @@ handle_ready_message:
 
 end process;
 end algorithm; *)
-\* BEGIN TRANSLATION (chksum(pcal) = "683b4ab7" /\ chksum(tla) = "4805353f")
-\* Label handle_ready_message of process handle_ready_message at line 63 col 3 changed to handle_ready_message_
-VARIABLES bcNode, from, value, readyRecvValue, readyRecv, readySent, rbcs, 
-          msgs, _msg, pc
+\* BEGIN TRANSLATION (chksum(pcal) = "2f793298" /\ chksum(tla) = "59948716")
+\* Label handle_ready_message of process handle_ready_message at line 65 col 3 changed to handle_ready_message_
+VARIABLES bcNode, bcValue, readyRecvValue, readyRecv, readySent, rbcs, 
+          node_msgs, pc
 
 (* define statement *)
 AN  == CN \cup FN
@@ -120,23 +123,23 @@ N == Cardinality(AN)
 F == Cardinality(FN)
 MsgTypes == {"PROPOSE", "ECHO", "READY"}
 AllValues == Value \cup {NotValue}
-ReadyCount(ready_recv) == Cardinality({an \in AN : ready_recv[value][an] = TRUE})
+ReadyCount(ready_recv) == Cardinality({an \in AN : ready_recv[bcValue][an] = TRUE})
 ReadySent(ready_recv) == ReadyCount(ready_recv) > (F * 3)
 map_size(structure) == Cardinality({k \in (DOMAIN structure) : structure[k] /= NULL})
 
-VARIABLES rbc, f, me, msg_recv, output, peers, ready_recv, ready_sent, 
-          existing_recv, value_recv, count, result
+VARIABLES rbc, _msg, msgs, from, value, f, me, msg_recv, output, peers, 
+          ready_recv, ready_sent, existing_recv, value_recv, count, result
 
-vars == << bcNode, from, value, readyRecvValue, readyRecv, readySent, rbcs, 
-           msgs, _msg, pc, rbc, f, me, msg_recv, output, peers, ready_recv, 
-           ready_sent, existing_recv, value_recv, count, result >>
+vars == << bcNode, bcValue, readyRecvValue, readyRecv, readySent, rbcs, 
+           node_msgs, pc, rbc, _msg, msgs, from, value, f, me, msg_recv, 
+           output, peers, ready_recv, ready_sent, existing_recv, value_recv, 
+           count, result >>
 
 ProcSet == (AN)
 
 Init == (* Global variables *)
         /\ bcNode \in AN
-        /\ from \in AN
-        /\ value \in (CASE bcNode \in CN -> Value [] bcNode \in FN -> {NotValue})
+        /\ bcValue \in (CASE bcNode \in CN -> Value [] bcNode \in FN -> {NotValue})
         /\ readyRecvValue \in (BOOLEAN \cup {NULL})
         /\ readyRecv = [v \in AllValues |-> [x \in AN |-> readyRecvValue]]
         /\ readySent = ReadySent(readyRecv)
@@ -155,10 +158,13 @@ Init == (* Global variables *)
                   ready_sent |-> readySent,
                   ready_recv |-> readyRecv,
                   output |-> NULL]]
-        /\ msgs = [node_id \in AN |-> {}]
-        /\ _msg = <<"READY", from, value>>
+        /\ node_msgs = [node_id \in AN |-> <<"READY", bcNode, bcValue>>]
         (* Process handle_ready_message *)
         /\ rbc = [self \in AN |-> rbcs[self]]
+        /\ _msg = [self \in AN |-> node_msgs[self]]
+        /\ msgs = [self \in AN |-> [node_id \in AN |-> {}]]
+        /\ from = [self \in AN |-> _msg[self][2]]
+        /\ value = [self \in AN |-> _msg[self][3]]
         /\ f = [self \in AN |-> NULL]
         /\ me = [self \in AN |-> NULL]
         /\ msg_recv = [self \in AN |-> NULL]
@@ -173,16 +179,16 @@ Init == (* Global variables *)
         /\ pc = [self \in ProcSet |-> "handle_ready_message_"]
 
 handle_ready_message_(self) == /\ pc[self] = "handle_ready_message_"
-                               /\ IF _msg[1] /= "READY"
+                               /\ IF (_msg[self][1] /= "READY")
                                      THEN /\ pc' = [pc EXCEPT ![self] = "Done"]
                                      ELSE /\ pc' = [pc EXCEPT ![self] = "after_condition"]
-                               /\ UNCHANGED << bcNode, from, value, 
-                                               readyRecvValue, readyRecv, 
-                                               readySent, rbcs, msgs, _msg, 
-                                               rbc, f, me, msg_recv, output, 
-                                               peers, ready_recv, ready_sent, 
-                                               existing_recv, value_recv, 
-                                               count, result >>
+                               /\ UNCHANGED << bcNode, bcValue, readyRecvValue, 
+                                               readyRecv, readySent, rbcs, 
+                                               node_msgs, rbc, _msg, msgs, 
+                                               from, value, f, me, msg_recv, 
+                                               output, peers, ready_recv, 
+                                               ready_sent, existing_recv, 
+                                               value_recv, count, result >>
 
 after_condition(self) == /\ pc[self] = "after_condition"
                          /\ f' = [f EXCEPT ![self] = rbc[self].f]
@@ -192,48 +198,51 @@ after_condition(self) == /\ pc[self] = "after_condition"
                          /\ peers' = [peers EXCEPT ![self] = rbc[self].peers]
                          /\ ready_recv' = [ready_recv EXCEPT ![self] = rbc[self].ready_recv]
                          /\ ready_sent' = [ready_sent EXCEPT ![self] = rbc[self].ready_sent]
-                         /\ existing_recv' = [existing_recv EXCEPT ![self] = ready_recv'[self][value]]
+                         /\ existing_recv' = [existing_recv EXCEPT ![self] = ready_recv'[self][value[self]]]
                          /\ value_recv' = [value_recv EXCEPT ![self] = existing_recv'[self]]
                          /\ pc' = [pc EXCEPT ![self] = "map_put_0"]
-                         /\ UNCHANGED << bcNode, from, value, readyRecvValue, 
-                                         readyRecv, readySent, rbcs, msgs, 
-                                         _msg, rbc, count, result >>
+                         /\ UNCHANGED << bcNode, bcValue, readyRecvValue, 
+                                         readyRecv, readySent, rbcs, node_msgs, 
+                                         rbc, _msg, msgs, from, value, count, 
+                                         result >>
 
 map_put_0(self) == /\ pc[self] = "map_put_0"
-                   /\ value_recv' = [value_recv EXCEPT ![self][from] = TRUE]
-                   /\ ready_recv' = [ready_recv EXCEPT ![self][value] = value_recv'[self]]
+                   /\ value_recv' = [value_recv EXCEPT ![self][from[self]] = TRUE]
+                   /\ ready_recv' = [ready_recv EXCEPT ![self][value[self]] = value_recv'[self]]
                    /\ rbc' = [rbc EXCEPT ![self].ready_recv = ready_recv'[self]]
                    /\ count' = [count EXCEPT ![self] = map_size(value_recv'[self])]
                    /\ output' = [output EXCEPT ![self] =       CASE
-                                                         ((count'[self] > (3 * f[self])) /\ (output[self] = NULL)) -> value
+                                                         ((count'[self] > (3 * f[self])) /\ (output[self] = NULL)) -> value[self]
                                                          [] OTHER -> output[self]]
                    /\ IF (~ready_sent[self] /\ (count'[self] > f[self]))
                          THEN /\ pc' = [pc EXCEPT ![self] = "if_0"]
                          ELSE /\ pc' = [pc EXCEPT ![self] = "else_0"]
-                   /\ UNCHANGED << bcNode, from, value, readyRecvValue, 
-                                   readyRecv, readySent, rbcs, msgs, _msg, f, 
-                                   me, msg_recv, peers, ready_sent, 
-                                   existing_recv, result >>
+                   /\ UNCHANGED << bcNode, bcValue, readyRecvValue, readyRecv, 
+                                   readySent, rbcs, node_msgs, _msg, msgs, 
+                                   from, value, f, me, msg_recv, peers, 
+                                   ready_sent, existing_recv, result >>
 
 if_0(self) == /\ pc[self] = "if_0"
-              /\ msg_recv' = [msg_recv EXCEPT ![self][from]["READY"] = TRUE]
+              /\ msg_recv' = [msg_recv EXCEPT ![self][from[self]]["READY"] = TRUE]
               /\ rbc' = [rbc EXCEPT ![self].msg_recv = msg_recv'[self],
                                     ![self].ready_sent = TRUE]
-              /\ msgs' = [peer_id \in peers[self] |-> msgs[peer_id] \cup {<<"READY", me[self], value>>}]
-              /\ result' = [result EXCEPT ![self] = <<"ok", rbc'[self], msgs', output[self]>>]
+              /\ msgs' = [msgs EXCEPT ![self] = [peer_id \in peers[self] |-> msgs[self][peer_id] \cup {<<"READY", me[self], value[self]>>}]]
+              /\ result' = [result EXCEPT ![self] = <<"ok", rbc'[self], msgs'[self], output[self]>>]
               /\ pc' = [pc EXCEPT ![self] = "Done"]
-              /\ UNCHANGED << bcNode, from, value, readyRecvValue, readyRecv, 
-                              readySent, rbcs, _msg, f, me, output, peers, 
-                              ready_recv, ready_sent, existing_recv, 
-                              value_recv, count >>
+              /\ UNCHANGED << bcNode, bcValue, readyRecvValue, readyRecv, 
+                              readySent, rbcs, node_msgs, _msg, from, value, f, 
+                              me, output, peers, ready_recv, ready_sent, 
+                              existing_recv, value_recv, count >>
 
 else_0(self) == /\ pc[self] = "else_0"
-                /\ result' = [result EXCEPT ![self] = <<"ok", rbc[self], msgs, output[self]>>]
+                /\ msgs' = [msgs EXCEPT ![self] = msgs[self]]
+                /\ result' = [result EXCEPT ![self] = <<"ok", rbc[self], msgs'[self], output[self]>>]
                 /\ pc' = [pc EXCEPT ![self] = "Done"]
-                /\ UNCHANGED << bcNode, from, value, readyRecvValue, readyRecv, 
-                                readySent, rbcs, msgs, _msg, rbc, f, me, 
-                                msg_recv, output, peers, ready_recv, 
-                                ready_sent, existing_recv, value_recv, count >>
+                /\ UNCHANGED << bcNode, bcValue, readyRecvValue, readyRecv, 
+                                readySent, rbcs, node_msgs, rbc, _msg, from, 
+                                value, f, me, msg_recv, output, peers, 
+                                ready_recv, ready_sent, existing_recv, 
+                                value_recv, count >>
 
 handle_ready_message(self) == handle_ready_message_(self)
                                  \/ after_condition(self)
