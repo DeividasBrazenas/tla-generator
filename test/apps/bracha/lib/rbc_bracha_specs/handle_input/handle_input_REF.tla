@@ -9,15 +9,15 @@ EXTENDS handle_input
 IsProposeSent(res, node) ==   
     /\ res[node] /= NULL
     /\ res[node][2].propose_sent = TRUE
-    /\ \A peer \in AN: {<<"PROPOSE", node, input>>} \subseteq res[node][3][peer]
+    /\ \A peer \in AN: {<<"PROPOSE", node, bcValue>>} \subseteq res[node][3][peer]
 
 org_spec == INSTANCE BrachaRBC WITH
     bcNode <- bcNode,
-    bcValue <- input,
+    bcValue <- bcValue,
     predicate <- [p \in CN |-> TRUE],
     output <- [o \in CN |-> NotValue],
     msgs <- IF IsProposeSent(result, bcNode)
-                THEN {[t |-> "PROPOSE", src |-> bcNode, v |-> input]}
+                THEN {[t |-> "PROPOSE", src |-> bcNode, v |-> bcValue]}
                 ELSE {}
 
 AbsStepNext == org_spec!Broadcast
@@ -30,5 +30,11 @@ Liveness ==
     \/ <>IsProposeSent(result, bcNode)
 
 TypeOK == org_spec!TypeOK
+
+THEOREM Spec =>
+    /\ []TypeOK
+    /\ AbsStepSpec
+    /\ Liveness
+PROOF OMITTED \* Checked by the TLC.
 
 ============================================================================

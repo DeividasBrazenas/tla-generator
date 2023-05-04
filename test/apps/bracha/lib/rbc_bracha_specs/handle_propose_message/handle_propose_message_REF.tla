@@ -14,15 +14,15 @@ IsEchoSent(res, node) ==
     /\ \/ /\ echoSent
           /\ res[node][3] = [node_id \in AN |-> {}]
        \/ /\ ~echoSent 
-          /\ \A peer \in AN : {<<"ECHO", node, value>>} \subseteq res[node][3][peer]
+          /\ \A peer \in AN : {<<"ECHO", node, bcValue>>} \subseteq res[node][3][peer]
 
 org_spec == INSTANCE BrachaRBC WITH
     bcNode <- bcNode,
-    bcValue <- value,
+    bcValue <- bcValue,
     predicate <- [p \in CN |-> TRUE],
     output <- [o \in CN |-> NotValue],
     msgs <- IF \A n \in CN : IsEchoSent(result, n)
-                THEN [t: {"ECHO"}, src: CN, v: {value}]
+                THEN [t: {"ECHO"}, src: CN, v: {bcValue}]
                 ELSE {}
 
 AbsStepNext == org_spec!RecvPropose([t |-> _msg[1], src |-> _msg[2], v |-> _msg[3]])
@@ -36,5 +36,11 @@ Liveness == <>(\A n \in CN :
                 IsEchoSent(result, n))
 
 TypeOK == org_spec!TypeOK
+
+THEOREM Spec =>
+    /\ []TypeOK
+    /\ AbsStepSpec
+    /\ Liveness
+PROOF OMITTED \* Checked by the TLC.
 
 ============================================================================

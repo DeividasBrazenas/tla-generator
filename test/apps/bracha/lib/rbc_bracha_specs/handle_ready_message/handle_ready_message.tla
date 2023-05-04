@@ -91,8 +91,9 @@ handle_ready_message:
       ((count > (3 * f)) /\ (output = NULL)) -> value
       [] OTHER -> output;
 
-  if (~ready_sent /\ (count > f)) then
-    if_0:
+   if ready_sent then print <<"true">>; else print <<"false">>; end if;
+
+  if (~ready_sent /\ (count > f)) then if_0:
       msg_recv[from]["READY"] := TRUE;
 
       rbc.msg_recv := msg_recv
@@ -112,7 +113,7 @@ handle_ready_message:
 
 end process;
 end algorithm; *)
-\* BEGIN TRANSLATION (chksum(pcal) = "2f793298" /\ chksum(tla) = "59948716")
+\* BEGIN TRANSLATION (chksum(pcal) = "d98552f0" /\ chksum(tla) = "8c976278")
 \* Label handle_ready_message of process handle_ready_message at line 65 col 3 changed to handle_ready_message_
 VARIABLES bcNode, bcValue, readyRecvValue, readyRecv, readySent, rbcs, 
           node_msgs, pc
@@ -214,6 +215,9 @@ map_put_0(self) == /\ pc[self] = "map_put_0"
                    /\ output' = [output EXCEPT ![self] =       CASE
                                                          ((count'[self] > (3 * f[self])) /\ (output[self] = NULL)) -> value[self]
                                                          [] OTHER -> output[self]]
+                   /\ IF ready_sent[self]
+                         THEN /\ PrintT(<<"true">>)
+                         ELSE /\ PrintT(<<"false">>)
                    /\ IF (~ready_sent[self] /\ (count'[self] > f[self]))
                          THEN /\ pc' = [pc EXCEPT ![self] = "if_0"]
                          ELSE /\ pc' = [pc EXCEPT ![self] = "else_0"]

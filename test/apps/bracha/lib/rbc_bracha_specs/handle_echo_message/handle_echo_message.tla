@@ -110,7 +110,7 @@ handle_echo_message:
 
 end process;
 end algorithm; *)
-\* BEGIN TRANSLATION (chksum(pcal) = "9207a7d0" /\ chksum(tla) = "c4da1d0a")
+\* BEGIN TRANSLATION (chksum(pcal) = "5ef9fa0b" /\ chksum(tla) = "c4da1d0a")
 \* Label handle_echo_message of process handle_echo_message at line 66 col 3 changed to handle_echo_message_
 VARIABLES bcNode, bcValue, echoRecvValue, echoRecv, readySent, rbcs, 
           node_msgs, pc

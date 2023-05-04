@@ -94,7 +94,7 @@ handle_propose_message:
 
 end process;
 end algorithm; *)
-\* BEGIN TRANSLATION (chksum(pcal) = "91082720" /\ chksum(tla) = "e1453317")
+\* BEGIN TRANSLATION (chksum(pcal) = "6cedeb40" /\ chksum(tla) = "e1453317")
 \* Label handle_propose_message of process handle_propose_message at line 58 col 3 changed to handle_propose_message_
 VARIABLES bcNode, bcValue, echoSent, rbcs, node_msgs, pc
 

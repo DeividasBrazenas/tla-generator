@@ -14,17 +14,17 @@ IsReadySent(res, node) ==
     /\ \/ /\ readySent  
           /\ res[node][3] = [node_id \in AN |-> {}] 
        \/ /\ ~readySent
-          /\ \A peer \in AN : {<<"READY", node, value>>} \subseteq res[node][3][peer] 
+          /\ \A peer \in AN : {<<"READY", node, bcValue>>} \subseteq res[node][3][peer] 
 
 EnoughEchoMsgs(cn) == EchosCount(rbcs[cn].echo_recv) >= ((N + F) \div 2)
 
 org_spec == INSTANCE BrachaRBC WITH
     bcNode <- bcNode,
-    bcValue <- value,
+    bcValue <- bcValue,
     predicate <- [p \in CN |-> TRUE],
     output <- [o \in CN |-> NotValue],
     msgs <- IF \A cn \in CN : IsReadySent(result, cn)
-                THEN [t: {"READY"}, src: CN, v: {value}]
+                THEN [t: {"READY"}, src: CN, v: {bcValue}]
                 ELSE {}
 
 QXF == {q \in SUBSET AN : Cardinality(q) = ((N + F) \div 2) + 1}  \* Intersection is F+1.
@@ -45,5 +45,11 @@ Liveness ==
            /\ ~IsReadySent(result, cn))
 
 TypeOK == org_spec!TypeOK
+
+THEOREM Spec =>
+    /\ []TypeOK
+    /\ AbsStepSpec
+    /\ Liveness
+PROOF OMITTED \* Checked by the TLC.
 
 ============================================================================

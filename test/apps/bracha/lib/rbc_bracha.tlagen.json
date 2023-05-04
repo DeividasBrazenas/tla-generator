@@ -161,9 +161,15 @@
                     ]
                 },
                 {
-                    "name": "msgs",
+                    "name": "msgs_init",
                     "assignment_lines": [
                         "= [node_id \\in AN |-> {}]"
+                    ]
+                },
+                {
+                    "name": "msgs",
+                    "assignment_lines": [
+                        "= msgs_init"
                     ]
                 }
             ],

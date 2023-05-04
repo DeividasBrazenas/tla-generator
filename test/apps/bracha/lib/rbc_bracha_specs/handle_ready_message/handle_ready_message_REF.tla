@@ -14,26 +14,26 @@ IsReadySent(res, node) ==
     /\ \/ /\ readySent
           /\ res[node][3] = [node_id \in AN |-> {}] 
        \/ /\ ~readySent 
-          /\ \A peer \in AN : {<<"READY", node, value>>} \subseteq res[node][3][peer] 
+          /\ \A peer \in AN : {<<"READY", node, bcValue>>} \subseteq res[node][3][peer] 
 
 IsOutputSet(res, node) ==
     \* result should exist for node
     /\ res[node] /= NULL
     \* output should be set to value
-    /\ res[node][4] = value
+    /\ res[node][4] = bcValue
 
 EnoughReadyMsgs(cn) == ReadyCount(rbcs[cn].ready_recv) >= F
 EnoughReadyMsgsForOutput(cn) == ReadyCount(rbcs[cn].ready_recv) >= 3 * F
 
 org_spec == INSTANCE BrachaRBC WITH
     bcNode <- bcNode,
-    bcValue <- value,
+    bcValue <- bcValue,
     predicate <- [cn \in CN |-> TRUE],
     output <- IF \A cn \in CN : IsOutputSet(result, cn)
-                THEN [node \in CN |-> value]
+                THEN [node \in CN |-> bcValue]
                 ELSE [node \in CN |-> NotValue],
     msgs <- IF \A cn \in CN : IsReadySent(result, cn)
-                THEN [t: {"READY"}, src: CN, v: {value}]
+                THEN [t: {"READY"}, src: CN, v: {bcValue}]
                 ELSE {}
 
 Q1F == {q \in SUBSET AN : Cardinality(q) = F+1}     \* Contains >= 1 correct node.
@@ -64,4 +64,9 @@ Liveness ==
 
 TypeOK == org_spec!TypeOK
 
+THEOREM Spec =>
+    /\ []TypeOK
+    /\ AbsStepSpec
+    /\ Liveness
+PROOF OMITTED \* Checked by the TLC.
 ============================================================================
