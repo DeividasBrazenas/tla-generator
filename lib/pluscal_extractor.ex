@@ -1,7 +1,5 @@
 # See example: https://elixirforum.com/t/order-of-execution-of-on-definition-before-compile-and-after-compile/38465
 defmodule Extractors.PlusCal do
-  @tla2tools_path "C:/TLA+/toolbox/tla2tools.jar"
-
   defmacro __using__(_opts) do
     quote do
       # Module.register_attribute(__MODULE__, :tlagen_function, accumulate: true, persist: true)
@@ -58,14 +56,14 @@ defmodule Extractors.PlusCal do
 
       IO.puts("----- Generating TLA+ for #{file_name} -----")
 
-      System.cmd("java", ["-cp", @tla2tools_path, "pcal.trans", file_name],
+      System.cmd("java", ["-cp", "#{System.fetch_env!("TLA2TOOLSDIR")}/tla2tools.jar", "pcal.trans", file_name],
         cd: result_directory,
         into: IO.stream()
       )
 
       IO.puts("----- Running model checking for #{file_name} -----")
 
-      System.cmd("java", ["-cp", @tla2tools_path, "tlc2.TLC", file_name],
+      System.cmd("java", ["-cp", "#{System.fetch_env!("TLA2TOOLSDIR")}/tla2tools.jar", "tlc2.TLC", file_name],
         cd: result_directory,
         into: IO.stream()
       )
@@ -75,7 +73,7 @@ defmodule Extractors.PlusCal do
       ref_file_name = "#{function.function_name}_REF.tla"
       IO.puts("----- Running model checking for #{ref_file_name} -----")
 
-      System.cmd("java", ["-cp", "tla2tools.jar", "tlc2.TLC", ref_file_name],
+      System.cmd("java", ["-cp", "#{System.fetch_env!("TLA2TOOLSDIR")}/tla2tools.jar", "tlc2.TLC", ref_file_name],
         cd: result_directory,
         into: IO.stream()
       )
